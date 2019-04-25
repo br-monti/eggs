@@ -1,0 +1,147 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Creation monitoring Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{creationMonitoringHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="ageWeek" template="layout/display.xhtml">
+            <ui:define name="label">Age week</ui:define>
+            <h:outputText value="#{creationMonitoringHome.instance.ageWeek}"/>
+        </s:decorate>
+
+        <s:decorate id="ageDay" template="layout/display.xhtml">
+            <ui:define name="label">Age day</ui:define>
+            <h:outputText value="#{creationMonitoringHome.instance.ageDay}"/>
+        </s:decorate>
+
+        <s:decorate id="dateWeek" template="layout/display.xhtml">
+            <ui:define name="label">Date week</ui:define>
+            <h:outputText value="#{creationMonitoringHome.instance.dateWeek}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="bodyWeight" template="layout/display.xhtml">
+            <ui:define name="label">Body weight</ui:define>
+            <h:outputText value="#{creationMonitoringHome.instance.bodyWeight}"/>
+        </s:decorate>
+
+        <s:decorate id="food" template="layout/display.xhtml">
+            <ui:define name="label">Food</ui:define>
+            <h:outputText value="#{creationMonitoringHome.instance.food}"/>
+        </s:decorate>
+
+        <s:decorate id="water" template="layout/display.xhtml">
+            <ui:define name="label">Water</ui:define>
+            <h:outputText value="#{creationMonitoringHome.instance.water}"/>
+        </s:decorate>
+
+        <s:decorate id="discard" template="layout/display.xhtml">
+            <ui:define name="label">Discard</ui:define>
+            <h:outputText value="#{creationMonitoringHome.instance.discard}"/>
+        </s:decorate>
+
+        <s:decorate id="mortality" template="layout/display.xhtml">
+            <ui:define name="label">Mortality</ui:define>
+            <h:outputText value="#{creationMonitoringHome.instance.mortality}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/CreationMonitoringEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty creationMonitoringFrom ? 'CreationMonitoringList' : creationMonitoringFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Lot</h:panelGroup>
+        </f:facet>
+    <div class="association" id="lotParent">
+
+        <h:outputText value="There is no lot associated with this creationMonitoring."
+                   rendered="#{creationMonitoringHome.instance.lot == null}"/>
+
+        <rich:dataTable var="_lot"
+                   value="#{creationMonitoringHome.instance.lot}"
+                rendered="#{creationMonitoringHome.instance.lot != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="lotTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_lot.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lineage id</f:facet>
+                <h:outputText value="#{_lot.lineage.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Shed id</f:facet>
+                <h:outputText value="#{_lot.shed.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Birth</f:facet>
+                <h:outputText value="#{_lot.birth}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Accommodation</f:facet>
+                <h:outputText value="#{_lot.accommodation}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Initial quantity</f:facet>
+                <h:outputText value="#{_lot.initialQuantity}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Current quantity</f:facet>
+                <h:outputText value="#{_lot.currentQuantity}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Debicking</f:facet>
+                <h:outputText value="#{_lot.debicking}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewlot"
+                     value="View"
+                      view="/Lot.xhtml">
+                    <f:param name="lotId"
+                           value="#{_lot.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

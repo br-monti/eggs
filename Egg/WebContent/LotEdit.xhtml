@@ -1,0 +1,359 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="lot" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{lotHome.managed ? 'Edit' : 'Add'} Lot</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{lotHome.managed}"
+                          value="#{lotHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+            <s:decorate id="birthField" template="layout/edit.xhtml">
+                <ui:define name="label">Birth</ui:define>
+                <rich:calendar id="birth"
+                       required="true"
+                          value="#{lotHome.instance.birth}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="accommodationField" template="layout/edit.xhtml">
+                <ui:define name="label">Accommodation</ui:define>
+                <rich:calendar id="accommodation"
+                       required="true"
+                          value="#{lotHome.instance.accommodation}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="initialQuantityField" template="layout/edit.xhtml">
+                <ui:define name="label">Initial quantity</ui:define>
+                <h:inputText id="initialQuantity"
+                       required="true"
+                          value="#{lotHome.instance.initialQuantity}">
+                    <a:support event="onblur" reRender="initialQuantityField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="currentQuantityField" template="layout/edit.xhtml">
+                <ui:define name="label">Current quantity</ui:define>
+                <h:inputText id="currentQuantity"
+                       required="true"
+                          value="#{lotHome.instance.currentQuantity}">
+                    <a:support event="onblur" reRender="currentQuantityField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="debickingField" template="layout/edit.xhtml">
+                <ui:define name="label">Debicking</ui:define>
+                <h:inputText id="debicking"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{lotHome.instance.debicking}">
+                    <a:support event="onblur" reRender="debickingField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{lotHome.persist}"
+                       disabled="#{!lotHome.wired}"
+                       rendered="#{!lotHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{lotHome.update}"
+                       rendered="#{lotHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{lotHome.remove}"
+                      immediate="true"
+                       rendered="#{lotHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Lot.xhtml"
+                rendered="#{lotHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty lotFrom ? 'LotList' : lotFrom}.xhtml"
+                rendered="#{!lotHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Lineage *" labelClass="required">
+    <div class="association" id="lineageParent">
+
+        <h:outputText value="There is no lineage associated with this lot."
+                   rendered="#{lotHome.instance.lineage == null}"/>
+
+        <rich:dataTable var="_lineage"
+                   value="#{lotHome.instance.lineage}"
+                rendered="#{lotHome.instance.lineage != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="lineageTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_lineage.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lineage</f:facet>
+                <h:outputText value="#{_lineage.lineage}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Color</f:facet>
+                <h:outputText value="#{_lineage.color}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{lotHome.instance.lineage != null ? 'changeParent' : 'selectParent'}" value="#{lotHome.instance.lineage != null ? 'Change' : 'Select'} lineage"
+                       view="/LineageList.xhtml">
+                <f:param name="from" value="LotEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Shed *" labelClass="required">
+    <div class="association" id="shedParent">
+
+        <h:outputText value="There is no shed associated with this lot."
+                   rendered="#{lotHome.instance.shed == null}"/>
+
+        <rich:dataTable var="_shed"
+                   value="#{lotHome.instance.shed}"
+                rendered="#{lotHome.instance.shed != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="shedTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_shed.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Manufacturer id</f:facet>
+                <h:outputText value="#{_shed.manufacturer.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_shed.name}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type</f:facet>
+                <h:outputText value="#{_shed.type}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Capacity</f:facet>
+                <h:outputText value="#{_shed.capacity}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Model</f:facet>
+                <h:outputText value="#{_shed.model}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{lotHome.instance.shed != null ? 'changeParent' : 'selectParent'}" value="#{lotHome.instance.shed != null ? 'Change' : 'Select'} shed"
+                       view="/ShedList.xhtml">
+                <f:param name="from" value="LotEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Creation monitorings">
+        <h:form styleClass="association" id="creationMonitoringsChildren">
+
+            <h:outputText value="There are no creationMonitorings associated with this lot."
+                       rendered="#{empty lotHome.creationMonitorings}"/>
+
+            <rich:dataTable value="#{lotHome.creationMonitorings}"
+                           var="_creationMonitoring"
+                      rendered="#{not empty lotHome.creationMonitorings}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="creationMonitoringsTable">
+                <rich:column sortBy="#{_creationMonitoring.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_creationMonitoring.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_creationMonitoring.ageWeek}">
+                    <f:facet name="header">Age week</f:facet>
+                    <h:outputText value="#{_creationMonitoring.ageWeek}"/>
+                </rich:column>
+                <rich:column sortBy="#{_creationMonitoring.ageDay}">
+                    <f:facet name="header">Age day</f:facet>
+                    <h:outputText value="#{_creationMonitoring.ageDay}"/>
+                </rich:column>
+                <rich:column sortBy="#{_creationMonitoring.dateWeek}">
+                    <f:facet name="header">Date week</f:facet>
+                    <h:outputText value="#{_creationMonitoring.dateWeek}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_creationMonitoring.bodyWeight}">
+                    <f:facet name="header">Body weight</f:facet>
+                    <h:outputText value="#{_creationMonitoring.bodyWeight}"/>
+                </rich:column>
+                <rich:column sortBy="#{_creationMonitoring.food}">
+                    <f:facet name="header">Food</f:facet>
+                    <h:outputText value="#{_creationMonitoring.food}"/>
+                </rich:column>
+                <rich:column sortBy="#{_creationMonitoring.water}">
+                    <f:facet name="header">Water</f:facet>
+                    <h:outputText value="#{_creationMonitoring.water}"/>
+                </rich:column>
+                <rich:column sortBy="#{_creationMonitoring.discard}">
+                    <f:facet name="header">Discard</f:facet>
+                    <h:outputText value="#{_creationMonitoring.discard}"/>
+                </rich:column>
+                <rich:column sortBy="#{_creationMonitoring.mortality}">
+                    <f:facet name="header">Mortality</f:facet>
+                    <h:outputText value="#{_creationMonitoring.mortality}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{lotHome.managed}" id="creationMonitorings">
+        <div class="actionButtons">
+            <s:button id="addcreationMonitoring"
+                   value="Add creationMonitoring"
+                    view="/CreationMonitoringEdit.xhtml"
+             propagation="none">
+                 <f:param name="lotId"
+                         value="#{lotHome.instance.id}"/>
+                 <f:param name="creationMonitoringFrom" value="Lot"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Production monitorings">
+        <h:form styleClass="association" id="productionMonitoringsChildren">
+
+            <h:outputText value="There are no productionMonitorings associated with this lot."
+                       rendered="#{empty lotHome.productionMonitorings}"/>
+
+            <rich:dataTable value="#{lotHome.productionMonitorings}"
+                           var="_productionMonitoring"
+                      rendered="#{not empty lotHome.productionMonitorings}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="productionMonitoringsTable">
+                <rich:column sortBy="#{_productionMonitoring.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_productionMonitoring.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.ageWeek}">
+                    <f:facet name="header">Age week</f:facet>
+                    <h:outputText value="#{_productionMonitoring.ageWeek}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.ageDay}">
+                    <f:facet name="header">Age day</f:facet>
+                    <h:outputText value="#{_productionMonitoring.ageDay}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.dateWeek}">
+                    <f:facet name="header">Date week</f:facet>
+                    <h:outputText value="#{_productionMonitoring.dateWeek}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.discard}">
+                    <f:facet name="header">Discard</f:facet>
+                    <h:outputText value="#{_productionMonitoring.discard}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.mortality}">
+                    <f:facet name="header">Mortality</f:facet>
+                    <h:outputText value="#{_productionMonitoring.mortality}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.totalProduction}">
+                    <f:facet name="header">Total production</f:facet>
+                    <h:outputText value="#{_productionMonitoring.totalProduction}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.firstEggs}">
+                    <f:facet name="header">First eggs</f:facet>
+                    <h:outputText value="#{_productionMonitoring.firstEggs}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.secondEggs}">
+                    <f:facet name="header">Second eggs</f:facet>
+                    <h:outputText value="#{_productionMonitoring.secondEggs}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.bodyWeight}">
+                    <f:facet name="header">Body weight</f:facet>
+                    <h:outputText value="#{_productionMonitoring.bodyWeight}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.eggWeight}">
+                    <f:facet name="header">Egg weight</f:facet>
+                    <h:outputText value="#{_productionMonitoring.eggWeight}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.food}">
+                    <f:facet name="header">Food</f:facet>
+                    <h:outputText value="#{_productionMonitoring.food}"/>
+                </rich:column>
+                <rich:column sortBy="#{_productionMonitoring.water}">
+                    <f:facet name="header">Water</f:facet>
+                    <h:outputText value="#{_productionMonitoring.water}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{lotHome.managed}" id="productionMonitorings">
+        <div class="actionButtons">
+            <s:button id="addproductionMonitoring"
+                   value="Add productionMonitoring"
+                    view="/ProductionMonitoringEdit.xhtml"
+             propagation="none">
+                 <f:param name="lotId"
+                         value="#{lotHome.instance.id}"/>
+                 <f:param name="productionMonitoringFrom" value="Lot"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

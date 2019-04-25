@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/CreationMonitoringList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{creationMonitoringHome.wire}"/>
+
+   <param name="creationMonitoringFrom"/>
+   <param name="creationMonitoringId" value="#{creationMonitoringHome.creationMonitoringId}"/>
+   <param name="lotFrom"/>
+   <param name="lotId" value="#{lotHome.lotId}"/>
+   <param name="lineageFrom"/>
+   <param name="lineageId" value="#{lineageHome.lineageId}"/>
+
+   <param name="shedFrom"/>
+   <param name="shedId" value="#{shedHome.shedId}"/>
+   <param name="manufacturerFrom"/>
+   <param name="manufacturerId" value="#{manufacturerHome.manufacturerId}"/>
+
+
+
+
+
+   <navigation from-action="#{creationMonitoringHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/CreationMonitoring.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{creationMonitoringHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/CreationMonitoring.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{creationMonitoringHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/CreationMonitoringList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

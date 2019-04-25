@@ -1,0 +1,332 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Lot Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{lotHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="birth" template="layout/display.xhtml">
+            <ui:define name="label">Birth</ui:define>
+            <h:outputText value="#{lotHome.instance.birth}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="accommodation" template="layout/display.xhtml">
+            <ui:define name="label">Accommodation</ui:define>
+            <h:outputText value="#{lotHome.instance.accommodation}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="initialQuantity" template="layout/display.xhtml">
+            <ui:define name="label">Initial quantity</ui:define>
+            <h:outputText value="#{lotHome.instance.initialQuantity}"/>
+        </s:decorate>
+
+        <s:decorate id="currentQuantity" template="layout/display.xhtml">
+            <ui:define name="label">Current quantity</ui:define>
+            <h:outputText value="#{lotHome.instance.currentQuantity}"/>
+        </s:decorate>
+
+        <s:decorate id="debicking" template="layout/display.xhtml">
+            <ui:define name="label">Debicking</ui:define>
+            <h:outputText value="#{lotHome.instance.debicking}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/LotEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty lotFrom ? 'LotList' : lotFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Lineage</h:panelGroup>
+        </f:facet>
+    <div class="association" id="lineageParent">
+
+        <h:outputText value="There is no lineage associated with this lot."
+                   rendered="#{lotHome.instance.lineage == null}"/>
+
+        <rich:dataTable var="_lineage"
+                   value="#{lotHome.instance.lineage}"
+                rendered="#{lotHome.instance.lineage != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="lineageTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_lineage.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lineage</f:facet>
+                <h:outputText value="#{_lineage.lineage}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Color</f:facet>
+                <h:outputText value="#{_lineage.color}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewlineage"
+                     value="View"
+                      view="/Lineage.xhtml">
+                    <f:param name="lineageId"
+                           value="#{_lineage.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Shed</h:panelGroup>
+        </f:facet>
+    <div class="association" id="shedParent">
+
+        <h:outputText value="There is no shed associated with this lot."
+                   rendered="#{lotHome.instance.shed == null}"/>
+
+        <rich:dataTable var="_shed"
+                   value="#{lotHome.instance.shed}"
+                rendered="#{lotHome.instance.shed != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="shedTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_shed.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Manufacturer id</f:facet>
+                <h:outputText value="#{_shed.manufacturer.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_shed.name}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type</f:facet>
+                <h:outputText value="#{_shed.type}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Capacity</f:facet>
+                <h:outputText value="#{_shed.capacity}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Model</f:facet>
+                <h:outputText value="#{_shed.model}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewshed"
+                     value="View"
+                      view="/Shed.xhtml">
+                    <f:param name="shedId"
+                           value="#{_shed.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Creation monitorings</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="creationMonitoringsChildren">
+
+        <h:outputText value="There are no creationMonitorings associated with this lot."
+                   rendered="#{empty lotHome.creationMonitorings}"/>
+
+        <rich:dataTable value="#{lotHome.creationMonitorings}"
+                       var="_creationMonitoring"
+                  rendered="#{not empty lotHome.creationMonitorings}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="creationMonitoringsTable">
+            <rich:column sortBy="#{_creationMonitoring.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_creationMonitoring.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_creationMonitoring.ageWeek}">
+                <f:facet name="header">Age week</f:facet>
+                <h:outputText value="#{_creationMonitoring.ageWeek}"/>
+            </rich:column>
+            <rich:column sortBy="#{_creationMonitoring.ageDay}">
+                <f:facet name="header">Age day</f:facet>
+                <h:outputText value="#{_creationMonitoring.ageDay}"/>
+            </rich:column>
+            <rich:column sortBy="#{_creationMonitoring.dateWeek}">
+                <f:facet name="header">Date week</f:facet>
+                <h:outputText value="#{_creationMonitoring.dateWeek}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_creationMonitoring.bodyWeight}">
+                <f:facet name="header">Body weight</f:facet>
+                <h:outputText value="#{_creationMonitoring.bodyWeight}"/>
+            </rich:column>
+            <rich:column sortBy="#{_creationMonitoring.food}">
+                <f:facet name="header">Food</f:facet>
+                <h:outputText value="#{_creationMonitoring.food}"/>
+            </rich:column>
+            <rich:column sortBy="#{_creationMonitoring.water}">
+                <f:facet name="header">Water</f:facet>
+                <h:outputText value="#{_creationMonitoring.water}"/>
+            </rich:column>
+            <rich:column sortBy="#{_creationMonitoring.discard}">
+                <f:facet name="header">Discard</f:facet>
+                <h:outputText value="#{_creationMonitoring.discard}"/>
+            </rich:column>
+            <rich:column sortBy="#{_creationMonitoring.mortality}">
+                <f:facet name="header">Mortality</f:facet>
+                <h:outputText value="#{_creationMonitoring.mortality}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectcreationMonitoring"
+                     value="Select"
+                      view="/CreationMonitoring.xhtml">
+                    <f:param name="creationMonitoringId"
+                            value="#{_creationMonitoring.id}"/>
+                    <f:param name="creationMonitoringFrom" value="Lot"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add creationMonitoring"
+                view="/CreationMonitoringEdit.xhtml">
+            <f:param name="lotId"
+                    value="#{lotHome.instance.id}"/>
+            <f:param name="creationMonitoringFrom" value="Lot"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Production monitorings</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="productionMonitoringsChildren">
+
+        <h:outputText value="There are no productionMonitorings associated with this lot."
+                   rendered="#{empty lotHome.productionMonitorings}"/>
+
+        <rich:dataTable value="#{lotHome.productionMonitorings}"
+                       var="_productionMonitoring"
+                  rendered="#{not empty lotHome.productionMonitorings}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="productionMonitoringsTable">
+            <rich:column sortBy="#{_productionMonitoring.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_productionMonitoring.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.ageWeek}">
+                <f:facet name="header">Age week</f:facet>
+                <h:outputText value="#{_productionMonitoring.ageWeek}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.ageDay}">
+                <f:facet name="header">Age day</f:facet>
+                <h:outputText value="#{_productionMonitoring.ageDay}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.dateWeek}">
+                <f:facet name="header">Date week</f:facet>
+                <h:outputText value="#{_productionMonitoring.dateWeek}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.discard}">
+                <f:facet name="header">Discard</f:facet>
+                <h:outputText value="#{_productionMonitoring.discard}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.mortality}">
+                <f:facet name="header">Mortality</f:facet>
+                <h:outputText value="#{_productionMonitoring.mortality}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.totalProduction}">
+                <f:facet name="header">Total production</f:facet>
+                <h:outputText value="#{_productionMonitoring.totalProduction}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.firstEggs}">
+                <f:facet name="header">First eggs</f:facet>
+                <h:outputText value="#{_productionMonitoring.firstEggs}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.secondEggs}">
+                <f:facet name="header">Second eggs</f:facet>
+                <h:outputText value="#{_productionMonitoring.secondEggs}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.bodyWeight}">
+                <f:facet name="header">Body weight</f:facet>
+                <h:outputText value="#{_productionMonitoring.bodyWeight}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.eggWeight}">
+                <f:facet name="header">Egg weight</f:facet>
+                <h:outputText value="#{_productionMonitoring.eggWeight}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.food}">
+                <f:facet name="header">Food</f:facet>
+                <h:outputText value="#{_productionMonitoring.food}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productionMonitoring.water}">
+                <f:facet name="header">Water</f:facet>
+                <h:outputText value="#{_productionMonitoring.water}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectproductionMonitoring"
+                     value="Select"
+                      view="/ProductionMonitoring.xhtml">
+                    <f:param name="productionMonitoringId"
+                            value="#{_productionMonitoring.id}"/>
+                    <f:param name="productionMonitoringFrom" value="Lot"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add productionMonitoring"
+                view="/ProductionMonitoringEdit.xhtml">
+            <f:param name="lotId"
+                    value="#{lotHome.instance.id}"/>
+            <f:param name="productionMonitoringFrom" value="Lot"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

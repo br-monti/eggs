@@ -1,0 +1,156 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="lineage" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{lineageHome.managed ? 'Edit' : 'Add'} Lineage</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{lineageHome.managed}"
+                          value="#{lineageHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="lineageField" template="layout/edit.xhtml">
+                <ui:define name="label">Lineage</ui:define>
+                <h:inputText id="lineage"
+                       required="true"
+                           size="20"
+                      maxlength="20"
+                          value="#{lineageHome.instance.lineage}">
+                    <a:support event="onblur" reRender="lineageField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="colorField" template="layout/edit.xhtml">
+                <ui:define name="label">Color</ui:define>
+                <h:inputText id="color"
+                           size="45"
+                      maxlength="45"
+                          value="#{lineageHome.instance.color}">
+                    <a:support event="onblur" reRender="colorField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{lineageHome.persist}"
+                       disabled="#{!lineageHome.wired}"
+                       rendered="#{!lineageHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{lineageHome.update}"
+                       rendered="#{lineageHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{lineageHome.remove}"
+                      immediate="true"
+                       rendered="#{lineageHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Lineage.xhtml"
+                rendered="#{lineageHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty lineageFrom ? 'LineageList' : lineageFrom}.xhtml"
+                rendered="#{!lineageHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Lots">
+        <h:form styleClass="association" id="lotsChildren">
+
+            <h:outputText value="There are no lots associated with this lineage."
+                       rendered="#{empty lineageHome.lots}"/>
+
+            <rich:dataTable value="#{lineageHome.lots}"
+                           var="_lot"
+                      rendered="#{not empty lineageHome.lots}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="lotsTable">
+                <rich:column sortBy="#{_lot.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_lot.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_lot.birth}">
+                    <f:facet name="header">Birth</f:facet>
+                    <h:outputText value="#{_lot.birth}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_lot.accommodation}">
+                    <f:facet name="header">Accommodation</f:facet>
+                    <h:outputText value="#{_lot.accommodation}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_lot.initialQuantity}">
+                    <f:facet name="header">Initial quantity</f:facet>
+                    <h:outputText value="#{_lot.initialQuantity}"/>
+                </rich:column>
+                <rich:column sortBy="#{_lot.currentQuantity}">
+                    <f:facet name="header">Current quantity</f:facet>
+                    <h:outputText value="#{_lot.currentQuantity}"/>
+                </rich:column>
+                <rich:column sortBy="#{_lot.debicking}">
+                    <f:facet name="header">Debicking</f:facet>
+                    <h:outputText value="#{_lot.debicking}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{lineageHome.managed}" id="lots">
+        <div class="actionButtons">
+            <s:button id="addlot"
+                   value="Add lot"
+                    view="/LotEdit.xhtml"
+             propagation="none">
+                 <f:param name="lineageId"
+                         value="#{lineageHome.instance.id}"/>
+                 <f:param name="lotFrom" value="Lineage"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,105 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Manufacturer Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{manufacturerHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="manufacturer" template="layout/display.xhtml">
+            <ui:define name="label">Manufacturer</ui:define>
+            <h:outputText value="#{manufacturerHome.instance.manufacturer}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ManufacturerEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty manufacturerFrom ? 'ManufacturerList' : manufacturerFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Sheds</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="shedsChildren">
+
+        <h:outputText value="There are no sheds associated with this manufacturer."
+                   rendered="#{empty manufacturerHome.sheds}"/>
+
+        <rich:dataTable value="#{manufacturerHome.sheds}"
+                       var="_shed"
+                  rendered="#{not empty manufacturerHome.sheds}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="shedsTable">
+            <rich:column sortBy="#{_shed.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_shed.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_shed.name}">
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_shed.name}"/>
+            </rich:column>
+            <rich:column sortBy="#{_shed.type}">
+                <f:facet name="header">Type</f:facet>
+                <h:outputText value="#{_shed.type}"/>
+            </rich:column>
+            <rich:column sortBy="#{_shed.capacity}">
+                <f:facet name="header">Capacity</f:facet>
+                <h:outputText value="#{_shed.capacity}"/>
+            </rich:column>
+            <rich:column sortBy="#{_shed.model}">
+                <f:facet name="header">Model</f:facet>
+                <h:outputText value="#{_shed.model}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectshed"
+                     value="Select"
+                      view="/Shed.xhtml">
+                    <f:param name="shedId"
+                            value="#{_shed.id}"/>
+                    <f:param name="shedFrom" value="Manufacturer"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add shed"
+                view="/ShedEdit.xhtml">
+            <f:param name="manufacturerId"
+                    value="#{manufacturerHome.instance.id}"/>
+            <f:param name="shedFrom" value="Manufacturer"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>
