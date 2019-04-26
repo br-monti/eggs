@@ -12,40 +12,35 @@
 
     <h:form id="lineageSearch" styleClass="edit">
 
-        <rich:simpleTogglePanel label="Lineage Search Filter" switchType="ajax">
+        <rich:simpleTogglePanel label="Filtro de busca de Linhagem" switchType="ajax">
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Lineage</ui:define>
+                <ui:define name="label">Linhagem</ui:define>
                 <h:inputText id="lineage" value="#{lineageList.lineage.lineage}"/>
             </s:decorate>
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Color</ui:define>
-                <h:inputText id="color" value="#{lineageList.lineage.color}"/>
-            </s:decorate>
-
-            <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Match</ui:define>
+                <ui:define name="label">Marcar</ui:define>
                 <h:selectOneRadio id="logic" value="#{lineageList.restrictionLogicOperator}" styleClass="radio">
-                    <f:selectItem itemLabel="All" itemValue="and"/>
-                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                    <f:selectItem itemLabel="Todos" itemValue="and"/>
+                    <f:selectItem itemLabel="Qualquer" itemValue="or"/>
                 </h:selectOneRadio>
             </s:decorate>
 
         </rich:simpleTogglePanel>
 
         <div class="actionButtons">
-            <h:commandButton id="search" value="Search" action="/LineageList.xhtml"/>
-            <s:button id="reset" value="Reset" includePageParams="false"/>
+            <h:commandButton id="search" value="Buscar" action="/LineageList.xhtml"/>
+            <s:button id="reset" value="Cancelar" includePageParams="false"/>
         </div>
 
     </h:form>
 
     <rich:panel>
-        <f:facet name="header">Lineage Search Results (#{empty lineageList.resultList ? 0 : (lineageList.paginated ? lineageList.resultCount : lineageList.resultList.size)})</f:facet>
+        <f:facet name="header">Resultados da busca de Linhagem (#{empty lineageList.resultList ? 0 : (lineageList.paginated ? lineageList.resultCount : lineageList.resultList.size)})</f:facet>
     <div class="results" id="lineageList">
 
-    <h:outputText value="The lineage search returned no results."
+    <h:outputText value="A busca de Linhaem não retornou resultados."
                rendered="#{empty lineageList.resultList}"/>
 
     <rich:dataTable id="lineageList"
@@ -66,37 +61,29 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{lineageList}"/>
-                    <ui:param name="propertyLabel" value="Lineage"/>
+                    <ui:param name="propertyLabel" value="Linhagem"/>
                     <ui:param name="propertyPath" value="lineage.lineage"/>
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_lineage.lineage}"/>
         </h:column>
-        <h:column>
-            <f:facet name="header">
-                <ui:include src="layout/sort.xhtml">
-                    <ui:param name="entityList" value="#{lineageList}"/>
-                    <ui:param name="propertyLabel" value="Color"/>
-                    <ui:param name="propertyPath" value="lineage.color"/>
-                </ui:include>
-            </f:facet>
-            <h:outputText value="#{_lineage.color}"/>
-        </h:column>
         <rich:column styleClass="action">
-            <f:facet name="header">Action</f:facet>
+            <f:facet name="header">Ações</f:facet>
             <s:link view="/#{empty from ? 'Lineage' : from}.xhtml"
-                   value="#{empty from ? 'View' : 'Select'}"
              propagation="#{empty from ? 'none' : 'default'}"
                       id="lineageViewId">
+                    <h:graphicImage value="/img/view.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="lineageViewId" value="#{empty from ? 'Ver' : 'Selecionar'}" />                        
                 <f:param name="lineageId"
                         value="#{_lineage.id}"/>
             </s:link>
-            #{' '}
+            <rich:spacer width="5"/>
             <s:link view="/LineageEdit.xhtml"
-                   value="Edit"
              propagation="none"
                       id="lineageEdit"
                 rendered="#{empty from}">
+                    <h:graphicImage value="/img/edit_property.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="lineageEdit" value="Editar" />                  
                 <f:param name="lineageId"
                         value="#{_lineage.id}"/>
             </s:link>
@@ -110,14 +97,14 @@
 
         <s:link view="/LineageList.xhtml"
             rendered="#{lineageList.previousExists}"
-               value="#{messages.left}#{messages.left} First Page"
+               value="#{messages.left}#{messages.left} Primeira"
                   id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
 
         <s:link view="/LineageList.xhtml"
             rendered="#{lineageList.previousExists}"
-               value="#{messages.left} Previous Page"
+               value="#{messages.left} Próxima"
                   id="previousPage">
             <f:param name="firstResult"
                     value="#{lineageList.previousFirstResult}"/>
@@ -125,7 +112,7 @@
 
         <s:link view="/LineageList.xhtml"
             rendered="#{lineageList.nextExists}"
-               value="Next Page #{messages.right}"
+               value="Anterior #{messages.right}"
                   id="nextPage">
             <f:param name="firstResult"
                     value="#{lineageList.nextFirstResult}"/>
@@ -133,7 +120,7 @@
 
         <s:link view="/LineageList.xhtml"
             rendered="#{lineageList.nextExists}"
-               value="Last Page #{messages.right}#{messages.right}"
+               value="Última #{messages.right}#{messages.right}"
                   id="lastPage">
             <f:param name="firstResult"
                     value="#{lineageList.lastFirstResult}"/>
@@ -145,7 +132,7 @@
         <s:button view="/LineageEdit.xhtml"
                     id="create"
            propagation="none"
-                 value="Create lineage">
+                 value="Criar Linhagem">
             <f:param name="lineageId"/>
         </s:button>
     </s:div>

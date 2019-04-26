@@ -11,31 +11,30 @@
 <ui:define name="body">
 
     <rich:panel>
-        <f:facet name="header">Shed Details</f:facet>
+        <f:facet name="header">Detalhes do Galpão</f:facet>
 
         <s:decorate id="id" template="layout/display.xhtml">
             <ui:define name="label">Id</ui:define>
             <h:outputText value="#{shedHome.instance.id}"/>
         </s:decorate>
-
-        <s:decorate id="name" template="layout/display.xhtml">
-            <ui:define name="label">Name</ui:define>
+        <s:decorate id="manufacturerId" template="layout/display.xhtml">
+            <ui:define name="label">Nome</ui:define>
             <h:outputText value="#{shedHome.instance.name}"/>
         </s:decorate>
 
+        <s:decorate id="manufecturer" template="layout/display.xhtml">
+            <ui:define name="label">Fabricante</ui:define>
+            <h:outputText value="#{shedHome.instance.manufacturer.manufacturer}"/>
+        </s:decorate>
+
         <s:decorate id="type" template="layout/display.xhtml">
-            <ui:define name="label">Type</ui:define>
+            <ui:define name="label">Tipo</ui:define>
             <h:outputText value="#{shedHome.instance.type}"/>
         </s:decorate>
 
         <s:decorate id="capacity" template="layout/display.xhtml">
-            <ui:define name="label">Capacity</ui:define>
+            <ui:define name="label">Capacidade</ui:define>
             <h:outputText value="#{shedHome.instance.capacity}"/>
-        </s:decorate>
-
-        <s:decorate id="model" template="layout/display.xhtml">
-            <ui:define name="label">Model</ui:define>
-            <h:outputText value="#{shedHome.instance.model}"/>
         </s:decorate>
 
         <div style="clear:both"/>
@@ -46,11 +45,11 @@
 
         <s:button view="/ShedEdit.xhtml"
                     id="edit"
-                 value="Edit"/>
+                 value="Editar"/>
 
         <s:button view="/#{empty shedFrom ? 'ShedList' : shedFrom}.xhtml"
                     id="done"
-                 value="Done"/>
+                 value="Finalizar"/>
 
     </div>
 
@@ -58,11 +57,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Manufacturer</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Fabricante</h:panelGroup>
         </f:facet>
     <div class="association" id="manufacturerParent">
 
-        <h:outputText value="There is no manufacturer associated with this shed."
+        <h:outputText value="Não existe Fabricante associado a esse Galpão."
                    rendered="#{shedHome.instance.manufacturer == null}"/>
 
         <rich:dataTable var="_manufacturer"
@@ -75,10 +74,10 @@
                 <h:outputText value="#{_manufacturer.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Manufacturer</f:facet>
+                <f:facet name="header">Fabricante</f:facet>
                 <h:outputText value="#{_manufacturer.manufacturer}"/>
             </h:column>
-            <h:column styleClass="action">
+  <!--           <h:column styleClass="action">
                 <f:facet name="header">Action</f:facet>
                 <s:link id="viewmanufacturer"
                      value="View"
@@ -86,7 +85,7 @@
                     <f:param name="manufacturerId"
                            value="#{_manufacturer.id}"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </div>
@@ -94,7 +93,7 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Lots</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Lotes</h:panelGroup>
         </f:facet>
     <h:form styleClass="association" id="lotsChildren">
 
@@ -110,53 +109,57 @@
                 <f:facet name="header">Id</f:facet>
                 <h:outputText value="#{_lot.id}"/>
             </rich:column>
+            <rich:column sortBy="#{_lot.lineage}">
+                <f:facet name="header">Linhagem</f:facet>
+                <h:outputText value="#{_lot.lineage}"/>
+            </rich:column>
             <rich:column sortBy="#{_lot.birth}">
-                <f:facet name="header">Birth</f:facet>
+                <f:facet name="header">Nascimento</f:facet>
                 <h:outputText value="#{_lot.birth}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </rich:column>
             <rich:column sortBy="#{_lot.accommodation}">
-                <f:facet name="header">Accommodation</f:facet>
+                <f:facet name="header">Alojamento</f:facet>
                 <h:outputText value="#{_lot.accommodation}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </rich:column>
             <rich:column sortBy="#{_lot.initialQuantity}">
-                <f:facet name="header">Initial quantity</f:facet>
+                <f:facet name="header">Quantidade inicial</f:facet>
                 <h:outputText value="#{_lot.initialQuantity}"/>
             </rich:column>
             <rich:column sortBy="#{_lot.currentQuantity}">
-                <f:facet name="header">Current quantity</f:facet>
+                <f:facet name="header">Quantidade atual</f:facet>
                 <h:outputText value="#{_lot.currentQuantity}"/>
             </rich:column>
             <rich:column sortBy="#{_lot.debicking}">
-                <f:facet name="header">Debicking</f:facet>
+                <f:facet name="header">Debicagem</f:facet>
                 <h:outputText value="#{_lot.debicking}"/>
             </rich:column>
-            <h:column>
-                <f:facet name="header">Action</f:facet>
-                <s:link id="selectlot"
-                     value="Select"
-                      view="/Lot.xhtml">
-                    <f:param name="lotId"
-                            value="#{_lot.id}"/>
-                    <f:param name="lotFrom" value="Shed"/>
-                </s:link>
-            </h:column>
+<!--             <h:column> -->
+<!--                 <f:facet name="header">Action</f:facet> -->
+<!--                 <s:link id="selectlot" -->
+<!--                      value="Select" -->
+<!--                       view="/Lot.xhtml"> -->
+<!--                     <f:param name="lotId" -->
+<!--                             value="#{_lot.id}"/> -->
+<!--                     <f:param name="lotFrom" value="Shed"/> -->
+<!--                 </s:link> -->
+<!--             </h:column> -->
         </rich:dataTable>
 
     </h:form>
 
-    <div class="actionButtons">
-        <s:button
-               value="Add lot"
-                view="/LotEdit.xhtml">
-            <f:param name="shedId"
-                    value="#{shedHome.instance.id}"/>
-            <f:param name="lotFrom" value="Shed"/>
-        </s:button>
-    </div>
+<!--     <div class="actionButtons"> -->
+<!--         <s:button -->
+<!--                value="Add lot" -->
+<!--                 view="/LotEdit.xhtml"> -->
+<!--             <f:param name="shedId" -->
+<!--                     value="#{shedHome.instance.id}"/> -->
+<!--             <f:param name="lotFrom" value="Shed"/> -->
+<!--         </s:button> -->
+<!--     </div> -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>

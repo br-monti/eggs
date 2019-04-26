@@ -14,22 +14,22 @@
     <h:form id="lineage" styleClass="edit">
 
         <rich:panel>
-            <f:facet name="header">#{lineageHome.managed ? 'Edit' : 'Add'} Lineage</f:facet>
+            <f:facet name="header">#{lineageHome.managed ? 'Editar' : 'Adicionar'} Linhagem</f:facet>
 
 
-            <s:decorate id="idField" template="layout/edit.xhtml">
-                <ui:define name="label">Id</ui:define>
-                <h:inputText id="id"
-                       required="true"
-                       disabled="#{lineageHome.managed}"
-                          value="#{lineageHome.instance.id}">
-                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
-            </s:decorate>
+<!--             <s:decorate id="idField" template="layout/edit.xhtml"> -->
+<!--                 <ui:define name="label">Id</ui:define> -->
+<!--                 <h:inputText id="id" -->
+<!--                        required="true" -->
+<!--                        disabled="#{lineageHome.managed}" -->
+<!--                           value="#{lineageHome.instance.id}"> -->
+<!--                     <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/> -->
+<!--                 </h:inputText> -->
+<!--             </s:decorate> -->
 
 
             <s:decorate id="lineageField" template="layout/edit.xhtml">
-                <ui:define name="label">Lineage</ui:define>
+                <ui:define name="label">Linhagem</ui:define>
                 <h:inputText id="lineage"
                        required="true"
                            size="20"
@@ -41,7 +41,7 @@
 
 
             <s:decorate id="colorField" template="layout/edit.xhtml">
-                <ui:define name="label">Color</ui:define>
+                <ui:define name="label">Cor</ui:define>
                 <h:inputText id="color"
                            size="45"
                       maxlength="45"
@@ -53,7 +53,7 @@
 
             <div style="clear:both">
                 <span class="required">*</span>
-                required fields
+                campos exigidos
             </div>
 
         </rich:panel>
@@ -61,30 +61,30 @@
         <div class="actionButtons">
 
             <h:commandButton id="save"
-                          value="Save"
+                          value="Salvar"
                          action="#{lineageHome.persist}"
                        disabled="#{!lineageHome.wired}"
                        rendered="#{!lineageHome.managed}"/>
 
             <h:commandButton id="update"
-                          value="Save"
+                          value="Salvar"
                          action="#{lineageHome.update}"
                        rendered="#{lineageHome.managed}"/>
 
             <h:commandButton id="delete"
-                          value="Delete"
+                          value="Deletar"
                          action="#{lineageHome.remove}"
                       immediate="true"
                        rendered="#{lineageHome.managed}"/>
 
             <s:button id="cancelEdit"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
-                    view="/Lineage.xhtml"
+                    view="/LineageList.xhtml"
                 rendered="#{lineageHome.managed}"/>
 
             <s:button id="cancelAdd"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
                     view="/#{empty lineageFrom ? 'LineageList' : lineageFrom}.xhtml"
                 rendered="#{!lineageHome.managed}"/>
@@ -97,7 +97,7 @@
     <rich:tab label="Lots">
         <h:form styleClass="association" id="lotsChildren">
 
-            <h:outputText value="There are no lots associated with this lineage."
+            <h:outputText value="Não existem Linhagens associadas a esse Lote."
                        rendered="#{empty lineageHome.lots}"/>
 
             <rich:dataTable value="#{lineageHome.lots}"
@@ -110,45 +110,45 @@
                     <h:outputText value="#{_lot.id}"/>
                 </rich:column>
                 <rich:column sortBy="#{_lot.birth}">
-                    <f:facet name="header">Birth</f:facet>
+                    <f:facet name="header">Nascimento</f:facet>
                     <h:outputText value="#{_lot.birth}">
-                        <s:convertDateTime type="date" dateStyle="short"/>
+                        <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </rich:column>
                 <rich:column sortBy="#{_lot.accommodation}">
-                    <f:facet name="header">Accommodation</f:facet>
+                    <f:facet name="header">Alojamento</f:facet>
                     <h:outputText value="#{_lot.accommodation}">
-                        <s:convertDateTime type="date" dateStyle="short"/>
+                        <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </rich:column>
                 <rich:column sortBy="#{_lot.initialQuantity}">
-                    <f:facet name="header">Initial quantity</f:facet>
+                    <f:facet name="header">Quantidade inicial</f:facet>
                     <h:outputText value="#{_lot.initialQuantity}"/>
                 </rich:column>
                 <rich:column sortBy="#{_lot.currentQuantity}">
-                    <f:facet name="header">Current quantity</f:facet>
+                    <f:facet name="header">Quantidade atual</f:facet>
                     <h:outputText value="#{_lot.currentQuantity}"/>
                 </rich:column>
                 <rich:column sortBy="#{_lot.debicking}">
-                    <f:facet name="header">Debicking</f:facet>
+                    <f:facet name="header">Debicagem</f:facet>
                     <h:outputText value="#{_lot.debicking}"/>
                 </rich:column>
             </rich:dataTable>
 
         </h:form>
 
-        <f:subview rendered="#{lineageHome.managed}" id="lots">
-        <div class="actionButtons">
-            <s:button id="addlot"
-                   value="Add lot"
-                    view="/LotEdit.xhtml"
-             propagation="none">
-                 <f:param name="lineageId"
-                         value="#{lineageHome.instance.id}"/>
-                 <f:param name="lotFrom" value="Lineage"/>
-            </s:button>
-        </div>
-        </f:subview>
+<!--         <f:subview rendered="#{lineageHome.managed}" id="lots"> -->
+<!--         <div class="actionButtons"> -->
+<!--             <s:button id="addlot" -->
+<!--                    value="Add lot" -->
+<!--                     view="/LotEdit.xhtml" -->
+<!--              propagation="none"> -->
+<!--                  <f:param name="lineageId" -->
+<!--                          value="#{lineageHome.instance.id}"/> -->
+<!--                  <f:param name="lotFrom" value="Lineage"/> -->
+<!--             </s:button> -->
+<!--         </div> -->
+<!--         </f:subview> -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>

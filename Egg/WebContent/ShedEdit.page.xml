@@ -19,14 +19,14 @@
    <navigation from-action="#{shedHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/Shed.xhtml"/>
+         <redirect view-id="/ShedList.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{shedHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/Shed.xhtml"/>
+         <redirect view-id="/ShedList.xhtml"/>
       </rule>
    </navigation>
 
