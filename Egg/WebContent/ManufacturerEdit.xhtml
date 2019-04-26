@@ -14,10 +14,10 @@
     <h:form id="manufacturer" styleClass="edit">
 
         <rich:panel>
-            <f:facet name="header">#{manufacturerHome.managed ? 'Edit' : 'Add'} Manufacturer</f:facet>
+            <f:facet name="header">#{manufacturerHome.managed ? 'Editar' : 'Adicionar'} Fabricante</f:facet>
 
 
-            <s:decorate id="idField" template="layout/edit.xhtml">
+<!--             <s:decorate id="idField" template="layout/edit.xhtml">
                 <ui:define name="label">Id</ui:define>
                 <h:inputText id="id"
                        required="true"
@@ -25,11 +25,11 @@
                           value="#{manufacturerHome.instance.id}">
                     <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
-            </s:decorate>
+            </s:decorate> -->
 
 
             <s:decorate id="manufacturerField" template="layout/edit.xhtml">
-                <ui:define name="label">Manufacturer</ui:define>
+                <ui:define name="label">Fabricante</ui:define>
                 <h:inputText id="manufacturer"
                        required="true"
                            size="15"
@@ -42,7 +42,7 @@
 
             <div style="clear:both">
                 <span class="required">*</span>
-                required fields
+                campos exigidos
             </div>
 
         </rich:panel>
@@ -50,30 +50,30 @@
         <div class="actionButtons">
 
             <h:commandButton id="save"
-                          value="Save"
+                          value="Salvar"
                          action="#{manufacturerHome.persist}"
                        disabled="#{!manufacturerHome.wired}"
                        rendered="#{!manufacturerHome.managed}"/>
 
             <h:commandButton id="update"
-                          value="Save"
+                          value="Salvar"
                          action="#{manufacturerHome.update}"
                        rendered="#{manufacturerHome.managed}"/>
 
             <h:commandButton id="delete"
-                          value="Delete"
+                          value="Deletar"
                          action="#{manufacturerHome.remove}"
                       immediate="true"
                        rendered="#{manufacturerHome.managed}"/>
 
             <s:button id="cancelEdit"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
-                    view="/Manufacturer.xhtml"
+                    view="/ManufacturerList.xhtml"
                 rendered="#{manufacturerHome.managed}"/>
 
             <s:button id="cancelAdd"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
                     view="/#{empty manufacturerFrom ? 'ManufacturerList' : manufacturerFrom}.xhtml"
                 rendered="#{!manufacturerHome.managed}"/>
@@ -83,10 +83,10 @@
 
 <rich:tabPanel switchType="ajax">
 
-    <rich:tab label="Sheds">
+    <rich:tab label="Galpões">
         <h:form styleClass="association" id="shedsChildren">
 
-            <h:outputText value="There are no sheds associated with this manufacturer."
+            <h:outputText value="Não existem Galpões associoados a esse Fabricante."
                        rendered="#{empty manufacturerHome.sheds}"/>
 
             <rich:dataTable value="#{manufacturerHome.sheds}"
@@ -99,26 +99,26 @@
                     <h:outputText value="#{_shed.id}"/>
                 </rich:column>
                 <rich:column sortBy="#{_shed.name}">
-                    <f:facet name="header">Name</f:facet>
+                    <f:facet name="header">Nome</f:facet>
                     <h:outputText value="#{_shed.name}"/>
                 </rich:column>
                 <rich:column sortBy="#{_shed.type}">
-                    <f:facet name="header">Type</f:facet>
+                    <f:facet name="header">Tipo</f:facet>
                     <h:outputText value="#{_shed.type}"/>
                 </rich:column>
-                <rich:column sortBy="#{_shed.capacity}">
-                    <f:facet name="header">Capacity</f:facet>
-                    <h:outputText value="#{_shed.capacity}"/>
+                <rich:column sortBy="#{_shed.type}">
+                    <f:facet name="header">Fabricante</f:facet>
+                    <h:outputText value="#{_shed.manufacturer.manufacturer}"/>
                 </rich:column>
-                <rich:column sortBy="#{_shed.model}">
-                    <f:facet name="header">Model</f:facet>
-                    <h:outputText value="#{_shed.model}"/>
+                <rich:column sortBy="#{_shed.capacity}">
+                    <f:facet name="header">Capacidade</f:facet>
+                    <h:outputText value="#{_shed.capacity}"/>
                 </rich:column>
             </rich:dataTable>
 
         </h:form>
 
-        <f:subview rendered="#{manufacturerHome.managed}" id="sheds">
+<!--         <f:subview rendered="#{manufacturerHome.managed}" id="sheds">
         <div class="actionButtons">
             <s:button id="addshed"
                    value="Add shed"
@@ -129,7 +129,7 @@
                  <f:param name="shedFrom" value="Manufacturer"/>
             </s:button>
         </div>
-        </f:subview>
+        </f:subview> -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>

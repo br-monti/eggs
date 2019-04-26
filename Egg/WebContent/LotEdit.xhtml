@@ -148,7 +148,7 @@
         </rich:dataTable>
 
         <div class="actionButtons">
-            <s:button id="#{lotHome.instance.lineage != null ? 'changeParent' : 'selectParent'}" value="#{lotHome.instance.lineage != null ? 'Change' : 'Select'} lineage"
+            <s:button id="#{lotHome.instance.lineage != null ? 'changeParentLineage' : 'selectParentLineage'}" value="#{lotHome.instance.lineage != null ? 'Change' : 'Select'} lineage"
                        view="/LineageList.xhtml">
                 <f:param name="from" value="LotEdit"/>
             </s:button>
@@ -195,7 +195,7 @@
         </rich:dataTable>
 
         <div class="actionButtons">
-            <s:button id="#{lotHome.instance.shed != null ? 'changeParent' : 'selectParent'}" value="#{lotHome.instance.shed != null ? 'Change' : 'Select'} shed"
+            <s:button id="#{lotHome.instance.shed != null ? 'changeParentShed' : 'selectParentShed'}" value="#{lotHome.instance.shed != null ? 'Change' : 'Select'} shed"
                        view="/ShedList.xhtml">
                 <f:param name="from" value="LotEdit"/>
             </s:button>

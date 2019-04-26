@@ -16,14 +16,14 @@
    <navigation from-action="#{manufacturerHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/Manufacturer.xhtml"/>
+         <redirect view-id="/ManufacturerList.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{manufacturerHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/Manufacturer.xhtml"/>
+         <redirect view-id="/Manufacturerlist.xhtml"/>
       </rule>
    </navigation>
 

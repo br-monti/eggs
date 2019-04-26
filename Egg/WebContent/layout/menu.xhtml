@@ -9,55 +9,66 @@
         <h:outputText value="#{projectName}:"/>
         <s:link id="menuHomeId" view="/home.xhtml" value="Home" propagation="none"/>
     </rich:toolBarGroup>
+    
     <rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
-        <f:facet name="label">Browse data</f:facet>
+        <f:facet name="label">Infraestrutura</f:facet>
 	<rich:menuItem>
-    	<s:link view="/LotList.xhtml"
-           	value="Lot List"
-           	id="LotId"
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-	<rich:menuItem>
-    	<s:link view="/CreationMonitoringList.xhtml"
-           	value="CreationMonitoring List"
-           	id="CreationMonitoringId"
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-	<rich:menuItem>
-    	<s:link view="/ProductionMonitoringList.xhtml"
-           	value="ProductionMonitoring List"
-           	id="ProductionMonitoringId"
+    	<s:link view="/ShedList.xhtml"
+           	value="Galpão"
+           	id="ShedId"
 			includePageParams="false"
      		propagation="none"/>
      </rich:menuItem>
 	<rich:menuItem>
     	<s:link view="/ManufacturerList.xhtml"
-           	value="Manufacturer List"
-           	id="ManufacturerId"
+           	value="Fabricantes"
+           	id="Fabricante"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+    </rich:dropDownMenu>
+    
+  <rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+        <f:facet name="label">Aves</f:facet>  
+    	<rich:menuItem>
+    	<s:link view="/LotList.xhtml"
+           	value="Lote"
+           	id="LotId"
 			includePageParams="false"
      		propagation="none"/>
      </rich:menuItem>
 	<rich:menuItem>
     	<s:link view="/LineageList.xhtml"
-           	value="Lineage List"
+           	value="Linhagem"
            	id="LineageId"
 			includePageParams="false"
      		propagation="none"/>
      </rich:menuItem>
+</rich:dropDownMenu>
+
+<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+    <f:facet name="label">Monitoramento</f:facet>  
+
 	<rich:menuItem>
-    	<s:link view="/ShedList.xhtml"
-           	value="Shed List"
-           	id="ShedId"
+    	<s:link view="/CreationMonitoringList.xhtml"
+           	value="Criação"
+           	id="CreationmonitoringId"
 			includePageParams="false"
      		propagation="none"/>
      </rich:menuItem>
-    </rich:dropDownMenu>
+	<rich:menuItem>
+    	<s:link view="/ProductionMonitoringList.xhtml"
+           	value="Producão"
+           	id="ProductionmonitoringId"
+			includePageParams="false"
+     		propagation="none"/>
+     </rich:menuItem>
+</rich:dropDownMenu>
+     
     <!-- @newMenuItem@ -->
     <rich:toolBarGroup location="right">
-        <h:outputText id="menuWelcomeId" value="signed in as: #{credentials.username}" rendered="#{identity.loggedIn}"/>
-        <s:link id="menuLoginId" view="/login.xhtml" value="Login" rendered="#{not identity.loggedIn}" propagation="none"/>
-        <s:link id="menuLogoutId" view="/home.xhtml" action="#{identity.logout}" value="Logout" rendered="#{identity.loggedIn}" propagation="none"/>
+        <h:outputText id="menuWelcomeId" value="usuário: #{credentials.username}" rendered="#{identity.loggedIn}"/>
+        <s:link id="menuLoginId" view="/login.xhtml" value="Entrar" rendered="#{not identity.loggedIn}" propagation="none"/>
+        <s:link id="menuLogoutId" view="/home.xhtml" action="#{identity.logout}" value="Sair" rendered="#{identity.loggedIn}" propagation="none"/>
     </rich:toolBarGroup>
 </rich:toolBar>

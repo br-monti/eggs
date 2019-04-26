@@ -11,7 +11,7 @@
 <ui:define name="body">
 
     <rich:panel>
-        <f:facet name="header">Manufacturer Details</f:facet>
+    <f:facet name="header">Detalhes do Fabricante</f:facet>
 
         <s:decorate id="id" template="layout/display.xhtml">
             <ui:define name="label">Id</ui:define>
@@ -19,7 +19,7 @@
         </s:decorate>
 
         <s:decorate id="manufacturer" template="layout/display.xhtml">
-            <ui:define name="label">Manufacturer</ui:define>
+            <ui:define name="label">Fabricante</ui:define>
             <h:outputText value="#{manufacturerHome.instance.manufacturer}"/>
         </s:decorate>
 
@@ -31,11 +31,11 @@
 
         <s:button view="/ManufacturerEdit.xhtml"
                     id="edit"
-                 value="Edit"/>
+                 value="Editar"/>
 
         <s:button view="/#{empty manufacturerFrom ? 'ManufacturerList' : manufacturerFrom}.xhtml"
                     id="done"
-                 value="Done"/>
+                 value="Finalizar"/>
 
     </div>
 
@@ -43,11 +43,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Sheds</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Galpões</h:panelGroup>
         </f:facet>
     <h:form styleClass="association" id="shedsChildren">
 
-        <h:outputText value="There are no sheds associated with this manufacturer."
+        <h:outputText value="Não existem Galpões associados a esse Fabricante."
                    rendered="#{empty manufacturerHome.sheds}"/>
 
         <rich:dataTable value="#{manufacturerHome.sheds}"
@@ -59,37 +59,39 @@
                 <f:facet name="header">Id</f:facet>
                 <h:outputText value="#{_shed.id}"/>
             </rich:column>
-            <rich:column sortBy="#{_shed.name}">
-                <f:facet name="header">Name</f:facet>
+            <rich:column sortBy="#{_shed.id}">
+                <f:facet name="header">Nome</f:facet>
                 <h:outputText value="#{_shed.name}"/>
             </rich:column>
+            <rich:column sortBy="#{_shed.manufacturer.manufacturer}">
+                <f:facet name="header">Fabricante</f:facet>
+                <h:outputText value="#{_shed.manufacturer.manufacturer}"/>
+            </rich:column>
             <rich:column sortBy="#{_shed.type}">
-                <f:facet name="header">Type</f:facet>
+                <f:facet name="header">Tipo</f:facet>
                 <h:outputText value="#{_shed.type}"/>
             </rich:column>
             <rich:column sortBy="#{_shed.capacity}">
-                <f:facet name="header">Capacity</f:facet>
+                <f:facet name="header">Capacidade</f:facet>
                 <h:outputText value="#{_shed.capacity}"/>
             </rich:column>
-            <rich:column sortBy="#{_shed.model}">
-                <f:facet name="header">Model</f:facet>
-                <h:outputText value="#{_shed.model}"/>
-            </rich:column>
-            <h:column>
+<!--             <h:column>
                 <f:facet name="header">Action</f:facet>
                 <s:link id="selectshed"
                      value="Select"
                       view="/Shed.xhtml">
                     <f:param name="shedId"
-                            value="#{_shed.id}"/>
+                            value="#{_shed.id.id}"/>
+                    <f:param name="shedManufacturerId"
+                            value="#{_shed.id.manufacturerId}"/>
                     <f:param name="shedFrom" value="Manufacturer"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </h:form>
 
-    <div class="actionButtons">
+<!--     <div class="actionButtons">
         <s:button
                value="Add shed"
                 view="/ShedEdit.xhtml">
@@ -97,7 +99,7 @@
                     value="#{manufacturerHome.instance.id}"/>
             <f:param name="shedFrom" value="Manufacturer"/>
         </s:button>
-    </div>
+    </div> -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>
