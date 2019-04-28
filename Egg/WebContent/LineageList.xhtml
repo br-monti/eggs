@@ -67,6 +67,16 @@
             </f:facet>
             <h:outputText value="#{_lineage.lineage}"/>
         </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{lineageList}"/>
+                    <ui:param name="propertyLabel" value="Cor"/>
+                    <ui:param name="propertyPath" value="lineage.color"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_lineage.color}"/>
+        </h:column>
         <rich:column styleClass="action">
             <f:facet name="header">Ações</f:facet>
             <s:link view="/#{empty from ? 'Lineage' : from}.xhtml"
@@ -87,6 +97,8 @@
                 <f:param name="lineageId"
                         value="#{_lineage.id}"/>
             </s:link>
+            <rich:spacer width="5"/>
+
         </rich:column>
     </rich:dataTable>
 

@@ -25,14 +25,14 @@
    <navigation from-action="#{lotHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/Lot.xhtml"/>
+         <redirect view-id="/LotList.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{lotHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/Lot.xhtml"/>
+         <redirect view-id="/LotList.xhtml"/>
       </rule>
    </navigation>
 
