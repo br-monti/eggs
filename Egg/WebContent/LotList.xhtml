@@ -12,35 +12,35 @@
 
     <h:form id="lotSearch" styleClass="edit">
 
-        <rich:simpleTogglePanel label="Lot Search Filter" switchType="ajax">
+        <rich:simpleTogglePanel label="Filtro de busca de Lotes" switchType="ajax">
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Debicking</ui:define>
+                <ui:define name="label">Debicagem</ui:define>
                 <h:inputText id="debicking" value="#{lotList.lot.debicking}"/>
             </s:decorate>
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Match</ui:define>
+                <ui:define name="label">Marcar</ui:define>
                 <h:selectOneRadio id="logic" value="#{lotList.restrictionLogicOperator}" styleClass="radio">
-                    <f:selectItem itemLabel="All" itemValue="and"/>
-                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                    <f:selectItem itemLabel="Todos" itemValue="and"/>
+                    <f:selectItem itemLabel="Qualquer" itemValue="or"/>
                 </h:selectOneRadio>
             </s:decorate>
 
         </rich:simpleTogglePanel>
 
         <div class="actionButtons">
-            <h:commandButton id="search" value="Search" action="/LotList.xhtml"/>
-            <s:button id="reset" value="Reset" includePageParams="false"/>
+            <h:commandButton id="search" value="Buscar" action="/LotList.xhtml"/>
+            <s:button id="reset" value="Cancelar" includePageParams="false"/>
         </div>
 
     </h:form>
 
     <rich:panel>
-        <f:facet name="header">Lot Search Results (#{empty lotList.resultList ? 0 : (lotList.paginated ? lotList.resultCount : lotList.resultList.size)})</f:facet>
+        <f:facet name="header">Resultados da busca de Lote (#{empty lotList.resultList ? 0 : (lotList.paginated ? lotList.resultCount : lotList.resultList.size)})</f:facet>
     <div class="results" id="lotList">
 
-    <h:outputText value="The lot search returned no results."
+    <h:outputText value="A busca de Lote não retornou resultados."
                rendered="#{empty lotList.resultList}"/>
 
     <rich:dataTable id="lotList"
@@ -61,51 +61,51 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{lotList}"/>
-                    <ui:param name="propertyLabel" value="Lineage id"/>
+                    <ui:param name="propertyLabel" value="Linhagem"/>
                     <ui:param name="propertyPath" value="lot.lineage.id"/>
                 </ui:include>
             </f:facet>
-            <h:outputText value="#{_lot.lineage.id}"/>
+            <h:outputText value="#{_lot.lineage.lineage}"/>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{lotList}"/>
-                    <ui:param name="propertyLabel" value="Shed id"/>
+                    <ui:param name="propertyLabel" value="Galpão"/>
                     <ui:param name="propertyPath" value="lot.shed.id"/>
                 </ui:include>
             </f:facet>
-            <h:outputText value="#{_lot.shed.id}"/>
+            <h:outputText value="#{_lot.shed.name}"/>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{lotList}"/>
-                    <ui:param name="propertyLabel" value="Birth"/>
+                    <ui:param name="propertyLabel" value="Nascimento"/>
                     <ui:param name="propertyPath" value="lot.birth"/>
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_lot.birth}">
-                <s:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
             </h:outputText>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{lotList}"/>
-                    <ui:param name="propertyLabel" value="Accommodation"/>
+                    <ui:param name="propertyLabel" value="Alojamento"/>
                     <ui:param name="propertyPath" value="lot.accommodation"/>
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_lot.accommodation}">
-                <s:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
             </h:outputText>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{lotList}"/>
-                    <ui:param name="propertyLabel" value="Initial quantity"/>
+                    <ui:param name="propertyLabel" value="Quantidade Inicial"/>
                     <ui:param name="propertyPath" value="lot.initialQuantity"/>
                 </ui:include>
             </f:facet>
@@ -115,7 +115,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{lotList}"/>
-                    <ui:param name="propertyLabel" value="Current quantity"/>
+                    <ui:param name="propertyLabel" value="Quantidade Atual"/>
                     <ui:param name="propertyPath" value="lot.currentQuantity"/>
                 </ui:include>
             </f:facet>
@@ -125,27 +125,29 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{lotList}"/>
-                    <ui:param name="propertyLabel" value="Debicking"/>
+                    <ui:param name="propertyLabel" value="Debicagem"/>
                     <ui:param name="propertyPath" value="lot.debicking"/>
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_lot.debicking}"/>
         </h:column>
         <rich:column styleClass="action">
-            <f:facet name="header">Action</f:facet>
+            <f:facet name="header">Ações</f:facet>
             <s:link view="/#{empty from ? 'Lot' : from}.xhtml"
-                   value="#{empty from ? 'View' : 'Select'}"
              propagation="#{empty from ? 'none' : 'default'}"
                       id="lotViewId">
+                    <h:graphicImage value="/img/view.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="lotViewId" value="#{empty from ? 'Ver' : 'Selecionar'}" /> 
                 <f:param name="lotId"
                         value="#{_lot.id}"/>
             </s:link>
-            #{' '}
+            <rich:spacer width="5"/>
             <s:link view="/LotEdit.xhtml"
-                   value="Edit"
              propagation="none"
                       id="lotEdit"
                 rendered="#{empty from}">
+                    <h:graphicImage value="/img/edit_property.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="lotEdit" value="Editar" />                 
                 <f:param name="lotId"
                         value="#{_lot.id}"/>
             </s:link>
@@ -157,35 +159,35 @@
 
     <div class="tableControl">
 
-        <s:link view="/LotList.xhtml"
-            rendered="#{lotList.previousExists}"
-               value="#{messages.left}#{messages.left} First Page"
+        <s:link view="/LineageList.xhtml"
+            rendered="#{lineageList.previousExists}"
+               value="#{messages.left}#{messages.left} Primeira"
                   id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
 
-        <s:link view="/LotList.xhtml"
-            rendered="#{lotList.previousExists}"
-               value="#{messages.left} Previous Page"
+        <s:link view="/LineageList.xhtml"
+            rendered="#{lineageList.previousExists}"
+               value="#{messages.left} Próxima"
                   id="previousPage">
             <f:param name="firstResult"
-                    value="#{lotList.previousFirstResult}"/>
+                    value="#{lineageList.previousFirstResult}"/>
         </s:link>
 
-        <s:link view="/LotList.xhtml"
-            rendered="#{lotList.nextExists}"
-               value="Next Page #{messages.right}"
+        <s:link view="/LineageList.xhtml"
+            rendered="#{lineageList.nextExists}"
+               value="Anterior #{messages.right}"
                   id="nextPage">
             <f:param name="firstResult"
-                    value="#{lotList.nextFirstResult}"/>
+                    value="#{lineageList.nextFirstResult}"/>
         </s:link>
 
-        <s:link view="/LotList.xhtml"
-            rendered="#{lotList.nextExists}"
-               value="Last Page #{messages.right}#{messages.right}"
+        <s:link view="/LineageList.xhtml"
+            rendered="#{lineageList.nextExists}"
+               value="Última #{messages.right}#{messages.right}"
                   id="lastPage">
             <f:param name="firstResult"
-                    value="#{lotList.lastFirstResult}"/>
+                    value="#{lineageList.lastFirstResult}"/>
         </s:link>
 
     </div>
@@ -194,7 +196,7 @@
         <s:button view="/LotEdit.xhtml"
                     id="create"
            propagation="none"
-                 value="Create lot">
+                 value="Criar Lote">
             <f:param name="lotId"/>
         </s:button>
     </s:div>
