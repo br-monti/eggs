@@ -91,14 +91,14 @@
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_creationMonitoring.dateWeek}">
-                <s:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
             </h:outputText>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{creationMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Peso Corporal"/>
+                    <ui:param name="propertyLabel" value="Peso Corporal (g)"/>
                     <ui:param name="propertyPath" value="creationMonitoring.bodyWeight"/>
                 </ui:include>
             </f:facet>
