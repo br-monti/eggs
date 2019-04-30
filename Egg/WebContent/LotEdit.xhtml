@@ -230,7 +230,7 @@
                 <rich:column sortBy="#{_creationMonitoring.dateWeek}">
                     <f:facet name="header">Data</f:facet>
                     <h:outputText value="#{_creationMonitoring.dateWeek}">
-                        <s:convertDateTime type="date" dateStyle="short"/>
+                        <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </rich:column>
                 <rich:column sortBy="#{_creationMonitoring.bodyWeight}">
@@ -297,7 +297,7 @@
                 <rich:column sortBy="#{_productionMonitoring.dateWeek}">
                     <f:facet name="header">Data</f:facet>
                     <h:outputText value="#{_productionMonitoring.dateWeek}">
-                        <s:convertDateTime type="date" dateStyle="short"/>
+                        <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </rich:column>
                 <rich:column sortBy="#{_productionMonitoring.discard}">

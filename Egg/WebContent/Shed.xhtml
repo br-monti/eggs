@@ -109,9 +109,9 @@
                 <f:facet name="header">Id</f:facet>
                 <h:outputText value="#{_lot.id}"/>
             </rich:column>
-            <rich:column sortBy="#{_lot.lineage}">
+            <rich:column sortBy="#{_lot.lineage.lineage}">
                 <f:facet name="header">Linhagem</f:facet>
-                <h:outputText value="#{_lot.lineage}"/>
+                <h:outputText value="#{_lot.lineage.lineage}"/>
             </rich:column>
             <rich:column sortBy="#{_lot.birth}">
                 <f:facet name="header">Nascimento</f:facet>
