@@ -11,7 +11,7 @@
 <ui:define name="body">
 
     <rich:panel>
-        <f:facet name="header">Creation monitoring Details</f:facet>
+        <f:facet name="header">Detalhes do Monitoramento de Recria</f:facet>
 
         <s:decorate id="id" template="layout/display.xhtml">
             <ui:define name="label">Id</ui:define>
@@ -19,44 +19,44 @@
         </s:decorate>
 
         <s:decorate id="ageWeek" template="layout/display.xhtml">
-            <ui:define name="label">Age week</ui:define>
+            <ui:define name="label">Semanas</ui:define>
             <h:outputText value="#{creationMonitoringHome.instance.ageWeek}"/>
         </s:decorate>
 
         <s:decorate id="ageDay" template="layout/display.xhtml">
-            <ui:define name="label">Age day</ui:define>
+            <ui:define name="label">Dias</ui:define>
             <h:outputText value="#{creationMonitoringHome.instance.ageDay}"/>
         </s:decorate>
 
         <s:decorate id="dateWeek" template="layout/display.xhtml">
-            <ui:define name="label">Date week</ui:define>
+            <ui:define name="label">Data</ui:define>
             <h:outputText value="#{creationMonitoringHome.instance.dateWeek}">
-                <s:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
             </h:outputText>
         </s:decorate>
 
         <s:decorate id="bodyWeight" template="layout/display.xhtml">
-            <ui:define name="label">Body weight</ui:define>
+            <ui:define name="label">Peso Corporal (g)</ui:define>
             <h:outputText value="#{creationMonitoringHome.instance.bodyWeight}"/>
         </s:decorate>
 
         <s:decorate id="food" template="layout/display.xhtml">
-            <ui:define name="label">Food</ui:define>
+            <ui:define name="label">Ração (kg)</ui:define>
             <h:outputText value="#{creationMonitoringHome.instance.food}"/>
         </s:decorate>
 
         <s:decorate id="water" template="layout/display.xhtml">
-            <ui:define name="label">Water</ui:define>
+            <ui:define name="label">Água (l)</ui:define>
             <h:outputText value="#{creationMonitoringHome.instance.water}"/>
         </s:decorate>
 
         <s:decorate id="discard" template="layout/display.xhtml">
-            <ui:define name="label">Discard</ui:define>
+            <ui:define name="label">Descarte</ui:define>
             <h:outputText value="#{creationMonitoringHome.instance.discard}"/>
         </s:decorate>
 
         <s:decorate id="mortality" template="layout/display.xhtml">
-            <ui:define name="label">Mortality</ui:define>
+            <ui:define name="label">Mortalidade</ui:define>
             <h:outputText value="#{creationMonitoringHome.instance.mortality}"/>
         </s:decorate>
 
@@ -68,11 +68,11 @@
 
         <s:button view="/CreationMonitoringEdit.xhtml"
                     id="edit"
-                 value="Edit"/>
+                 value="Editar"/>
 
         <s:button view="/#{empty creationMonitoringFrom ? 'CreationMonitoringList' : creationMonitoringFrom}.xhtml"
                     id="done"
-                 value="Done"/>
+                 value="Finalizar"/>
 
     </div>
 
@@ -80,11 +80,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Lot</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Lote</h:panelGroup>
         </f:facet>
     <div class="association" id="lotParent">
 
-        <h:outputText value="There is no lot associated with this creationMonitoring."
+        <h:outputText value="Não existe Lote associado a esse Monitoramento de Recria."
                    rendered="#{creationMonitoringHome.instance.lot == null}"/>
 
         <rich:dataTable var="_lot"
@@ -97,38 +97,38 @@
                 <h:outputText value="#{_lot.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Lineage id</f:facet>
-                <h:outputText value="#{_lot.lineage.id}"/>
+                <f:facet name="header">Linhagem</f:facet>
+                <h:outputText value="#{_lot.lineage.lineage}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Shed id</f:facet>
-                <h:outputText value="#{_lot.shed.id}"/>
+                <f:facet name="header">Galpão</f:facet>
+                <h:outputText value="#{_lot.shed.name}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Birth</f:facet>
+                <f:facet name="header">Nascimento</f:facet>
                 <h:outputText value="#{_lot.birth}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </h:column>
             <h:column>
-                <f:facet name="header">Accommodation</f:facet>
+                <f:facet name="header">Alojamento</f:facet>
                 <h:outputText value="#{_lot.accommodation}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </h:column>
             <h:column>
-                <f:facet name="header">Initial quantity</f:facet>
+                <f:facet name="header">Quantidade Inicial</f:facet>
                 <h:outputText value="#{_lot.initialQuantity}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Current quantity</f:facet>
+                <f:facet name="header">Quantidade Atual</f:facet>
                 <h:outputText value="#{_lot.currentQuantity}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Debicking</f:facet>
+                <f:facet name="header">Debicagem</f:facet>
                 <h:outputText value="#{_lot.debicking}"/>
             </h:column>
-            <h:column styleClass="action">
+<!--             <h:column styleClass="action">
                 <f:facet name="header">Action</f:facet>
                 <s:link id="viewlot"
                      value="View"
@@ -136,7 +136,7 @@
                     <f:param name="lotId"
                            value="#{_lot.id}"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </div>
