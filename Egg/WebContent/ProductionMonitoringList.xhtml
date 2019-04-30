@@ -12,30 +12,30 @@
 
     <h:form id="productionMonitoringSearch" styleClass="edit">
 
-        <rich:simpleTogglePanel label="ProductionMonitoring Search Filter" switchType="ajax">
+        <rich:simpleTogglePanel label="Filtro de busca de Monitoramento de Recria" switchType="ajax">
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Match</ui:define>
+                <ui:define name="label">Marcar</ui:define>
                 <h:selectOneRadio id="logic" value="#{productionMonitoringList.restrictionLogicOperator}" styleClass="radio">
-                    <f:selectItem itemLabel="All" itemValue="and"/>
-                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                    <f:selectItem itemLabel="Todos" itemValue="and"/>
+                    <f:selectItem itemLabel="Qualquer" itemValue="or"/>
                 </h:selectOneRadio>
             </s:decorate>
 
         </rich:simpleTogglePanel>
 
         <div class="actionButtons">
-            <h:commandButton id="search" value="Search" action="/ProductionMonitoringList.xhtml"/>
-            <s:button id="reset" value="Reset" includePageParams="false"/>
+            <h:commandButton id="search" value="Buscar" action="/ProductionMonitoringList.xhtml"/>
+            <s:button id="reset" value="Cancelar" includePageParams="false"/>
         </div>
 
     </h:form>
 
     <rich:panel>
-        <f:facet name="header">ProductionMonitoring Search Results (#{empty productionMonitoringList.resultList ? 0 : (productionMonitoringList.paginated ? productionMonitoringList.resultCount : productionMonitoringList.resultList.size)})</f:facet>
+        <f:facet name="header">Resultados da Busca de Monitoramento de Produção (#{empty productionMonitoringList.resultList ? 0 : (productionMonitoringList.paginated ? productionMonitoringList.resultCount : productionMonitoringList.resultList.size)})</f:facet>
     <div class="results" id="productionMonitoringList">
 
-    <h:outputText value="The productionMonitoring search returned no results."
+    <h:outputText value="A busca de Monitoramento de Produção não retornou resultados."
                rendered="#{empty productionMonitoringList.resultList}"/>
 
     <rich:dataTable id="productionMonitoringList"
@@ -56,7 +56,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Lot id"/>
+                    <ui:param name="propertyLabel" value="Lote"/>
                     <ui:param name="propertyPath" value="productionMonitoring.lot.id"/>
                 </ui:include>
             </f:facet>
@@ -66,7 +66,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Age week"/>
+                    <ui:param name="propertyLabel" value="Semanas"/>
                     <ui:param name="propertyPath" value="productionMonitoring.ageWeek"/>
                 </ui:include>
             </f:facet>
@@ -76,7 +76,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Age day"/>
+                    <ui:param name="propertyLabel" value="Dias"/>
                     <ui:param name="propertyPath" value="productionMonitoring.ageDay"/>
                 </ui:include>
             </f:facet>
@@ -86,19 +86,19 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Date week"/>
+                    <ui:param name="propertyLabel" value="Data"/>
                     <ui:param name="propertyPath" value="productionMonitoring.dateWeek"/>
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_productionMonitoring.dateWeek}">
-                <s:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
             </h:outputText>
         </h:column>
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Discard"/>
+                    <ui:param name="propertyLabel" value="Descarte"/>
                     <ui:param name="propertyPath" value="productionMonitoring.discard"/>
                 </ui:include>
             </f:facet>
@@ -108,7 +108,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Mortality"/>
+                    <ui:param name="propertyLabel" value="Mortalidade"/>
                     <ui:param name="propertyPath" value="productionMonitoring.mortality"/>
                 </ui:include>
             </f:facet>
@@ -118,7 +118,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Total production"/>
+                    <ui:param name="propertyLabel" value="Produção Total"/>
                     <ui:param name="propertyPath" value="productionMonitoring.totalProduction"/>
                 </ui:include>
             </f:facet>
@@ -128,7 +128,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="First eggs"/>
+                    <ui:param name="propertyLabel" value="Ovos de Primeira"/>
                     <ui:param name="propertyPath" value="productionMonitoring.firstEggs"/>
                 </ui:include>
             </f:facet>
@@ -138,7 +138,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Second eggs"/>
+                    <ui:param name="propertyLabel" value="Ovos de Segunda"/>
                     <ui:param name="propertyPath" value="productionMonitoring.secondEggs"/>
                 </ui:include>
             </f:facet>
@@ -148,7 +148,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Body weight"/>
+                    <ui:param name="propertyLabel" value="Peso Corporal (g)"/>
                     <ui:param name="propertyPath" value="productionMonitoring.bodyWeight"/>
                 </ui:include>
             </f:facet>
@@ -158,7 +158,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Egg weight"/>
+                    <ui:param name="propertyLabel" value="Peso do Ovo (g)"/>
                     <ui:param name="propertyPath" value="productionMonitoring.eggWeight"/>
                 </ui:include>
             </f:facet>
@@ -168,7 +168,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Food"/>
+                    <ui:param name="propertyLabel" value="Ração (kg)"/>
                     <ui:param name="propertyPath" value="productionMonitoring.food"/>
                 </ui:include>
             </f:facet>
@@ -178,7 +178,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionMonitoringList}"/>
-                    <ui:param name="propertyLabel" value="Water"/>
+                    <ui:param name="propertyLabel" value="Água (l)"/>
                     <ui:param name="propertyPath" value="productionMonitoring.water"/>
                 </ui:include>
             </f:facet>
@@ -187,18 +187,20 @@
         <rich:column styleClass="action">
             <f:facet name="header">Action</f:facet>
             <s:link view="/#{empty from ? 'ProductionMonitoring' : from}.xhtml"
-                   value="#{empty from ? 'View' : 'Select'}"
              propagation="#{empty from ? 'none' : 'default'}"
                       id="productionMonitoringViewId">
+                    <h:graphicImage value="/img/view.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="productionMonitoringViewId" value="#{empty from ? 'Ver' : 'Selecionar'}" />                         
                 <f:param name="productionMonitoringId"
                         value="#{_productionMonitoring.id}"/>
             </s:link>
-            #{' '}
+            <rich:spacer width="5"/>
             <s:link view="/ProductionMonitoringEdit.xhtml"
-                   value="Edit"
              propagation="none"
                       id="productionMonitoringEdit"
                 rendered="#{empty from}">
+                    <h:graphicImage value="/img/edit_property.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="productionMonitoringEdit" value="Editar" />                  
                 <f:param name="productionMonitoringId"
                         value="#{_productionMonitoring.id}"/>
             </s:link>
@@ -210,35 +212,28 @@
 
     <div class="tableControl">
 
-        <s:link view="/ProductionMonitoringList.xhtml"
-            rendered="#{productionMonitoringList.previousExists}"
-               value="#{messages.left}#{messages.left} First Page"
-                  id="firstPage">
-          <f:param name="firstResult" value="0"/>
-        </s:link>
-
-        <s:link view="/ProductionMonitoringList.xhtml"
-            rendered="#{productionMonitoringList.previousExists}"
-               value="#{messages.left} Previous Page"
+        <s:link view="/LineageList.xhtml"
+            rendered="#{lineageList.previousExists}"
+               value="#{messages.left} Próxima"
                   id="previousPage">
             <f:param name="firstResult"
-                    value="#{productionMonitoringList.previousFirstResult}"/>
+                    value="#{lineageList.previousFirstResult}"/>
         </s:link>
 
-        <s:link view="/ProductionMonitoringList.xhtml"
-            rendered="#{productionMonitoringList.nextExists}"
-               value="Next Page #{messages.right}"
+        <s:link view="/LineageList.xhtml"
+            rendered="#{lineageList.nextExists}"
+               value="Anterior #{messages.right}"
                   id="nextPage">
             <f:param name="firstResult"
-                    value="#{productionMonitoringList.nextFirstResult}"/>
+                    value="#{lineageList.nextFirstResult}"/>
         </s:link>
 
-        <s:link view="/ProductionMonitoringList.xhtml"
-            rendered="#{productionMonitoringList.nextExists}"
-               value="Last Page #{messages.right}#{messages.right}"
+        <s:link view="/LineageList.xhtml"
+            rendered="#{lineageList.nextExists}"
+               value="Última #{messages.right}#{messages.right}"
                   id="lastPage">
             <f:param name="firstResult"
-                    value="#{productionMonitoringList.lastFirstResult}"/>
+                    value="#{lineageList.lastFirstResult}"/>
         </s:link>
 
     </div>
@@ -247,7 +242,7 @@
         <s:button view="/ProductionMonitoringEdit.xhtml"
                     id="create"
            propagation="none"
-                 value="Create productionMonitoring">
+                 value="Criar Monitoramento de Produção">
             <f:param name="productionMonitoringId"/>
         </s:button>
     </s:div>

@@ -14,10 +14,10 @@
     <h:form id="productionMonitoring" styleClass="edit">
 
         <rich:panel>
-            <f:facet name="header">#{productionMonitoringHome.managed ? 'Edit' : 'Add'} Production monitoring</f:facet>
+            <f:facet name="header">#{productionMonitoringHome.managed ? 'Editar' : 'Adicionar'} Monitoramento de Produção</f:facet>
 
 
-            <s:decorate id="idField" template="layout/edit.xhtml">
+<!--           <s:decorate id="idField" template="layout/edit.xhtml">
                 <ui:define name="label">Id</ui:define>
                 <h:inputText id="id"
                        required="true"
@@ -25,12 +25,12 @@
                           value="#{productionMonitoringHome.instance.id}">
                     <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
-            </s:decorate>
+            </s:decorate> -->  
 
 
 
             <s:decorate id="ageWeekField" template="layout/edit.xhtml">
-                <ui:define name="label">Age week</ui:define>
+                <ui:define name="label">Semanas</ui:define>
                 <h:inputText id="ageWeek"
                        required="true"
                           value="#{productionMonitoringHome.instance.ageWeek}">
@@ -40,7 +40,7 @@
 
 
             <s:decorate id="ageDayField" template="layout/edit.xhtml">
-                <ui:define name="label">Age day</ui:define>
+                <ui:define name="label">Dias</ui:define>
                 <h:inputText id="ageDay"
                        required="true"
                           value="#{productionMonitoringHome.instance.ageDay}">
@@ -50,15 +50,15 @@
 
 
             <s:decorate id="dateWeekField" template="layout/edit.xhtml">
-                <ui:define name="label">Date week</ui:define>
+                <ui:define name="label">Data</ui:define>
                 <rich:calendar id="dateWeek"
                        required="true"
-                          value="#{productionMonitoringHome.instance.dateWeek}" datePattern="MM/dd/yyyy" />
+                          value="#{productionMonitoringHome.instance.dateWeek}" datePattern="dd/MM/yyyy" />
             </s:decorate>
 
 
             <s:decorate id="discardField" template="layout/edit.xhtml">
-                <ui:define name="label">Discard</ui:define>
+                <ui:define name="label">Descarte</ui:define>
                 <h:inputText id="discard"
                        required="true"
                           value="#{productionMonitoringHome.instance.discard}">
@@ -68,7 +68,7 @@
 
 
             <s:decorate id="mortalityField" template="layout/edit.xhtml">
-                <ui:define name="label">Mortality</ui:define>
+                <ui:define name="label">Mortalidade</ui:define>
                 <h:inputText id="mortality"
                        required="true"
                           value="#{productionMonitoringHome.instance.mortality}">
@@ -78,7 +78,7 @@
 
 
             <s:decorate id="totalProductionField" template="layout/edit.xhtml">
-                <ui:define name="label">Total production</ui:define>
+                <ui:define name="label">Produção Total</ui:define>
                 <h:inputText id="totalProduction"
                        required="true"
                           value="#{productionMonitoringHome.instance.totalProduction}">
@@ -88,7 +88,7 @@
 
 
             <s:decorate id="firstEggsField" template="layout/edit.xhtml">
-                <ui:define name="label">First eggs</ui:define>
+                <ui:define name="label">Ovos de Primeira</ui:define>
                 <h:inputText id="firstEggs"
                        required="true"
                           value="#{productionMonitoringHome.instance.firstEggs}">
@@ -98,7 +98,7 @@
 
 
             <s:decorate id="secondEggsField" template="layout/edit.xhtml">
-                <ui:define name="label">Second eggs</ui:define>
+                <ui:define name="label">Ovos de Segunda</ui:define>
                 <h:inputText id="secondEggs"
                        required="true"
                           value="#{productionMonitoringHome.instance.secondEggs}">
@@ -108,7 +108,7 @@
 
 
             <s:decorate id="bodyWeightField" template="layout/edit.xhtml">
-                <ui:define name="label">Body weight</ui:define>
+                <ui:define name="label">Peso Corporal (g)</ui:define>
                 <h:inputText id="bodyWeight"
                        required="true"
                           value="#{productionMonitoringHome.instance.bodyWeight}">
@@ -118,7 +118,7 @@
 
 
             <s:decorate id="eggWeightField" template="layout/edit.xhtml">
-                <ui:define name="label">Egg weight</ui:define>
+                <ui:define name="label">Peso do Ovo (g)</ui:define>
                 <h:inputText id="eggWeight"
                        required="true"
                           value="#{productionMonitoringHome.instance.eggWeight}">
@@ -128,7 +128,7 @@
 
 
             <s:decorate id="foodField" template="layout/edit.xhtml">
-                <ui:define name="label">Food</ui:define>
+                <ui:define name="label">Ração (kg)</ui:define>
                 <h:inputText id="food"
                        required="true"
                           value="#{productionMonitoringHome.instance.food}">
@@ -138,7 +138,7 @@
 
 
             <s:decorate id="waterField" template="layout/edit.xhtml">
-                <ui:define name="label">Water</ui:define>
+                <ui:define name="label">Água (l)</ui:define>
                 <h:inputText id="water"
                        required="true"
                           value="#{productionMonitoringHome.instance.water}">
@@ -148,7 +148,7 @@
 
             <div style="clear:both">
                 <span class="required">*</span>
-                required fields
+                campos exigidos
             </div>
 
         </rich:panel>
@@ -156,30 +156,30 @@
         <div class="actionButtons">
 
             <h:commandButton id="save"
-                          value="Save"
+                          value="Salvar"
                          action="#{productionMonitoringHome.persist}"
                        disabled="#{!productionMonitoringHome.wired}"
                        rendered="#{!productionMonitoringHome.managed}"/>
 
             <h:commandButton id="update"
-                          value="Save"
+                          value="Salvar"
                          action="#{productionMonitoringHome.update}"
                        rendered="#{productionMonitoringHome.managed}"/>
 
             <h:commandButton id="delete"
-                          value="Delete"
+                          value="Deletar"
                          action="#{productionMonitoringHome.remove}"
                       immediate="true"
                        rendered="#{productionMonitoringHome.managed}"/>
 
             <s:button id="cancelEdit"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
-                    view="/ProductionMonitoring.xhtml"
+                    view="/ProductionMonitoringList.xhtml"
                 rendered="#{productionMonitoringHome.managed}"/>
 
             <s:button id="cancelAdd"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
                     view="/#{empty productionMonitoringFrom ? 'ProductionMonitoringList' : productionMonitoringFrom}.xhtml"
                 rendered="#{!productionMonitoringHome.managed}"/>
@@ -189,10 +189,10 @@
 
 <rich:tabPanel switchType="ajax">
 
-    <rich:tab label="Lot *" labelClass="required">
+    <rich:tab label="Lote *" labelClass="required">
     <div class="association" id="lotParent">
 
-        <h:outputText value="There is no lot associated with this productionMonitoring."
+        <h:outputText value="Não existe Lote associado a esse Monitoramento de Recria."
                    rendered="#{productionMonitoringHome.instance.lot == null}"/>
 
         <rich:dataTable var="_lot"
@@ -205,41 +205,41 @@
                 <h:outputText value="#{_lot.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Lineage id</f:facet>
-                <h:outputText value="#{_lot.lineage.id}"/>
+                <f:facet name="header">Linhagem</f:facet>
+                <h:outputText value="#{_lot.lineage.lineage}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Shed id</f:facet>
-                <h:outputText value="#{_lot.shed.id}"/>
+                <f:facet name="header">Galpão</f:facet>
+                <h:outputText value="#{_lot.shed.name}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Birth</f:facet>
+                <f:facet name="header">Nascimento</f:facet>
                 <h:outputText value="#{_lot.birth}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </h:column>
             <h:column>
-                <f:facet name="header">Accommodation</f:facet>
+                <f:facet name="header">Alojamento</f:facet>
                 <h:outputText value="#{_lot.accommodation}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </h:column>
             <h:column>
-                <f:facet name="header">Initial quantity</f:facet>
+                <f:facet name="header">Quantidade Inicial</f:facet>
                 <h:outputText value="#{_lot.initialQuantity}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Current quantity</f:facet>
+                <f:facet name="header">Quantidade Atual</f:facet>
                 <h:outputText value="#{_lot.currentQuantity}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Debicking</f:facet>
+                <f:facet name="header">Debicagem</f:facet>
                 <h:outputText value="#{_lot.debicking}"/>
             </h:column>
         </rich:dataTable>
 
         <div class="actionButtons">
-            <s:button id="#{productionMonitoringHome.instance.lot != null ? 'changeParent' : 'selectParent'}" value="#{productionMonitoringHome.instance.lot != null ? 'Change' : 'Select'} lot"
+            <s:button id="#{productionMonitoringHome.instance.lot != null ? 'changeParent' : 'selectParent'}" value="#{productionMonitoringHome.instance.lot != null ? 'Mudar' : 'Selecionar'} Lote"
                        view="/LotList.xhtml">
                 <f:param name="from" value="ProductionMonitoringEdit"/>
             </s:button>

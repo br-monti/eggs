@@ -28,14 +28,14 @@
    <navigation from-action="#{productionMonitoringHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/ProductionMonitoring.xhtml"/>
+         <redirect view-id="/ProductionMonitoringList.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{productionMonitoringHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/ProductionMonitoring.xhtml"/>
+         <redirect view-id="/ProductionMonitoringList.xhtml"/>
       </rule>
    </navigation>
 
