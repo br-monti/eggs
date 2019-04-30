@@ -14,10 +14,10 @@
     <h:form id="creationMonitoring" styleClass="edit">
 
         <rich:panel>
-            <f:facet name="header">#{creationMonitoringHome.managed ? 'Edit' : 'Add'} Creation monitoring</f:facet>
+            <f:facet name="header">#{creationMonitoringHome.managed ? 'Editar' : 'Adicionar'} Monitoramento de Recria</f:facet>
 
 
-            <s:decorate id="idField" template="layout/edit.xhtml">
+<!--             <s:decorate id="idField" template="layout/edit.xhtml">
                 <ui:define name="label">Id</ui:define>
                 <h:inputText id="id"
                        required="true"
@@ -25,12 +25,12 @@
                           value="#{creationMonitoringHome.instance.id}">
                     <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
-            </s:decorate>
+            </s:decorate> -->
 
 
 
             <s:decorate id="ageWeekField" template="layout/edit.xhtml">
-                <ui:define name="label">Age week</ui:define>
+                <ui:define name="label">Semanas</ui:define>
                 <h:inputText id="ageWeek"
                        required="true"
                           value="#{creationMonitoringHome.instance.ageWeek}">
@@ -40,7 +40,7 @@
 
 
             <s:decorate id="ageDayField" template="layout/edit.xhtml">
-                <ui:define name="label">Age day</ui:define>
+                <ui:define name="label">Dias</ui:define>
                 <h:inputText id="ageDay"
                        required="true"
                           value="#{creationMonitoringHome.instance.ageDay}">
@@ -50,15 +50,15 @@
 
 
             <s:decorate id="dateWeekField" template="layout/edit.xhtml">
-                <ui:define name="label">Date week</ui:define>
+                <ui:define name="label">Data</ui:define>
                 <rich:calendar id="dateWeek"
                        required="true"
-                          value="#{creationMonitoringHome.instance.dateWeek}" datePattern="MM/dd/yyyy" />
+                          value="#{creationMonitoringHome.instance.dateWeek}" datePattern="dd/MM/yyyy"/>
             </s:decorate>
 
 
             <s:decorate id="bodyWeightField" template="layout/edit.xhtml">
-                <ui:define name="label">Body weight</ui:define>
+                <ui:define name="label">Peso Corporal (g)</ui:define>
                 <h:inputText id="bodyWeight"
                        required="true"
                           value="#{creationMonitoringHome.instance.bodyWeight}">
@@ -68,7 +68,7 @@
 
 
             <s:decorate id="foodField" template="layout/edit.xhtml">
-                <ui:define name="label">Food</ui:define>
+                <ui:define name="label">Ração (kg)</ui:define>
                 <h:inputText id="food"
                        required="true"
                           value="#{creationMonitoringHome.instance.food}">
@@ -78,7 +78,7 @@
 
 
             <s:decorate id="waterField" template="layout/edit.xhtml">
-                <ui:define name="label">Water</ui:define>
+                <ui:define name="label">Água (l)</ui:define>
                 <h:inputText id="water"
                        required="true"
                           value="#{creationMonitoringHome.instance.water}">
@@ -88,7 +88,7 @@
 
 
             <s:decorate id="discardField" template="layout/edit.xhtml">
-                <ui:define name="label">Discard</ui:define>
+                <ui:define name="label">Descarte</ui:define>
                 <h:inputText id="discard"
                        required="true"
                           value="#{creationMonitoringHome.instance.discard}">
@@ -98,7 +98,7 @@
 
 
             <s:decorate id="mortalityField" template="layout/edit.xhtml">
-                <ui:define name="label">Mortality</ui:define>
+                <ui:define name="label">Mortalidade</ui:define>
                 <h:inputText id="mortality"
                        required="true"
                           value="#{creationMonitoringHome.instance.mortality}">
@@ -108,7 +108,7 @@
 
             <div style="clear:both">
                 <span class="required">*</span>
-                required fields
+                campos exigidos
             </div>
 
         </rich:panel>
@@ -116,30 +116,30 @@
         <div class="actionButtons">
 
             <h:commandButton id="save"
-                          value="Save"
+                          value="Salvar"
                          action="#{creationMonitoringHome.persist}"
                        disabled="#{!creationMonitoringHome.wired}"
                        rendered="#{!creationMonitoringHome.managed}"/>
 
             <h:commandButton id="update"
-                          value="Save"
+                          value="Salvar"
                          action="#{creationMonitoringHome.update}"
                        rendered="#{creationMonitoringHome.managed}"/>
 
             <h:commandButton id="delete"
-                          value="Delete"
+                          value="Deletar"
                          action="#{creationMonitoringHome.remove}"
                       immediate="true"
                        rendered="#{creationMonitoringHome.managed}"/>
 
             <s:button id="cancelEdit"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
-                    view="/CreationMonitoring.xhtml"
+                    view="/CreationMonitoringList.xhtml"
                 rendered="#{creationMonitoringHome.managed}"/>
 
             <s:button id="cancelAdd"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
                     view="/#{empty creationMonitoringFrom ? 'CreationMonitoringList' : creationMonitoringFrom}.xhtml"
                 rendered="#{!creationMonitoringHome.managed}"/>
@@ -152,7 +152,7 @@
     <rich:tab label="Lot *" labelClass="required">
     <div class="association" id="lotParent">
 
-        <h:outputText value="There is no lot associated with this creationMonitoring."
+        <h:outputText value="Não existe Lote associado a esse Monitoramento de Recria."
                    rendered="#{creationMonitoringHome.instance.lot == null}"/>
 
         <rich:dataTable var="_lot"
@@ -161,45 +161,45 @@
               rowClasses="rvgRowOne,rvgRowTwo"
                       id="lotTable">
             <h:column>
-                <f:facet name="header">Id</f:facet>
+                <f:facet name="header">Lote</f:facet>
                 <h:outputText value="#{_lot.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Lineage id</f:facet>
-                <h:outputText value="#{_lot.lineage.id}"/>
+                <f:facet name="header">Linhagem</f:facet>
+                <h:outputText value="#{_lot.lineage.lineage}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Shed id</f:facet>
-                <h:outputText value="#{_lot.shed.id}"/>
+                <f:facet name="header">Galpão</f:facet>
+                <h:outputText value="#{_lot.shed.name}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Birth</f:facet>
+                <f:facet name="header">Nascimento</f:facet>
                 <h:outputText value="#{_lot.birth}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </h:column>
             <h:column>
-                <f:facet name="header">Accommodation</f:facet>
+                <f:facet name="header">Alojamento</f:facet>
                 <h:outputText value="#{_lot.accommodation}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </h:column>
             <h:column>
-                <f:facet name="header">Initial quantity</f:facet>
+                <f:facet name="header">Quantidade Inicial</f:facet>
                 <h:outputText value="#{_lot.initialQuantity}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Current quantity</f:facet>
+                <f:facet name="header">Quantidade Atual</f:facet>
                 <h:outputText value="#{_lot.currentQuantity}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Debicking</f:facet>
+                <f:facet name="header">Debicagem</f:facet>
                 <h:outputText value="#{_lot.debicking}"/>
             </h:column>
         </rich:dataTable>
 
         <div class="actionButtons">
-            <s:button id="#{creationMonitoringHome.instance.lot != null ? 'changeParent' : 'selectParent'}" value="#{creationMonitoringHome.instance.lot != null ? 'Change' : 'Select'} lot"
+            <s:button id="#{creationMonitoringHome.instance.lot != null ? 'changeParent' : 'selectParent'}" value="#{creationMonitoringHome.instance.lot != null ? 'Mudar' : 'Selecionar'} Lote"
                        view="/LotList.xhtml">
                 <f:param name="from" value="CreationMonitoringEdit"/>
             </s:button>

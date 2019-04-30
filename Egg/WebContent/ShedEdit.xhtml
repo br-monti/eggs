@@ -84,30 +84,30 @@
         <div class="actionButtons">
 
             <h:commandButton id="save"
-                          value="Save"
+                          value="Salvar"
                          action="#{shedHome.persist}"
                        disabled="#{!shedHome.wired}"
                        rendered="#{!shedHome.managed}"/>
 
             <h:commandButton id="update"
-                          value="Save"
+                          value="Salvar"
                          action="#{shedHome.update}"
                        rendered="#{shedHome.managed}"/>
 
             <h:commandButton id="delete"
-                          value="Delete"
+                          value="Deletar"
                          action="#{shedHome.remove}"
                       immediate="true"
                        rendered="#{shedHome.managed}"/>
 
             <s:button id="cancelEdit"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
                     view="/ShedList.xhtml"
                 rendered="#{shedHome.managed}"/>
 
             <s:button id="cancelAdd"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
                     view="/#{empty shedFrom ? 'ShedList' : shedFrom}.xhtml"
                 rendered="#{!shedHome.managed}"/>

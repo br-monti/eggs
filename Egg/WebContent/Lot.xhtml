@@ -11,7 +11,7 @@
 <ui:define name="body">
 
     <rich:panel>
-        <f:facet name="header">Lot Details</f:facet>
+        <f:facet name="header">Detalhes do Lote</f:facet>
 
         <s:decorate id="id" template="layout/display.xhtml">
             <ui:define name="label">Id</ui:define>
@@ -19,31 +19,31 @@
         </s:decorate>
 
         <s:decorate id="birth" template="layout/display.xhtml">
-            <ui:define name="label">Birth</ui:define>
+            <ui:define name="label">Nascimento</ui:define>
             <h:outputText value="#{lotHome.instance.birth}">
-                <s:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
             </h:outputText>
         </s:decorate>
 
         <s:decorate id="accommodation" template="layout/display.xhtml">
-            <ui:define name="label">Accommodation</ui:define>
+            <ui:define name="label">Alojamento</ui:define>
             <h:outputText value="#{lotHome.instance.accommodation}">
-                <s:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
             </h:outputText>
         </s:decorate>
 
         <s:decorate id="initialQuantity" template="layout/display.xhtml">
-            <ui:define name="label">Initial quantity</ui:define>
+            <ui:define name="label">Quantidade Inicial</ui:define>
             <h:outputText value="#{lotHome.instance.initialQuantity}"/>
         </s:decorate>
 
         <s:decorate id="currentQuantity" template="layout/display.xhtml">
-            <ui:define name="label">Current quantity</ui:define>
+            <ui:define name="label">Quantidade Atual</ui:define>
             <h:outputText value="#{lotHome.instance.currentQuantity}"/>
         </s:decorate>
 
         <s:decorate id="debicking" template="layout/display.xhtml">
-            <ui:define name="label">Debicking</ui:define>
+            <ui:define name="label">Debicagem</ui:define>
             <h:outputText value="#{lotHome.instance.debicking}"/>
         </s:decorate>
 
@@ -55,11 +55,11 @@
 
         <s:button view="/LotEdit.xhtml"
                     id="edit"
-                 value="Edit"/>
+                 value="Editar"/>
 
         <s:button view="/#{empty lotFrom ? 'LotList' : lotFrom}.xhtml"
                     id="done"
-                 value="Done"/>
+                 value="Finalizar"/>
 
     </div>
 
@@ -67,11 +67,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Lineage</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Linhagem</h:panelGroup>
         </f:facet>
     <div class="association" id="lineageParent">
 
-        <h:outputText value="There is no lineage associated with this lot."
+        <h:outputText value="Não existe Linhagem associada a esse Lote."
                    rendered="#{lotHome.instance.lineage == null}"/>
 
         <rich:dataTable var="_lineage"
@@ -84,14 +84,14 @@
                 <h:outputText value="#{_lineage.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Lineage</f:facet>
+                <f:facet name="header">Linhagem</f:facet>
                 <h:outputText value="#{_lineage.lineage}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Color</f:facet>
+                <f:facet name="header">Cor</f:facet>
                 <h:outputText value="#{_lineage.color}"/>
             </h:column>
-            <h:column styleClass="action">
+<!--             <h:column styleClass="action">
                 <f:facet name="header">Action</f:facet>
                 <s:link id="viewlineage"
                      value="View"
@@ -99,7 +99,7 @@
                     <f:param name="lineageId"
                            value="#{_lineage.id}"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </div>
@@ -107,11 +107,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Shed</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Galpões</h:panelGroup>
         </f:facet>
     <div class="association" id="shedParent">
 
-        <h:outputText value="There is no shed associated with this lot."
+        <h:outputText value="Não existe Galpão associado a esse Lote."
                    rendered="#{lotHome.instance.shed == null}"/>
 
         <rich:dataTable var="_shed"
@@ -124,26 +124,28 @@
                 <h:outputText value="#{_shed.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Manufacturer id</f:facet>
-                <h:outputText value="#{_shed.manufacturer.id}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Name</f:facet>
+                <f:facet name="header">Nome</f:facet>
                 <h:outputText value="#{_shed.name}"/>
             </h:column>
-            <h:column>
-                <f:facet name="header">Type</f:facet>
-                <h:outputText value="#{_shed.type}"/>
-            </h:column>
-            <h:column>
-                <f:facet name="header">Capacity</f:facet>
+             <h:column>
+                <f:facet name="header">Capacidade</f:facet>
                 <h:outputText value="#{_shed.capacity}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Model</f:facet>
+                <f:facet name="header">Fabricante</f:facet>
+                <h:outputText value="#{_shed.manufacturer.manufacturer}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Tipo</f:facet>
+                <h:outputText value="#{_shed.type}"/>
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">Modelo</f:facet>
                 <h:outputText value="#{_shed.model}"/>
             </h:column>
-            <h:column styleClass="action">
+<!--             <h:column styleClass="action">
                 <f:facet name="header">Action</f:facet>
                 <s:link id="viewshed"
                      value="View"
@@ -151,7 +153,7 @@
                     <f:param name="shedId"
                            value="#{_shed.id}"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </div>
@@ -159,11 +161,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Creation monitorings</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Monitoramento de Recria</h:panelGroup>
         </f:facet>
     <h:form styleClass="association" id="creationMonitoringsChildren">
 
-        <h:outputText value="There are no creationMonitorings associated with this lot."
+        <h:outputText value="Não existem Montoramentos de Recria associados a esse Lote."
                    rendered="#{empty lotHome.creationMonitorings}"/>
 
         <rich:dataTable value="#{lotHome.creationMonitorings}"
@@ -176,40 +178,40 @@
                 <h:outputText value="#{_creationMonitoring.id}"/>
             </rich:column>
             <rich:column sortBy="#{_creationMonitoring.ageWeek}">
-                <f:facet name="header">Age week</f:facet>
+                <f:facet name="header">Semanas</f:facet>
                 <h:outputText value="#{_creationMonitoring.ageWeek}"/>
             </rich:column>
             <rich:column sortBy="#{_creationMonitoring.ageDay}">
-                <f:facet name="header">Age day</f:facet>
+                <f:facet name="header">Dias</f:facet>
                 <h:outputText value="#{_creationMonitoring.ageDay}"/>
             </rich:column>
             <rich:column sortBy="#{_creationMonitoring.dateWeek}">
-                <f:facet name="header">Date week</f:facet>
+                <f:facet name="header">Data</f:facet>
                 <h:outputText value="#{_creationMonitoring.dateWeek}">
                     <s:convertDateTime type="date" dateStyle="short"/>
                 </h:outputText>
             </rich:column>
             <rich:column sortBy="#{_creationMonitoring.bodyWeight}">
-                <f:facet name="header">Body weight</f:facet>
+                <f:facet name="header">Peso corporal (g)</f:facet>
                 <h:outputText value="#{_creationMonitoring.bodyWeight}"/>
             </rich:column>
             <rich:column sortBy="#{_creationMonitoring.food}">
-                <f:facet name="header">Food</f:facet>
+                <f:facet name="header">Ração (kg)</f:facet>
                 <h:outputText value="#{_creationMonitoring.food}"/>
             </rich:column>
             <rich:column sortBy="#{_creationMonitoring.water}">
-                <f:facet name="header">Water</f:facet>
+                <f:facet name="header">Água (l)</f:facet>
                 <h:outputText value="#{_creationMonitoring.water}"/>
             </rich:column>
             <rich:column sortBy="#{_creationMonitoring.discard}">
-                <f:facet name="header">Discard</f:facet>
+                <f:facet name="header">Descarte</f:facet>
                 <h:outputText value="#{_creationMonitoring.discard}"/>
             </rich:column>
             <rich:column sortBy="#{_creationMonitoring.mortality}">
-                <f:facet name="header">Mortality</f:facet>
+                <f:facet name="header">Mortalidade</f:facet>
                 <h:outputText value="#{_creationMonitoring.mortality}"/>
             </rich:column>
-            <h:column>
+<!--             <h:column>
                 <f:facet name="header">Action</f:facet>
                 <s:link id="selectcreationMonitoring"
                      value="Select"
@@ -218,12 +220,12 @@
                             value="#{_creationMonitoring.id}"/>
                     <f:param name="creationMonitoringFrom" value="Lot"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </h:form>
 
-    <div class="actionButtons">
+<!--     <div class="actionButtons">
         <s:button
                value="Add creationMonitoring"
                 view="/CreationMonitoringEdit.xhtml">
@@ -231,16 +233,16 @@
                     value="#{lotHome.instance.id}"/>
             <f:param name="creationMonitoringFrom" value="Lot"/>
         </s:button>
-    </div>
+    </div> -->
     </rich:tab>
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Production monitorings</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Monitoramentos de Produção</h:panelGroup>
         </f:facet>
     <h:form styleClass="association" id="productionMonitoringsChildren">
 
-        <h:outputText value="There are no productionMonitorings associated with this lot."
+        <h:outputText value="Não existem Monitoramentos de Produção associados a esse Lote."
                    rendered="#{empty lotHome.productionMonitorings}"/>
 
         <rich:dataTable value="#{lotHome.productionMonitorings}"
@@ -253,56 +255,56 @@
                 <h:outputText value="#{_productionMonitoring.id}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.ageWeek}">
-                <f:facet name="header">Age week</f:facet>
+                <f:facet name="header">Semanas</f:facet>
                 <h:outputText value="#{_productionMonitoring.ageWeek}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.ageDay}">
-                <f:facet name="header">Age day</f:facet>
+                <f:facet name="header">Dias</f:facet>
                 <h:outputText value="#{_productionMonitoring.ageDay}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.dateWeek}">
-                <f:facet name="header">Date week</f:facet>
+                <f:facet name="header">Data</f:facet>
                 <h:outputText value="#{_productionMonitoring.dateWeek}">
                     <s:convertDateTime type="date" dateStyle="short"/>
                 </h:outputText>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.discard}">
-                <f:facet name="header">Discard</f:facet>
+                <f:facet name="header">Descarte</f:facet>
                 <h:outputText value="#{_productionMonitoring.discard}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.mortality}">
-                <f:facet name="header">Mortality</f:facet>
+                <f:facet name="header">Mortalidade</f:facet>
                 <h:outputText value="#{_productionMonitoring.mortality}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.totalProduction}">
-                <f:facet name="header">Total production</f:facet>
+                <f:facet name="header">Produção Total</f:facet>
                 <h:outputText value="#{_productionMonitoring.totalProduction}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.firstEggs}">
-                <f:facet name="header">First eggs</f:facet>
+                <f:facet name="header">Ovos de Primeira</f:facet>
                 <h:outputText value="#{_productionMonitoring.firstEggs}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.secondEggs}">
-                <f:facet name="header">Second eggs</f:facet>
+                <f:facet name="header">Ovos de Segunda</f:facet>
                 <h:outputText value="#{_productionMonitoring.secondEggs}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.bodyWeight}">
-                <f:facet name="header">Body weight</f:facet>
+                <f:facet name="header">Peso Corporal (g)</f:facet>
                 <h:outputText value="#{_productionMonitoring.bodyWeight}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.eggWeight}">
-                <f:facet name="header">Egg weight</f:facet>
+                <f:facet name="header">Peso do Ovo (g)</f:facet>
                 <h:outputText value="#{_productionMonitoring.eggWeight}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.food}">
-                <f:facet name="header">Food</f:facet>
+                <f:facet name="header">Ração (kg)</f:facet>
                 <h:outputText value="#{_productionMonitoring.food}"/>
             </rich:column>
             <rich:column sortBy="#{_productionMonitoring.water}">
-                <f:facet name="header">Water</f:facet>
+                <f:facet name="header">Água (l)</f:facet>
                 <h:outputText value="#{_productionMonitoring.water}"/>
             </rich:column>
-            <h:column>
+<!--             <h:column>
                 <f:facet name="header">Action</f:facet>
                 <s:link id="selectproductionMonitoring"
                      value="Select"
@@ -311,12 +313,12 @@
                             value="#{_productionMonitoring.id}"/>
                     <f:param name="productionMonitoringFrom" value="Lot"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </h:form>
 
-    <div class="actionButtons">
+<!--     <div class="actionButtons">
         <s:button
                value="Add productionMonitoring"
                 view="/ProductionMonitoringEdit.xhtml">
@@ -324,7 +326,7 @@
                     value="#{lotHome.instance.id}"/>
             <f:param name="productionMonitoringFrom" value="Lot"/>
         </s:button>
-    </div>
+    </div> -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>
