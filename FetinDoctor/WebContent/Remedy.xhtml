@@ -1,0 +1,120 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Detalhes do Remédio</f:facet>
+
+
+        <s:decorate id="name" template="layout/display.xhtml">
+            <ui:define name="label">Nome</ui:define>
+            <h:outputText value="#{remedyHome.instance.name}"/>
+        </s:decorate>
+
+        <s:decorate id="form" template="layout/display.xhtml">
+            <ui:define name="label">Forma</ui:define>
+            <h:outputText value="#{remedyHome.instance.form}"/>
+        </s:decorate>
+
+        <s:decorate id="concentration" template="layout/display.xhtml">
+            <ui:define name="label">Concentração</ui:define>
+            <h:outputText value="#{remedyHome.instance.concentration}"/>
+        </s:decorate>
+
+        <s:decorate id="laboratory" template="layout/display.xhtml">
+            <ui:define name="label">Laboratório</ui:define>
+            <h:outputText value="#{remedyHome.instance.laboratory}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/RemedyEdit.xhtml"
+                    id="edit"
+                 value="Editar"/>
+
+        <s:button view="/#{empty remedyFrom ? 'RemedyList' : remedyFrom}.xhtml"
+                    id="done"
+                 value="Finalizar"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab rendered="false">
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Prescription remedies</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="prescriptionRemediesChildren">
+
+        <h:outputText value="There are no prescriptionRemedies associated with this remedy."
+                   rendered="#{empty remedyHome.prescriptionRemedies}"/>
+
+        <rich:dataTable value="#{remedyHome.prescriptionRemedies}"
+                       var="_prescriptionRemedy"
+                  rendered="#{not empty remedyHome.prescriptionRemedies}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="prescriptionRemediesTable">
+            <rich:column sortBy="#{_prescriptionRemedy.id.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_prescriptionRemedy.id.prescriptionId}">
+                <f:facet name="header">Prescription id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.prescriptionId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_prescriptionRemedy.id.remedyId}">
+                <f:facet name="header">Remedy id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.remedyId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_prescriptionRemedy.quantityTotal}">
+                <f:facet name="header">Quantity total</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.quantityTotal}"/>
+            </rich:column>
+            <rich:column sortBy="#{_prescriptionRemedy.observation}">
+                <f:facet name="header">Observation</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.observation}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectprescriptionRemedy"
+                     value="Select"
+                      view="/PrescriptionRemedy.xhtml">
+                    <f:param name="prescriptionRemedyId"
+                            value="#{_prescriptionRemedy.id.id}"/>
+                    <f:param name="prescriptionRemedyPrescriptionId"
+                            value="#{_prescriptionRemedy.id.prescriptionId}"/>
+                    <f:param name="prescriptionRemedyRemedyId"
+                            value="#{_prescriptionRemedy.id.remedyId}"/>
+                    <f:param name="prescriptionRemedyFrom" value="Remedy"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add prescriptionRemedy"
+                view="/PrescriptionRemedyEdit.xhtml">
+            <f:param name="remedyId"
+                    value="#{remedyHome.instance.id}"/>
+            <f:param name="prescriptionRemedyFrom" value="Remedy"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

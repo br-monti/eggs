@@ -1,0 +1,108 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Treatment hour Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{treatmentHourHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="treatmentHour" template="layout/display.xhtml">
+            <ui:define name="label">Treatment hour</ui:define>
+            <h:outputText value="#{treatmentHourHome.instance.treatmentHour}">
+                <s:convertDateTime type="time"/>
+            </h:outputText>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/TreatmentHourEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty treatmentHourFrom ? 'TreatmentHourList' : treatmentHourFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Prescription remedy</h:panelGroup>
+        </f:facet>
+    <div class="association" id="prescriptionRemedyParent">
+
+        <h:outputText value="There is no prescriptionRemedy associated with this treatmentHour."
+                   rendered="#{treatmentHourHome.instance.prescriptionRemedy == null}"/>
+
+        <rich:dataTable var="_prescriptionRemedy"
+                   value="#{treatmentHourHome.instance.prescriptionRemedy}"
+                rendered="#{treatmentHourHome.instance.prescriptionRemedy != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="prescriptionRemedyTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Prescription id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.prescriptionId}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Remedy id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.remedyId}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Prescription id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.prescription.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Remedy id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.remedy.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Quantity total</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.quantityTotal}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Observation</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.observation}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewprescriptionRemedy"
+                     value="View"
+                      view="/PrescriptionRemedy.xhtml">
+                    <f:param name="prescriptionRemedyId"
+                            value="#{_prescriptionRemedy.id.id}"/>
+                    <f:param name="prescriptionRemedyPrescriptionId"
+                            value="#{_prescriptionRemedy.id.prescriptionId}"/>
+                    <f:param name="prescriptionRemedyRemedyId"
+                            value="#{_prescriptionRemedy.id.remedyId}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

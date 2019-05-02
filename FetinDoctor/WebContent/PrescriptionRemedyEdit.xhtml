@@ -1,0 +1,253 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="prescriptionRemedy" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{prescriptionRemedyHome.managed ? 'Edit' : 'Add'} Prescription remedy</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{prescriptionRemedyHome.managed}"
+                          value="#{prescriptionRemedyHome.instance.id.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="prescriptionIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Prescription id</ui:define>
+                <h:inputText id="prescriptionId"
+                       required="true"
+                       disabled="#{prescriptionRemedyHome.managed}"
+                          value="#{prescriptionRemedyHome.instance.id.prescriptionId}">
+                    <a:support event="onblur" reRender="prescriptionIdField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="remedyIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Remedy id</ui:define>
+                <h:inputText id="remedyId"
+                       required="true"
+                       disabled="#{prescriptionRemedyHome.managed}"
+                          value="#{prescriptionRemedyHome.instance.id.remedyId}">
+                    <a:support event="onblur" reRender="remedyIdField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+            <s:decorate id="quantityTotalField" template="layout/edit.xhtml">
+                <ui:define name="label">Quantity total</ui:define>
+                <h:inputText id="quantityTotal"
+                       required="true"
+                          value="#{prescriptionRemedyHome.instance.quantityTotal}">
+                    <a:support event="onblur" reRender="quantityTotalField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="observationField" template="layout/edit.xhtml">
+                <ui:define name="label">Observation</ui:define>
+                <h:inputTextarea id="observation"
+                               cols="80"
+                               rows="2"
+                           required="true"
+                              value="#{prescriptionRemedyHome.instance.observation}"/>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{prescriptionRemedyHome.persist}"
+                       disabled="#{!prescriptionRemedyHome.wired}"
+                       rendered="#{!prescriptionRemedyHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{prescriptionRemedyHome.update}"
+                       rendered="#{prescriptionRemedyHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{prescriptionRemedyHome.remove}"
+                      immediate="true"
+                       rendered="#{prescriptionRemedyHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/PrescriptionRemedy.xhtml"
+                rendered="#{prescriptionRemedyHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty prescriptionRemedyFrom ? 'PrescriptionRemedyList' : prescriptionRemedyFrom}.xhtml"
+                rendered="#{!prescriptionRemedyHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Prescription *" labelClass="required">
+    <div class="association" id="prescriptionParent">
+
+        <h:outputText value="There is no prescription associated with this prescriptionRemedy."
+                   rendered="#{prescriptionRemedyHome.instance.prescription == null}"/>
+
+        <rich:dataTable var="_prescription"
+                   value="#{prescriptionRemedyHome.instance.prescription}"
+                rendered="#{prescriptionRemedyHome.instance.prescription != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="prescriptionTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_prescription.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Prescription type id</f:facet>
+                <h:outputText value="#{_prescription.prescriptionType.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Clinic id</f:facet>
+                <h:outputText value="#{_prescription.clinic.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Patient id</f:facet>
+                <h:outputText value="#{_prescription.patient.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Doctor id</f:facet>
+                <h:outputText value="#{_prescription.doctor.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Date</f:facet>
+                <h:outputText value="#{_prescription.date}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Access code</f:facet>
+                <h:outputText value="#{_prescription.accessCode}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{prescriptionRemedyHome.instance.prescription != null ? 'changeParent' : 'selectParent'}" value="#{prescriptionRemedyHome.instance.prescription != null ? 'Change' : 'Select'} prescription"
+                       view="/PrescriptionList.xhtml">
+                <f:param name="from" value="PrescriptionRemedyEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Remedy *" labelClass="required">
+    <div class="association" id="remedyParent">
+
+        <h:outputText value="There is no remedy associated with this prescriptionRemedy."
+                   rendered="#{prescriptionRemedyHome.instance.remedy == null}"/>
+
+        <rich:dataTable var="_remedy"
+                   value="#{prescriptionRemedyHome.instance.remedy}"
+                rendered="#{prescriptionRemedyHome.instance.remedy != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="remedyTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_remedy.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Name</f:facet>
+                <h:outputText value="#{_remedy.name}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Form</f:facet>
+                <h:outputText value="#{_remedy.form}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Concentration</f:facet>
+                <h:outputText value="#{_remedy.concentration}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Laboratory</f:facet>
+                <h:outputText value="#{_remedy.laboratory}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{prescriptionRemedyHome.instance.remedy != null ? 'changeParent' : 'selectParent'}" value="#{prescriptionRemedyHome.instance.remedy != null ? 'Change' : 'Select'} remedy"
+                       view="/RemedyList.xhtml">
+                <f:param name="from" value="PrescriptionRemedyEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Treatment hours">
+        <h:form styleClass="association" id="treatmentHoursChildren">
+
+            <h:outputText value="There are no treatmentHours associated with this prescriptionRemedy."
+                       rendered="#{empty prescriptionRemedyHome.treatmentHours}"/>
+
+            <rich:dataTable value="#{prescriptionRemedyHome.treatmentHours}"
+                           var="_treatmentHour"
+                      rendered="#{not empty prescriptionRemedyHome.treatmentHours}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="treatmentHoursTable">
+                <rich:column sortBy="#{_treatmentHour.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_treatmentHour.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_treatmentHour.treatmentHour}">
+                    <f:facet name="header">Treatment hour</f:facet>
+                    <h:outputText value="#{_treatmentHour.treatmentHour}">
+                        <s:convertDateTime type="time"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{prescriptionRemedyHome.managed}" id="treatmentHours">
+        <div class="actionButtons">
+            <s:button id="addtreatmentHour"
+                   value="Add treatmentHour"
+                    view="/TreatmentHourEdit.xhtml"
+             propagation="none">
+                 <f:param name="prescriptionRemedyId"
+                         value="#{prescriptionRemedyHome.instance.id}"/>
+                 <f:param name="treatmentHourFrom" value="PrescriptionRemedy"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

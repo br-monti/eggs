@@ -1,0 +1,200 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="prescriptionRemedySearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="PrescriptionRemedy Search Filter" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Observation</ui:define>
+                <h:inputText id="observation" value="#{prescriptionRemedyList.prescriptionRemedy.observation}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{prescriptionRemedyList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/PrescriptionRemedyList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">PrescriptionRemedy Search Results (#{empty prescriptionRemedyList.resultList ? 0 : (prescriptionRemedyList.paginated ? prescriptionRemedyList.resultCount : prescriptionRemedyList.resultList.size)})</f:facet>
+    <div class="results" id="prescriptionRemedyList">
+
+    <h:outputText value="The prescriptionRemedy search returned no results."
+               rendered="#{empty prescriptionRemedyList.resultList}"/>
+
+    <rich:dataTable id="prescriptionRemedyList"
+                var="_prescriptionRemedy"
+              value="#{prescriptionRemedyList.resultList}"
+           rendered="#{not empty prescriptionRemedyList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{prescriptionRemedyList}"/>
+                    <ui:param name="propertyLabel" value="Id"/>
+                    <ui:param name="propertyPath" value="prescriptionRemedy.id.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_prescriptionRemedy.id.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{prescriptionRemedyList}"/>
+                    <ui:param name="propertyLabel" value="Prescription id"/>
+                    <ui:param name="propertyPath" value="prescriptionRemedy.id.prescriptionId"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_prescriptionRemedy.id.prescriptionId}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{prescriptionRemedyList}"/>
+                    <ui:param name="propertyLabel" value="Remedy id"/>
+                    <ui:param name="propertyPath" value="prescriptionRemedy.id.remedyId"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_prescriptionRemedy.id.remedyId}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{prescriptionRemedyList}"/>
+                    <ui:param name="propertyLabel" value="Prescription id"/>
+                    <ui:param name="propertyPath" value="prescriptionRemedy.prescription.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_prescriptionRemedy.prescription.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{prescriptionRemedyList}"/>
+                    <ui:param name="propertyLabel" value="Remedy id"/>
+                    <ui:param name="propertyPath" value="prescriptionRemedy.remedy.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_prescriptionRemedy.remedy.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{prescriptionRemedyList}"/>
+                    <ui:param name="propertyLabel" value="Quantity total"/>
+                    <ui:param name="propertyPath" value="prescriptionRemedy.quantityTotal"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_prescriptionRemedy.quantityTotal}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{prescriptionRemedyList}"/>
+                    <ui:param name="propertyLabel" value="Observation"/>
+                    <ui:param name="propertyPath" value="prescriptionRemedy.observation"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_prescriptionRemedy.observation}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Action</f:facet>
+            <s:link view="/#{empty from ? 'PrescriptionRemedy' : from}.xhtml"
+                   value="#{empty from ? 'View' : 'Select'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="prescriptionRemedyViewId">
+                <f:param name="prescriptionRemedyId"
+                        value="#{_prescriptionRemedy.id.id}"/>
+                <f:param name="prescriptionRemedyPrescriptionId"
+                        value="#{_prescriptionRemedy.id.prescriptionId}"/>
+                <f:param name="prescriptionRemedyRemedyId"
+                        value="#{_prescriptionRemedy.id.remedyId}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/PrescriptionRemedyEdit.xhtml"
+                   value="Edit"
+             propagation="none"
+                      id="prescriptionRemedyEdit"
+                rendered="#{empty from}">
+                <f:param name="prescriptionRemedyId"
+                        value="#{_prescriptionRemedy.id.id}"/>
+                <f:param name="prescriptionRemedyPrescriptionId"
+                        value="#{_prescriptionRemedy.id.prescriptionId}"/>
+                <f:param name="prescriptionRemedyRemedyId"
+                        value="#{_prescriptionRemedy.id.remedyId}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/PrescriptionRemedyList.xhtml"
+            rendered="#{prescriptionRemedyList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/PrescriptionRemedyList.xhtml"
+            rendered="#{prescriptionRemedyList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{prescriptionRemedyList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/PrescriptionRemedyList.xhtml"
+            rendered="#{prescriptionRemedyList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{prescriptionRemedyList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/PrescriptionRemedyList.xhtml"
+            rendered="#{prescriptionRemedyList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{prescriptionRemedyList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/PrescriptionRemedyEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Create prescriptionRemedy">
+            <f:param name="prescriptionRemedyId"/>
+            <f:param name="prescriptionRemedyPrescriptionId"/>
+            <f:param name="prescriptionRemedyRemedyId"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

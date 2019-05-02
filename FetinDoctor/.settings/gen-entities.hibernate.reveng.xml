@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+<table-filter match-name="clinic" match-schema=".*" match-catalog="telit_user_side"></table-filter>
+<table-filter match-name="doctor" match-schema=".*" match-catalog="telit_user_side"></table-filter>
+<table-filter match-name="patient" match-schema=".*" match-catalog="telit_user_side"></table-filter>
+<table-filter match-name="pharmacy" match-schema=".*" match-catalog="telit_user_side"></table-filter>
+<table-filter match-name="prescription" match-schema=".*" match-catalog="telit_user_side"></table-filter>
+<table-filter match-name="prescription_remedy" match-schema=".*" match-catalog="telit_user_side"></table-filter>
+<table-filter match-name="prescription_type" match-schema=".*" match-catalog="telit_user_side"></table-filter>
+<table-filter match-name="remedy" match-schema=".*" match-catalog="telit_user_side"></table-filter>
+<table-filter match-name="treatment_hour" match-schema=".*" match-catalog="telit_user_side"></table-filter>
+</hibernate-reverse-engineering>

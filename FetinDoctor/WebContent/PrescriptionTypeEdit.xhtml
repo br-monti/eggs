@@ -1,0 +1,179 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="prescriptionType" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{prescriptionTypeHome.managed ? 'Editar' : 'Adicionar'} Tipo de Receita</f:facet>
+
+
+
+            <s:decorate id="notificationTypeField" template="layout/edit.xhtml">
+                <ui:define name="label">Tipo de Notificação</ui:define>
+                <h:inputText id="notificationType"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{prescriptionTypeHome.instance.notificationType}">
+                    <a:support event="onblur" reRender="notificationTypeField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="listsField" template="layout/edit.xhtml">
+                <ui:define name="label">Listas</ui:define>
+                <h:inputText id="lists"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{prescriptionTypeHome.instance.lists}">
+                    <a:support event="onblur" reRender="listsField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="remedyTypeField" template="layout/edit.xhtml">
+                <ui:define name="label">Tipo de Remédio</ui:define>
+                <h:inputText id="remedyType"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{prescriptionTypeHome.instance.remedyType}">
+                    <a:support event="onblur" reRender="remedyTypeField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="colorField" template="layout/edit.xhtml">
+                <ui:define name="label">Cor</ui:define>
+                <h:inputText id="color"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{prescriptionTypeHome.instance.color}">
+                    <a:support event="onblur" reRender="colorField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="maximumAmountField" template="layout/edit.xhtml">
+                <ui:define name="label">Quantidade Máxima</ui:define>
+                <h:inputText id="maximumAmount"
+                       required="true"
+                          value="#{prescriptionTypeHome.instance.maximumAmount}">
+                    <a:support event="onblur" reRender="maximumAmountField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="validityField" template="layout/edit.xhtml">
+                <ui:define name="label">Validade</ui:define>
+                <h:inputText id="validity"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{prescriptionTypeHome.instance.validity}">
+                    <a:support event="onblur" reRender="validityField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                campos exigidos
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Salvar"
+                         action="#{prescriptionTypeHome.persist}"
+                       disabled="#{!prescriptionTypeHome.wired}"
+                       rendered="#{!prescriptionTypeHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Salvar"
+                         action="#{prescriptionTypeHome.update}"
+                       rendered="#{prescriptionTypeHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Deletar"
+                         action="#{prescriptionTypeHome.remove}"
+                      immediate="true"
+                       rendered="#{prescriptionTypeHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancelar"
+             propagation="end"
+                    view="/PrescriptionType.xhtml"
+                rendered="#{prescriptionTypeHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancelar"
+             propagation="end"
+                    view="/#{empty prescriptionTypeFrom ? 'PrescriptionTypeList' : prescriptionTypeFrom}.xhtml"
+                rendered="#{!prescriptionTypeHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Prescriptions">
+        <h:form styleClass="association" id="prescriptionsChildren">
+
+            <h:outputText value="Não existem receitas associadas com esse Tipo de Receita."
+                       rendered="#{empty prescriptionTypeHome.prescriptions}"/>
+
+            <rich:dataTable value="#{prescriptionTypeHome.prescriptions}"
+                           var="_prescription"
+                      rendered="#{not empty prescriptionTypeHome.prescriptions}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="prescriptionsTable">
+                <rich:column sortBy="#{_prescription.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_prescription.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_prescription.date}">
+                    <f:facet name="header">Data</f:facet>
+                    <h:outputText value="#{_prescription.date}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_prescription.accessCode}">
+                    <f:facet name="header">Código de Acesso</f:facet>
+                    <h:outputText value="#{_prescription.accessCode}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{prescriptionTypeHome.managed}" id="prescriptions">
+        <div class="actionButtons">
+            <s:button id="addprescription"
+                   value="Adicionar receita"
+                    view="/PrescriptionEdit.xhtml"
+             propagation="none">
+                 <f:param name="prescriptionTypeId"
+                         value="#{prescriptionTypeHome.instance.id}"/>
+                 <f:param name="prescriptionFrom" value="PrescriptionType"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

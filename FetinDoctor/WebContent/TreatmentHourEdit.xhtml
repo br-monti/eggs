@@ -1,0 +1,138 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="treatmentHour" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{treatmentHourHome.managed ? 'Edit' : 'Add'} Treatment hour</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{treatmentHourHome.managed}"
+                          value="#{treatmentHourHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <s:decorate id="treatmentHourField" template="layout/edit.xhtml">
+                <ui:define name="label">Treatment hour</ui:define>
+                <h:inputText id="treatmentHour"
+                           size="5"
+                          value="#{treatmentHourHome.instance.treatmentHour}">
+                    <s:convertDateTime type="time"/>
+                    <a:support event="onblur" reRender="treatmentHourField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{treatmentHourHome.persist}"
+                       disabled="#{!treatmentHourHome.wired}"
+                       rendered="#{!treatmentHourHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{treatmentHourHome.update}"
+                       rendered="#{treatmentHourHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{treatmentHourHome.remove}"
+                      immediate="true"
+                       rendered="#{treatmentHourHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/TreatmentHour.xhtml"
+                rendered="#{treatmentHourHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty treatmentHourFrom ? 'TreatmentHourList' : treatmentHourFrom}.xhtml"
+                rendered="#{!treatmentHourHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Prescription remedy *" labelClass="required">
+    <div class="association" id="prescriptionRemedyParent">
+
+        <h:outputText value="There is no prescriptionRemedy associated with this treatmentHour."
+                   rendered="#{treatmentHourHome.instance.prescriptionRemedy == null}"/>
+
+        <rich:dataTable var="_prescriptionRemedy"
+                   value="#{treatmentHourHome.instance.prescriptionRemedy}"
+                rendered="#{treatmentHourHome.instance.prescriptionRemedy != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="prescriptionRemedyTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Prescription id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.prescriptionId}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Remedy id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.remedyId}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Prescription id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.prescription.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Remedy id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.remedy.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Quantity total</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.quantityTotal}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Observation</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.observation}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{treatmentHourHome.instance.prescriptionRemedy != null ? 'changeParent' : 'selectParent'}" value="#{treatmentHourHome.instance.prescriptionRemedy != null ? 'Change' : 'Select'} prescriptionRemedy"
+                       view="/PrescriptionRemedyList.xhtml">
+                <f:param name="from" value="TreatmentHourEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

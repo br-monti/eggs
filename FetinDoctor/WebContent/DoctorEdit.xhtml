@@ -1,0 +1,197 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="doctor" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{doctorHome.managed ? 'Editar' : 'Adicionar'} Médico</f:facet>
+
+
+
+            <s:decorate id="nameField" template="layout/edit.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="name"
+                       required="true"
+                           size="100"
+                      maxlength="100"
+                          value="#{doctorHome.instance.name}">
+                    <a:support event="onblur" reRender="nameField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="crmField" template="layout/edit.xhtml">
+                <ui:define name="label">CRM</ui:define>
+                <h:inputText id="crm"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{doctorHome.instance.crm}">
+                    <a:support event="onblur" reRender="crmField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="specialityField" template="layout/edit.xhtml">
+                <ui:define name="label">Especialidade</ui:define>
+                <h:inputText id="speciality"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{doctorHome.instance.speciality}">
+                    <a:support event="onblur" reRender="specialityField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="cpfField" template="layout/edit.xhtml">
+                <ui:define name="label">CPF</ui:define>
+                <h:inputText id="cpf"
+                       required="true"
+                           size="14"
+                      maxlength="14"
+                          value="#{doctorHome.instance.cpf}">
+                    <a:support event="onblur" reRender="cpfField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="phoneField" template="layout/edit.xhtml">
+                <ui:define name="label">Telefone</ui:define>
+                <h:inputText id="phone"
+                           size="45"
+                      maxlength="45"
+                          value="#{doctorHome.instance.phone}">
+                    <a:support event="onblur" reRender="phoneField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="cellphoneField" template="layout/edit.xhtml">
+                <ui:define name="label">Celular</ui:define>
+                <h:inputText id="cellphone"
+                           size="45"
+                      maxlength="45"
+                          value="#{doctorHome.instance.cellphone}">
+                    <a:support event="onblur" reRender="cellphoneField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="emailField" template="layout/edit.xhtml">
+                <ui:define name="label">E-mail</ui:define>
+                <h:inputText id="email"
+                           size="45"
+                      maxlength="45"
+                          value="#{doctorHome.instance.email}">
+                    <a:support event="onblur" reRender="emailField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="enableField" template="layout/edit.xhtml">
+                <ui:define name="label">Habilitado</ui:define>
+                <h:selectBooleanCheckbox id="enable"
+                                      value="#{doctorHome.instance.enable}"/>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                campos exigidos
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Salvar"
+                         action="#{doctorHome.persist}"
+                       disabled="#{!doctorHome.wired}"
+                       rendered="#{!doctorHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Salvar"
+                         action="#{doctorHome.update}"
+                       rendered="#{doctorHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Deletar"
+                         action="#{doctorHome.remove}"
+                      immediate="true"
+                       rendered="#{doctorHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancelar"
+             propagation="end"
+                    view="/Doctor.xhtml"
+                rendered="#{doctorHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancelar"
+             propagation="end"
+                    view="/#{empty doctorFrom ? 'DoctorList' : doctorFrom}.xhtml"
+                rendered="#{!doctorHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax" rendered="false">
+
+    <rich:tab label="Receitas">
+        <h:form styleClass="association" id="prescriptionsChildren">
+
+            <h:outputText value="Não  há receitas associadas com esse Médico."
+                       rendered="#{empty doctorHome.prescriptions}"/>
+
+            <rich:dataTable value="#{doctorHome.prescriptions}"
+                           var="_prescription"
+                      rendered="#{not empty doctorHome.prescriptions}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="prescriptionsTable">
+                <rich:column sortBy="#{_prescription.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_prescription.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_prescription.date}">
+                    <f:facet name="header">Data</f:facet>
+                    <h:outputText value="#{_prescription.date}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_prescription.accessCode}">
+                    <f:facet name="header">Código de Acesso</f:facet>
+                    <h:outputText value="#{_prescription.accessCode}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{doctorHome.managed}" id="prescriptions">
+        <div class="actionButtons">
+            <s:button id="addprescription"
+                   value="Adicionar Receita"
+                    view="/PrescriptionEdit.xhtml"
+             propagation="none">
+                 <f:param name="doctorId"
+                         value="#{doctorHome.instance.id}"/>
+                 <f:param name="prescriptionFrom" value="Doctor"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

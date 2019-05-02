@@ -1,0 +1,211 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="patient" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{patientHome.managed ? 'Editar' : 'Adicionar'} Paciente</f:facet>
+
+
+
+            <s:decorate id="nameField" template="layout/edit.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="name"
+                       required="true"
+                           size="100"
+                      maxlength="100"
+                          value="#{patientHome.instance.name}">
+                    <a:support event="onblur" reRender="nameField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="addressField" template="layout/edit.xhtml">
+                <ui:define name="label">Endereço</ui:define>
+                <h:inputText id="address"
+                       required="true"
+                           size="100"
+                      maxlength="100"
+                          value="#{patientHome.instance.address}">
+                    <a:support event="onblur" reRender="addressField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="sexField" template="layout/edit.xhtml">
+                <ui:define name="label">Sexo</ui:define>
+                <h:inputText id="sex"
+                       required="true"
+                           size="1"
+                      maxlength="1"
+                          value="#{patientHome.instance.sex}">
+                    <a:support event="onblur" reRender="sexField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="districtField" template="layout/edit.xhtml">
+                <ui:define name="label">Bairro</ui:define>
+                <h:inputText id="district"
+                           size="45"
+                      maxlength="45"
+                          value="#{patientHome.instance.district}">
+                    <a:support event="onblur" reRender="districtField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="cityField" template="layout/edit.xhtml">
+                <ui:define name="label">Cidade</ui:define>
+                <h:inputText id="city"
+                           size="45"
+                      maxlength="45"
+                          value="#{patientHome.instance.city}">
+                    <a:support event="onblur" reRender="cityField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="stateField" template="layout/edit.xhtml">
+                <ui:define name="label">Estado</ui:define>
+                <h:inputText id="state"
+                           size="45"
+                      maxlength="45"
+                          value="#{patientHome.instance.state}">
+                    <a:support event="onblur" reRender="stateField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="phoneField" template="layout/edit.xhtml">
+                <ui:define name="label">Telefone</ui:define>
+                <h:inputText id="phone"
+                           size="45"
+                      maxlength="45"
+                          value="#{patientHome.instance.phone}">
+                    <a:support event="onblur" reRender="phoneField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="cellphoneField" template="layout/edit.xhtml">
+                <ui:define name="label">Celular</ui:define>
+                <h:inputText id="cellphone"
+                           size="45"
+                      maxlength="45"
+                          value="#{patientHome.instance.cellphone}">
+                    <a:support event="onblur" reRender="cellphoneField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="emailField" template="layout/edit.xhtml">
+                <ui:define name="label">E-mail</ui:define>
+                <h:inputText id="email"
+                           size="45"
+                      maxlength="45"
+                          value="#{patientHome.instance.email}">
+                    <a:support event="onblur" reRender="emailField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                campos exigidos
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Salvar"
+                         action="#{patientHome.persist}"
+                       disabled="#{!patientHome.wired}"
+                       rendered="#{!patientHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Salvar"
+                         action="#{patientHome.update}"
+                       rendered="#{patientHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Deletar"
+                         action="#{patientHome.remove}"
+                      immediate="true"
+                       rendered="#{patientHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancelar"
+             propagation="end"
+                    view="/Patient.xhtml"
+                rendered="#{patientHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancelar"
+             propagation="end"
+                    view="/#{empty patientFrom ? 'PatientList' : patientFrom}.xhtml"
+                rendered="#{!patientHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Prescriptions">
+        <h:form styleClass="association" id="prescriptionsChildren">
+
+            <h:outputText value="Não há receitas associadas com esse Paciente."
+                       rendered="#{empty patientHome.prescriptions}"/>
+
+            <rich:dataTable value="#{patientHome.prescriptions}"
+                           var="_prescription"
+                      rendered="#{not empty patientHome.prescriptions}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="prescriptionsTable">
+                <rich:column sortBy="#{_prescription.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_prescription.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_prescription.date}">
+                    <f:facet name="header">Data</f:facet>
+                    <h:outputText value="#{_prescription.date}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_prescription.accessCode}">
+                    <f:facet name="header">Código de Acesso</f:facet>
+                    <h:outputText value="#{_prescription.accessCode}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{patientHome.managed}" id="prescriptions">
+        <div class="actionButtons">
+            <s:button id="addprescription"
+                   value="Adicionar receita"
+                    view="/PrescriptionEdit.xhtml"
+             propagation="none">
+                 <f:param name="patientId"
+                         value="#{patientHome.instance.id}"/>
+                 <f:param name="prescriptionFrom" value="Patient"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>
