@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/ProductionProductList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{productionProductHome.wire}"/>
+
+   <param name="productionProductFrom"/>
+   <param name="productionProductProductionId" value="#{productionProductHome.productionProductId.productionId}"/>
+   <param name="productionProductProductId" value="#{productionProductHome.productionProductId.productId}"/>
+   <param name="productionProductId" value="#{productionProductHome.productionProductId.id}"/>
+   <param name="productFrom"/>
+   <param name="productId" value="#{productHome.productId}"/>
+   <param name="packingFrom"/>
+   <param name="packingId" value="#{packingHome.packingId}"/>
+
+   <param name="colorFrom"/>
+   <param name="colorId" value="#{colorHome.colorId}"/>
+
+   <param name="typeFrom"/>
+   <param name="typeId" value="#{typeHome.typeId}"/>
+
+
+   <param name="productionFrom"/>
+   <param name="productionId" value="#{productionHome.productionId}"/>
+   <param name="baseEggFrom"/>
+   <param name="baseEggId" value="#{baseEggHome.baseEggId}"/>
+
+
+
+
+   <navigation from-action="#{productionProductHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/ProductionProduct.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{productionProductHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/ProductionProduct.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{productionProductHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/ProductionProductList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

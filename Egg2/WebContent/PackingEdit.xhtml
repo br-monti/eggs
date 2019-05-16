@@ -1,0 +1,139 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="packing" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{packingHome.managed ? 'Edit' : 'Add'} Packing</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{packingHome.managed}"
+                          value="#{packingHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="packingField" template="layout/edit.xhtml">
+                <ui:define name="label">Packing</ui:define>
+                <h:inputText id="packing"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{packingHome.instance.packing}">
+                    <a:support event="onblur" reRender="packingField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="eggQuantityField" template="layout/edit.xhtml">
+                <ui:define name="label">Egg quantity</ui:define>
+                <h:inputText id="eggQuantity"
+                       required="true"
+                          value="#{packingHome.instance.eggQuantity}">
+                    <a:support event="onblur" reRender="eggQuantityField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{packingHome.persist}"
+                       disabled="#{!packingHome.wired}"
+                       rendered="#{!packingHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{packingHome.update}"
+                       rendered="#{packingHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{packingHome.remove}"
+                      immediate="true"
+                       rendered="#{packingHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Packing.xhtml"
+                rendered="#{packingHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty packingFrom ? 'PackingList' : packingFrom}.xhtml"
+                rendered="#{!packingHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Products">
+        <h:form styleClass="association" id="productsChildren">
+
+            <h:outputText value="There are no products associated with this packing."
+                       rendered="#{empty packingHome.products}"/>
+
+            <rich:dataTable value="#{packingHome.products}"
+                           var="_product"
+                      rendered="#{not empty packingHome.products}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="productsTable">
+                <rich:column sortBy="#{_product.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_product.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_product.product}">
+                    <f:facet name="header">Product</f:facet>
+                    <h:outputText value="#{_product.product}"/>
+                </rich:column>
+                <rich:column sortBy="#{_product.barcode}">
+                    <f:facet name="header">Barcode</f:facet>
+                    <h:outputText value="#{_product.barcode}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{packingHome.managed}" id="products">
+        <div class="actionButtons">
+            <s:button id="addproduct"
+                   value="Add product"
+                    view="/ProductEdit.xhtml"
+             propagation="none">
+                 <f:param name="packingId"
+                         value="#{packingHome.instance.id}"/>
+                 <f:param name="productFrom" value="Packing"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

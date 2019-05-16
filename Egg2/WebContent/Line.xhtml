@@ -1,0 +1,100 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Line Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{lineHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="line" template="layout/display.xhtml">
+            <ui:define name="label">Line</ui:define>
+            <h:outputText value="#{lineHome.instance.line}"/>
+        </s:decorate>
+
+        <s:decorate id="cities" template="layout/display.xhtml">
+            <ui:define name="label">Cities</ui:define>
+            <h:outputText value="#{lineHome.instance.cities}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/LineEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty lineFrom ? 'LineList' : lineFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Expeditions</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="expeditionsChildren">
+
+        <h:outputText value="There are no expeditions associated with this line."
+                   rendered="#{empty lineHome.expeditions}"/>
+
+        <rich:dataTable value="#{lineHome.expeditions}"
+                       var="_expedition"
+                  rendered="#{not empty lineHome.expeditions}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="expeditionsTable">
+            <rich:column sortBy="#{_expedition.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_expedition.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expedition.date}">
+                <f:facet name="header">Date</f:facet>
+                <h:outputText value="#{_expedition.date}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectexpedition"
+                     value="Select"
+                      view="/Expedition.xhtml">
+                    <f:param name="expeditionId"
+                            value="#{_expedition.id}"/>
+                    <f:param name="expeditionFrom" value="Line"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add expedition"
+                view="/ExpeditionEdit.xhtml">
+            <f:param name="lineId"
+                    value="#{lineHome.instance.id}"/>
+            <f:param name="expeditionFrom" value="Line"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

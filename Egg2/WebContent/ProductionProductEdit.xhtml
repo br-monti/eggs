@@ -1,0 +1,201 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="productionProduct" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{productionProductHome.managed ? 'Edit' : 'Add'} Production product</f:facet>
+
+
+            <s:decorate id="productionIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Production id</ui:define>
+                <h:inputText id="productionId"
+                       required="true"
+                       disabled="#{productionProductHome.managed}"
+                          value="#{productionProductHome.instance.id.productionId}">
+                    <a:support event="onblur" reRender="productionIdField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="productIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Product id</ui:define>
+                <h:inputText id="productId"
+                       required="true"
+                       disabled="#{productionProductHome.managed}"
+                          value="#{productionProductHome.instance.id.productId}">
+                    <a:support event="onblur" reRender="productIdField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{productionProductHome.managed}"
+                          value="#{productionProductHome.instance.id.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+            <s:decorate id="quantityProductionField" template="layout/edit.xhtml">
+                <ui:define name="label">Quantity production</ui:define>
+                <h:inputText id="quantityProduction"
+                       required="true"
+                          value="#{productionProductHome.instance.quantityProduction}">
+                    <a:support event="onblur" reRender="quantityProductionField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="quantityBalanceField" template="layout/edit.xhtml">
+                <ui:define name="label">Quantity balance</ui:define>
+                <h:inputText id="quantityBalance"
+                       required="true"
+                          value="#{productionProductHome.instance.quantityBalance}">
+                    <a:support event="onblur" reRender="quantityBalanceField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{productionProductHome.persist}"
+                       disabled="#{!productionProductHome.wired}"
+                       rendered="#{!productionProductHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{productionProductHome.update}"
+                       rendered="#{productionProductHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{productionProductHome.remove}"
+                      immediate="true"
+                       rendered="#{productionProductHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/ProductionProduct.xhtml"
+                rendered="#{productionProductHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty productionProductFrom ? 'ProductionProductList' : productionProductFrom}.xhtml"
+                rendered="#{!productionProductHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Product *" labelClass="required">
+    <div class="association" id="productParent">
+
+        <h:outputText value="There is no product associated with this productionProduct."
+                   rendered="#{productionProductHome.instance.product == null}"/>
+
+        <rich:dataTable var="_product"
+                   value="#{productionProductHome.instance.product}"
+                rendered="#{productionProductHome.instance.product != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="productTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_product.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Packing id</f:facet>
+                <h:outputText value="#{_product.packing.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Color id</f:facet>
+                <h:outputText value="#{_product.color.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type id</f:facet>
+                <h:outputText value="#{_product.type.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Product</f:facet>
+                <h:outputText value="#{_product.product}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Barcode</f:facet>
+                <h:outputText value="#{_product.barcode}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{productionProductHome.instance.product != null ? 'changeParent' : 'selectParent'}" value="#{productionProductHome.instance.product != null ? 'Change' : 'Select'} product"
+                       view="/ProductList.xhtml">
+                <f:param name="from" value="ProductionProductEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Production *" labelClass="required">
+    <div class="association" id="productionParent">
+
+        <h:outputText value="There is no production associated with this productionProduct."
+                   rendered="#{productionProductHome.instance.production == null}"/>
+
+        <rich:dataTable var="_production"
+                   value="#{productionProductHome.instance.production}"
+                rendered="#{productionProductHome.instance.production != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="productionTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_production.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Base egg id</f:facet>
+                <h:outputText value="#{_production.baseEgg.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Date</f:facet>
+                <h:outputText value="#{_production.date}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{productionProductHome.instance.production != null ? 'changeParent' : 'selectParent'}" value="#{productionProductHome.instance.production != null ? 'Change' : 'Select'} production"
+                       view="/ProductionList.xhtml">
+                <f:param name="from" value="ProductionProductEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,155 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Base egg Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{baseEggHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="productionDate" template="layout/display.xhtml">
+            <ui:define name="label">Production date</ui:define>
+            <h:outputText value="#{baseEggHome.instance.productionDate}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="validityDate" template="layout/display.xhtml">
+            <ui:define name="label">Validity date</ui:define>
+            <h:outputText value="#{baseEggHome.instance.validityDate}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="lot" template="layout/display.xhtml">
+            <ui:define name="label">Lot</ui:define>
+            <h:outputText value="#{baseEggHome.instance.lot}"/>
+        </s:decorate>
+
+        <s:decorate id="quantity" template="layout/display.xhtml">
+            <ui:define name="label">Quantity</ui:define>
+            <h:outputText value="#{baseEggHome.instance.quantity}"/>
+        </s:decorate>
+
+        <s:decorate id="balance" template="layout/display.xhtml">
+            <ui:define name="label">Balance</ui:define>
+            <h:outputText value="#{baseEggHome.instance.balance}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/BaseEggEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty baseEggFrom ? 'BaseEggList' : baseEggFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Color</h:panelGroup>
+        </f:facet>
+    <div class="association" id="colorParent">
+
+        <h:outputText value="There is no color associated with this baseEgg."
+                   rendered="#{baseEggHome.instance.color == null}"/>
+
+        <rich:dataTable var="_color"
+                   value="#{baseEggHome.instance.color}"
+                rendered="#{baseEggHome.instance.color != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="colorTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_color.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Color</f:facet>
+                <h:outputText value="#{_color.color}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewcolor"
+                     value="View"
+                      view="/Color.xhtml">
+                    <f:param name="colorId"
+                           value="#{_color.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Productions</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="productionsChildren">
+
+        <h:outputText value="There are no productions associated with this baseEgg."
+                   rendered="#{empty baseEggHome.productions}"/>
+
+        <rich:dataTable value="#{baseEggHome.productions}"
+                       var="_production"
+                  rendered="#{not empty baseEggHome.productions}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="productionsTable">
+            <rich:column sortBy="#{_production.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_production.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_production.date}">
+                <f:facet name="header">Date</f:facet>
+                <h:outputText value="#{_production.date}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectproduction"
+                     value="Select"
+                      view="/Production.xhtml">
+                    <f:param name="productionId"
+                            value="#{_production.id}"/>
+                    <f:param name="productionFrom" value="BaseEgg"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add production"
+                view="/ProductionEdit.xhtml">
+            <f:param name="baseEggId"
+                    value="#{baseEggHome.instance.id}"/>
+            <f:param name="productionFrom" value="BaseEgg"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

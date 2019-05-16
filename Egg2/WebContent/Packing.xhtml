@@ -1,0 +1,102 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Packing Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{packingHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="packing" template="layout/display.xhtml">
+            <ui:define name="label">Packing</ui:define>
+            <h:outputText value="#{packingHome.instance.packing}"/>
+        </s:decorate>
+
+        <s:decorate id="eggQuantity" template="layout/display.xhtml">
+            <ui:define name="label">Egg quantity</ui:define>
+            <h:outputText value="#{packingHome.instance.eggQuantity}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/PackingEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty packingFrom ? 'PackingList' : packingFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Products</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="productsChildren">
+
+        <h:outputText value="There are no products associated with this packing."
+                   rendered="#{empty packingHome.products}"/>
+
+        <rich:dataTable value="#{packingHome.products}"
+                       var="_product"
+                  rendered="#{not empty packingHome.products}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="productsTable">
+            <rich:column sortBy="#{_product.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_product.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_product.product}">
+                <f:facet name="header">Product</f:facet>
+                <h:outputText value="#{_product.product}"/>
+            </rich:column>
+            <rich:column sortBy="#{_product.barcode}">
+                <f:facet name="header">Barcode</f:facet>
+                <h:outputText value="#{_product.barcode}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectproduct"
+                     value="Select"
+                      view="/Product.xhtml">
+                    <f:param name="productId"
+                            value="#{_product.id}"/>
+                    <f:param name="productFrom" value="Packing"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add product"
+                view="/ProductEdit.xhtml">
+            <f:param name="packingId"
+                    value="#{packingHome.instance.id}"/>
+            <f:param name="productFrom" value="Packing"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

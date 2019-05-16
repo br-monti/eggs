@@ -1,0 +1,153 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Production product Details</f:facet>
+
+        <s:decorate id="productionId" template="layout/display.xhtml">
+            <ui:define name="label">Production id</ui:define>
+            <h:outputText value="#{productionProductHome.instance.id.productionId}"/>
+        </s:decorate>
+        <s:decorate id="productId" template="layout/display.xhtml">
+            <ui:define name="label">Product id</ui:define>
+            <h:outputText value="#{productionProductHome.instance.id.productId}"/>
+        </s:decorate>
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{productionProductHome.instance.id.id}"/>
+        </s:decorate>
+
+        <s:decorate id="quantityProduction" template="layout/display.xhtml">
+            <ui:define name="label">Quantity production</ui:define>
+            <h:outputText value="#{productionProductHome.instance.quantityProduction}"/>
+        </s:decorate>
+
+        <s:decorate id="quantityBalance" template="layout/display.xhtml">
+            <ui:define name="label">Quantity balance</ui:define>
+            <h:outputText value="#{productionProductHome.instance.quantityBalance}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ProductionProductEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty productionProductFrom ? 'ProductionProductList' : productionProductFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Product</h:panelGroup>
+        </f:facet>
+    <div class="association" id="productParent">
+
+        <h:outputText value="There is no product associated with this productionProduct."
+                   rendered="#{productionProductHome.instance.product == null}"/>
+
+        <rich:dataTable var="_product"
+                   value="#{productionProductHome.instance.product}"
+                rendered="#{productionProductHome.instance.product != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="productTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_product.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Packing id</f:facet>
+                <h:outputText value="#{_product.packing.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Color id</f:facet>
+                <h:outputText value="#{_product.color.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type id</f:facet>
+                <h:outputText value="#{_product.type.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Product</f:facet>
+                <h:outputText value="#{_product.product}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Barcode</f:facet>
+                <h:outputText value="#{_product.barcode}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewproduct"
+                     value="View"
+                      view="/Product.xhtml">
+                    <f:param name="productId"
+                           value="#{_product.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Production</h:panelGroup>
+        </f:facet>
+    <div class="association" id="productionParent">
+
+        <h:outputText value="There is no production associated with this productionProduct."
+                   rendered="#{productionProductHome.instance.production == null}"/>
+
+        <rich:dataTable var="_production"
+                   value="#{productionProductHome.instance.production}"
+                rendered="#{productionProductHome.instance.production != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="productionTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_production.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Base egg id</f:facet>
+                <h:outputText value="#{_production.baseEgg.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Date</f:facet>
+                <h:outputText value="#{_production.date}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewproduction"
+                     value="View"
+                      view="/Production.xhtml">
+                    <f:param name="productionId"
+                           value="#{_production.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

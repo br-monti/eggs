@@ -1,0 +1,164 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Color Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{colorHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="color" template="layout/display.xhtml">
+            <ui:define name="label">Color</ui:define>
+            <h:outputText value="#{colorHome.instance.color}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ColorEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty colorFrom ? 'ColorList' : colorFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Base eggs</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="baseEggsChildren">
+
+        <h:outputText value="There are no baseEggs associated with this color."
+                   rendered="#{empty colorHome.baseEggs}"/>
+
+        <rich:dataTable value="#{colorHome.baseEggs}"
+                       var="_baseEgg"
+                  rendered="#{not empty colorHome.baseEggs}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="baseEggsTable">
+            <rich:column sortBy="#{_baseEgg.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_baseEgg.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_baseEgg.productionDate}">
+                <f:facet name="header">Production date</f:facet>
+                <h:outputText value="#{_baseEgg.productionDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_baseEgg.validityDate}">
+                <f:facet name="header">Validity date</f:facet>
+                <h:outputText value="#{_baseEgg.validityDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_baseEgg.lot}">
+                <f:facet name="header">Lot</f:facet>
+                <h:outputText value="#{_baseEgg.lot}"/>
+            </rich:column>
+            <rich:column sortBy="#{_baseEgg.quantity}">
+                <f:facet name="header">Quantity</f:facet>
+                <h:outputText value="#{_baseEgg.quantity}"/>
+            </rich:column>
+            <rich:column sortBy="#{_baseEgg.balance}">
+                <f:facet name="header">Balance</f:facet>
+                <h:outputText value="#{_baseEgg.balance}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectbaseEgg"
+                     value="Select"
+                      view="/BaseEgg.xhtml">
+                    <f:param name="baseEggId"
+                            value="#{_baseEgg.id}"/>
+                    <f:param name="baseEggFrom" value="Color"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add baseEgg"
+                view="/BaseEggEdit.xhtml">
+            <f:param name="colorId"
+                    value="#{colorHome.instance.id}"/>
+            <f:param name="baseEggFrom" value="Color"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Products</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="productsChildren">
+
+        <h:outputText value="There are no products associated with this color."
+                   rendered="#{empty colorHome.products}"/>
+
+        <rich:dataTable value="#{colorHome.products}"
+                       var="_product"
+                  rendered="#{not empty colorHome.products}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="productsTable">
+            <rich:column sortBy="#{_product.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_product.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_product.product}">
+                <f:facet name="header">Product</f:facet>
+                <h:outputText value="#{_product.product}"/>
+            </rich:column>
+            <rich:column sortBy="#{_product.barcode}">
+                <f:facet name="header">Barcode</f:facet>
+                <h:outputText value="#{_product.barcode}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectproduct"
+                     value="Select"
+                      view="/Product.xhtml">
+                    <f:param name="productId"
+                            value="#{_product.id}"/>
+                    <f:param name="productFrom" value="Color"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add product"
+                view="/ProductEdit.xhtml">
+            <f:param name="colorId"
+                    value="#{colorHome.instance.id}"/>
+            <f:param name="productFrom" value="Color"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

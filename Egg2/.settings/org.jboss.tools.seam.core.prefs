@@ -1,0 +1,16 @@
+action.package=org.domain.egg2.session
+action.sources=/Egg2-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=org.domain.egg2.entity
+model.sources=/Egg2-ejb/ejbModule
+seam.ear.project=Egg2-ear
+seam.ejb.project=Egg2-ejb
+seam.project.connection.profile=Egg2
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/Egg2/WebContent
+seam.runtime.name=jboss-seam-2.2.2.Final
+seam.test.creating=false
+seam.test.project=Egg2-test
+test.package=org.domain.egg2.test
+test.sources=/Egg2-test/test-src
