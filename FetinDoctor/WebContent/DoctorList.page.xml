@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+   <param name="firstResult" value="#{doctorList.firstResult}"/>
+   <param name="sort" value="#{doctorList.orderColumn}"/>
+   <param name="dir" value="#{doctorList.orderDirection}"/>
+   <param name="logic" value="#{doctorList.restrictionLogicOperator}"/>
+
+   <param name="from"/>
+   <param name="name" value="#{doctorList.doctor.name}"/>
+   <param name="crm" value="#{doctorList.doctor.crm}"/>
+   <param name="speciality" value="#{doctorList.doctor.speciality}"/>
+   <param name="cpf" value="#{doctorList.doctor.cpf}"/>
+   <param name="phone" value="#{doctorList.doctor.phone}"/>
+   <param name="cellphone" value="#{doctorList.doctor.cellphone}"/>
+   <param name="email" value="#{doctorList.doctor.email}"/>
+
+</page>

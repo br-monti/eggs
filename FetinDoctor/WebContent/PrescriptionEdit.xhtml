@@ -1,0 +1,343 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich" template="layout/template.xhtml">
+
+
+	<ui:define name="body">
+
+		<h:form id="prescription" styleClass="edit">
+
+			<rich:panel>
+				<f:facet name="header">#{prescriptionHome.managed ? 'Editar' : 'Adicionar'} Receita</f:facet>
+
+
+
+				<s:decorate id="dateField" template="layout/edit.xhtml">
+					<ui:define name="label">Data</ui:define>
+					<rich:calendar id="date" rexcquired="true"
+						value="#{prescriptionHome.instance.date}" datePattern="dd/MM/yyyy" />
+				</s:decorate>
+
+				<div style="clear: both">
+					<span class="required">*</span> Campos exigidos
+				</div>
+
+			</rich:panel>
+
+			<div class="actionButtons">
+
+				<h:commandButton id="save" value="Salvar"
+					action="#{prescriptionHome.persist}"
+					disabled="#{!prescriptionHome.wired}"
+					rendered="#{!prescriptionHome.managed}" />
+
+				<h:commandButton id="update" value="Salvar"
+					action="#{prescriptionHome.update}"
+					rendered="#{prescriptionHome.managed}" />
+
+				<h:commandButton id="delete" value="Deletar"
+					action="#{prescriptionHome.remove}" immediate="true"
+					rendered="#{prescriptionHome.managed}" />
+
+				<s:button id="cancelEdit" value="Cancelar" propagation="end"
+					view="/Prescription.xhtml" rendered="#{prescriptionHome.managed}" />
+
+				<s:button id="cancelAdd" value="Cancelar" propagation="end"
+					view="/#{empty prescriptionFrom ? 'PrescriptionList' : prescriptionFrom}.xhtml"
+					rendered="#{!prescriptionHome.managed}" />
+
+			</div>
+		</h:form>
+
+		<rich:tabPanel switchType="ajax" selectedTab="#{prescriptionHome.selectedTab}">
+
+			<rich:tab name="doctor" action="#{prescriptionHome.setSelectedTab('doctor')}"
+			label="Médico" 
+			labelClass="required">
+				<div class="association" id="doctorParent">
+
+					<h:outputText
+						value="There is no doctor associated with this prescription."
+						rendered="#{prescriptionHome.instance.doctor == null}" />
+
+					<rich:dataTable var="_doctor"
+						value="#{prescriptionHome.instance.doctor}"
+						rendered="#{prescriptionHome.instance.doctor != null}"
+						rowClasses="rvgRowOne,rvgRowTwo" id="doctorTable">
+						<h:column>
+							<f:facet name="header">Nome</f:facet>
+							<h:outputText value="#{_doctor.name}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">CRM</f:facet>
+							<h:outputText value="#{_doctor.crm}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">CPF</f:facet>
+							<h:outputText value="#{_doctor.cpf}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Especialidade</f:facet>
+							<h:outputText value="#{_doctor.speciality}" />
+						</h:column>
+					</rich:dataTable>
+
+					<div class="actionButtons">
+						<s:button id="selectDoctor"
+							value="#{prescriptionHome.instance.doctor != null ? 'Mudar' : 'Selecionar'} Médico"
+							view="/DoctorList.xhtml">
+							<f:param name="from" value="PrescriptionEdit" />
+						</s:button>
+					</div>
+
+				</div>
+			</rich:tab>
+			
+			<rich:tab name="clinic" action="#{prescriptionHome.setSelectedTab('clinic')}"
+			label="Clínica" 			
+			labelClass="required">
+				<div class="association" id="clinicParent">
+
+					<h:outputText
+						value="Não há clínica associada a esta receita"
+						rendered="#{prescriptionHome.instance.clinic == null}" />
+
+					<rich:dataTable var="_clinic"
+						value="#{prescriptionHome.instance.clinic}"
+						rendered="#{prescriptionHome.instance.clinic != null}"
+						rowClasses="rvgRowOne,rvgRowTwo" id="clinicTable">
+						<h:column>
+							<f:facet name="header">Nome</f:facet>
+							<h:outputText value="#{_clinic.name}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Endereço</f:facet>
+							<h:outputText value="#{_clinic.address}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Bairro</f:facet>
+							<h:outputText value="#{_clinic.district}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Cidade</f:facet>
+							<h:outputText value="#{_clinic.city}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Estado</f:facet>
+							<h:outputText value="#{_clinic.state}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Telefone</f:facet>
+							<h:outputText value="#{_clinic.phone}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">CNPJ</f:facet>
+							<h:outputText value="#{_clinic.cnpj}" />
+						</h:column>
+					</rich:dataTable>
+
+					<div class="actionButtons">
+						<s:button id="selectClinic"
+							value="#{prescriptionHome.instance.clinic != null ? 'Mudar' : 'Selecionar'} Clínica"
+							view="/ClinicList.xhtml">
+							<f:param name="from" value="PrescriptionEdit" />
+						</s:button>
+					</div>
+
+				</div>
+			</rich:tab>
+
+	
+
+			<rich:tab name="prescriptionType" action="#{prescriptionHome.setSelectedTab('prescriptionType')}"
+			label="Tipo de Receita" 
+			labelClass="required">
+				<div class="association" id="prescriptionTypeParent">
+
+					<h:outputText
+						value="Não há nenhum Tipo de Receita associada a esta receita"
+						rendered="#{prescriptionHome.instance.prescriptionType == null}" />
+
+					<rich:dataTable var="_prescriptionType"
+						value="#{prescriptionHome.instance.prescriptionType}"
+						rendered="#{prescriptionHome.instance.prescriptionType != null}"
+						rowClasses="rvgRowOne,rvgRowTwo" id="prescriptionTypeTable">
+						<h:column>
+							<f:facet name="header">Tipo de Notificação</f:facet>
+							<h:outputText value="#{_prescriptionType.notificationType}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Listas</f:facet>
+							<h:outputText value="#{_prescriptionType.lists}" />
+						</h:column>
+						<h:column>
+						<f:facet name="header">Tipo de Remédio</f:facet>
+							<h:outputText value="#{_prescriptionType.remedyType}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Cor</f:facet>
+							<h:outputText value="#{_prescriptionType.color}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Quantidade Máxima</f:facet>
+							<h:outputText value="#{_prescriptionType.maximumAmount}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Validade</f:facet>
+							<h:outputText value="#{_prescriptionType.validity}" />
+						</h:column>
+
+
+					</rich:dataTable>
+
+					<div class="actionButtons">
+						<s:button id="selectPrescriptionType"
+							value="#{prescriptionHome.instance.prescriptionType != null ? 'Mudar' : 'Selecionar'} Tipo de Receita"
+							view="/PrescriptionTypeList.xhtml">
+							<f:param name="from" value="PrescriptionEdit" />
+						</s:button>
+					</div>
+
+				</div>
+			</rich:tab>
+
+			<rich:tab name="patient" action="#{prescriptionHome.setSelectedTab('patient')}"
+			label="Paciente" 
+			labelClass="required">
+				<div class="association" id="patientParent">
+
+					<h:outputText
+						value="Não há nenhum Paciente associada a esta receita"
+						rendered="#{prescriptionHome.instance.patient == null}" />
+
+					<rich:dataTable var="_patient"
+						value="#{prescriptionHome.instance.patient}"
+						rendered="#{prescriptionHome.instance.patient != null}"
+						rowClasses="rvgRowOne,rvgRowTwo" id="patientTable">
+						<h:column>
+							<f:facet name="header">Nome</f:facet>
+							<h:outputText value="#{_patient.name}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Endereço</f:facet>
+							<h:outputText value="#{_patient.address}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Sexo</f:facet>
+							<h:outputText value="#{_patient.district}" />
+						</h:column>						
+						<h:column>
+							<f:facet name="header">Bairro</f:facet>
+							<h:outputText value="#{_patient.district}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Centro</f:facet>
+							<h:outputText value="#{_patient.city}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Estado</f:facet>
+							<h:outputText value="#{_patient.state}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Telefone</f:facet>
+							<h:outputText value="#{_patient.phone}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">Celular</f:facet>
+							<h:outputText value="#{_patient.cellphone}" />
+						</h:column>
+						<h:column>
+							<f:facet name="header">E-mail</f:facet>
+							<h:outputText value="#{_patient.email}" />
+						</h:column>
+					</rich:dataTable>
+
+					<div class="actionButtons">
+						<s:button id="selectPatient"
+							value="#{prescriptionHome.instance.patient != null ? 'Mudar' : 'Selecionar'} Paciente"
+							view="/PatientList.xhtml">
+							<f:param name="from" value="PrescriptionEdit" />
+						</s:button>
+					</div>
+
+				</div>
+			</rich:tab>
+
+			<rich:tab name="remedies" action="#{prescriptionHome.setSelectedTab('remedies')}"
+			id="tabRemedies" 
+			label="Remédios">
+				<h:form id="remedyChildren" styleClass="association">
+					<h:outputText value="Não há remédios relacionados"
+						rendered="#{empty prescriptionHome.prescriptionRemedyList}" />
+					<rich:spacer height="10"
+						rendered="#{empty prescriptionHome.prescriptionRemedyList}" />
+					<f:subview id="remedies">
+						<div class="actionButtons">
+							<s:button id="addRemedy" value="Adicionar Remédio"
+								view="/RemedyList.xhtml">
+								<f:param name="from" value="PrescriptionEdit" />
+							</s:button>
+						</div>
+					</f:subview>
+					<rich:spacer height="10"
+						rendered="#{not empty prescriptionHome.prescriptionRemedyList}" />
+						
+						
+					<rich:dataTable id="remediesTable"
+						value="#{prescriptionHome.prescriptionRemedyList}" var="_prescriptionRemedy"
+						rendered="#{not empty prescriptionHome.prescriptionRemedyList}"
+						rowClasses="rvgRowOne,rvgRowTwo">
+						<rich:column id="prescriptionRemedyName" sortBy="#{_prescriptionRemedy.remedy.name}">
+							<f:facet name="header">Nome</f:facet>
+							<h:outputText value="#{_prescriptionRemedy.remedy.name}" />
+						</rich:column>
+						<rich:column id="prescriptionRemedyConcentration" sortBy="#{_prescriptionRemedy.remedy.concentration}">
+							<f:facet name="header">Concentração</f:facet>
+							<h:outputText value="#{_prescriptionRemedy.remedy.concentration}" />
+						</rich:column>
+						<rich:column id="prescriptionRemedyQuantity" sortBy="#{_prescriptionRemedy.quantityTotal}">
+							<f:facet name="header">Quantidade</f:facet>
+							<h:inputText value="#{_prescriptionRemedy.quantityTotal}" >
+								<a:support event="onblur" ajaxSingle="true" bypassUpdates="false" />
+							</h:inputText>
+						</rich:column>
+						
+						<rich:column id="prescriptionRemedyObservation" sortBy="#{_prescriptionRemedy.observation}">
+							<f:facet name="header">Observações</f:facet>
+							<h:inputText value="#{_prescriptionRemedy.observation}" size="100" >
+								<a:support event="onblur" ajaxSingle="true" bypassUpdates="false" />
+							</h:inputText>
+						</rich:column>
+						
+						<rich:column id="remedyLaboratory" sortBy="#{_prescriptionRemedy.remedy.laboratory}">
+							<f:facet name="header">Laboratório</f:facet>
+							<h:outputText value="#{_prescriptionRemedy.remedy.laboratory}" />
+						</rich:column>
+
+						<rich:column id="action" styleClass="action">
+							<f:facet name="header">Ações</f:facet>
+							<h:commandLink id="removeRemedy"
+								action="#{prescriptionHome.removeRemedy(_prescriptionRemedy)}">
+								<h:graphicImage value="/img/delete.png" style="width : 20px; height : 20px;"/>
+								<f:param name="from" value="RemedyEdit" />
+								<rich:toolTip for="removeRemedy"
+									value="Deletar" />
+							</h:commandLink>
+						</rich:column>
+
+					</rich:dataTable>
+				</h:form>
+			</rich:tab>
+
+
+		</rich:tabPanel>
+	</ui:define>
+
+</ui:composition>
+

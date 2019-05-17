@@ -1,0 +1,130 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Detalhes do Médico</f:facet>
+
+
+        <s:decorate id="name" template="layout/display.xhtml">
+            <ui:define name="label">Nome</ui:define>
+            <h:outputText value="#{doctorHome.instance.name}"/>
+        </s:decorate>
+
+        <s:decorate id="crm" template="layout/display.xhtml">
+            <ui:define name="label">CRM</ui:define>
+            <h:outputText value="#{doctorHome.instance.crm}"/>
+        </s:decorate>
+
+        <s:decorate id="speciality" template="layout/display.xhtml">
+            <ui:define name="label">Especialidade</ui:define>
+            <h:outputText value="#{doctorHome.instance.speciality}"/>
+        </s:decorate>
+
+        <s:decorate id="cpf" template="layout/display.xhtml">
+            <ui:define name="label">CPF</ui:define>
+            <h:outputText value="#{doctorHome.instance.cpf}"/>
+        </s:decorate>
+
+        <s:decorate id="phone" template="layout/display.xhtml">
+            <ui:define name="label">Telefone</ui:define>
+            <h:outputText value="#{doctorHome.instance.phone}"/>
+        </s:decorate>
+
+        <s:decorate id="cellphone" template="layout/display.xhtml">
+            <ui:define name="label">Celular</ui:define>
+            <h:outputText value="#{doctorHome.instance.cellphone}"/>
+        </s:decorate>
+
+        <s:decorate id="email" template="layout/display.xhtml">
+            <ui:define name="label">E-mail</ui:define>
+            <h:outputText value="#{doctorHome.instance.email}"/>
+        </s:decorate>
+
+        <s:decorate id="enable" template="layout/display.xhtml">
+            <ui:define name="label">Habilitado</ui:define>
+            <h:outputText value="#{doctorHome.instance.enable}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/DoctorEdit.xhtml"
+                    id="edit"
+                 value="Editar"/>
+
+        <s:button view="/#{empty doctorFrom ? 'DoctorList' : doctorFrom}.xhtml"
+                    id="done"
+                 value="Finalizar"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Receitas</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="prescriptionsChildren">
+
+        <h:outputText value="Não há receitas associadas com esse médico."
+                   rendered="#{empty doctorHome.prescriptions}"/>
+
+        <rich:dataTable value="#{doctorHome.prescriptions}"
+                       var="_prescription"
+                  rendered="#{not empty doctorHome.prescriptions}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="prescriptionsTable">
+            <rich:column sortBy="#{_prescription.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_prescription.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_prescription.date}">
+                <f:facet name="header">Data</f:facet>
+                <h:outputText value="#{_prescription.date}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_prescription.accessCode}">
+                <f:facet name="header">Código de Acesso</f:facet>
+                <h:outputText value="#{_prescription.accessCode}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Ações</f:facet>
+                <s:link id="selectprescription"
+                     value="Select"
+                      view="/Prescription.xhtml">
+                    <f:param name="prescriptionId"
+                            value="#{_prescription.id}"/>
+                    <f:param name="prescriptionFrom" value="Doctor"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Adicionar receita"
+                view="/PrescriptionEdit.xhtml">
+            <f:param name="doctorId"
+                    value="#{doctorHome.instance.id}"/>
+            <f:param name="prescriptionFrom" value="Doctor"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

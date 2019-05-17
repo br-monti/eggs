@@ -1,0 +1,360 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Detalhes da Receita</f:facet>
+
+
+        <s:decorate id="date" template="layout/display.xhtml">
+            <ui:define name="label">Data</ui:define>
+            <h:outputText value="#{prescriptionHome.instance.date}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <s:decorate id="accessCode" template="layout/display.xhtml">
+            <ui:define name="label">Código de Acesso</ui:define>
+            <h:outputText value="#{prescriptionHome.instance.accessCode}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/PrescriptionEdit.xhtml"
+                    id="edit"
+                 value="Editar"/>
+
+        <s:button view="/#{empty prescriptionFrom ? 'PrescriptionList' : prescriptionFrom}.xhtml"
+                    id="done"
+                 value="Finalizar"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Tipo de Receita</h:panelGroup>
+        </f:facet>
+    <div class="association" id="prescriptionTypeParent">
+
+        <h:outputText value="There is no prescriptionType associated with this prescription."
+                   rendered="#{prescriptionHome.instance.prescriptionType == null}"/>
+
+        <rich:dataTable var="_prescriptionType"
+                   value="#{prescriptionHome.instance.prescriptionType}"
+                rendered="#{prescriptionHome.instance.prescriptionType != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="prescriptionTypeTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_prescriptionType.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo de Notificação</f:facet>
+                <h:outputText value="#{_prescriptionType.notificationType}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Listas</f:facet>
+                <h:outputText value="#{_prescriptionType.lists}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Tipo de Remédio</f:facet>
+                <h:outputText value="#{_prescriptionType.remedyType}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Cor</f:facet>
+                <h:outputText value="#{_prescriptionType.color}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Quantidade máxima</f:facet>
+                <h:outputText value="#{_prescriptionType.maximumAmount}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Validade</f:facet>
+                <h:outputText value="#{_prescriptionType.validity}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Ações</f:facet>
+                <s:link id="viewprescriptionType"
+                     value="View"
+                      view="/PrescriptionType.xhtml">
+                    <f:param name="prescriptionTypeId"
+                           value="#{_prescriptionType.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Clínica</h:panelGroup>
+        </f:facet>
+    <div class="association" id="clinicParent">
+
+        <h:outputText value="Não há clínica associada com essa Receita."
+                   rendered="#{prescriptionHome.instance.clinic == null}"/>
+
+        <rich:dataTable var="_clinic"
+                   value="#{prescriptionHome.instance.clinic}"
+                rendered="#{prescriptionHome.instance.clinic != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="clinicTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_clinic.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{_clinic.name}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Endereço</f:facet>
+                <h:outputText value="#{_clinic.address}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Bairro</f:facet>
+                <h:outputText value="#{_clinic.district}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Cidade</f:facet>
+                <h:outputText value="#{_clinic.city}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado</f:facet>
+                <h:outputText value="#{_clinic.state}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Telefone</f:facet>
+                <h:outputText value="#{_clinic.phone}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">CNPJ</f:facet>
+                <h:outputText value="#{_clinic.cnpj}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Ações</f:facet>
+                <s:link id="viewclinic"
+                     value="View"
+                      view="/Clinic.xhtml">
+                    <f:param name="clinicId"
+                           value="#{_clinic.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Paciente</h:panelGroup>
+        </f:facet>
+    <div class="association" id="patientParent">
+
+        <h:outputText value="Não há paciente associado com essa receita."
+                   rendered="#{prescriptionHome.instance.patient == null}"/>
+
+        <rich:dataTable var="_patient"
+                   value="#{prescriptionHome.instance.patient}"
+                rendered="#{prescriptionHome.instance.patient != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="patientTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_patient.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{_patient.name}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Endereço</f:facet>
+                <h:outputText value="#{_patient.address}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sexo</f:facet>
+                <h:outputText value="#{_patient.sex}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Bairro</f:facet>
+                <h:outputText value="#{_patient.district}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Cidade</f:facet>
+                <h:outputText value="#{_patient.city}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Estado</f:facet>
+                <h:outputText value="#{_patient.state}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Telefone</f:facet>
+                <h:outputText value="#{_patient.phone}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Celular</f:facet>
+                <h:outputText value="#{_patient.cellphone}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">E-mail</f:facet>
+                <h:outputText value="#{_patient.email}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Ações</f:facet>
+                <s:link id="viewpatient"
+                     value="View"
+                      view="/Patient.xhtml">
+                    <f:param name="patientId"
+                           value="#{_patient.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Médico</h:panelGroup>
+        </f:facet>
+    <div class="association" id="doctorParent">
+
+        <h:outputText value="Não há médico associado com essa Receita."
+                   rendered="#{prescriptionHome.instance.doctor == null}"/>
+
+        <rich:dataTable var="_doctor"
+                   value="#{prescriptionHome.instance.doctor}"
+                rendered="#{prescriptionHome.instance.doctor != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="doctorTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_doctor.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{_doctor.name}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">CRM</f:facet>
+                <h:outputText value="#{_doctor.crm}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Especialidade</f:facet>
+                <h:outputText value="#{_doctor.speciality}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">CPF</f:facet>
+                <h:outputText value="#{_doctor.cpf}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Telefone</f:facet>
+                <h:outputText value="#{_doctor.phone}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Celular</f:facet>
+                <h:outputText value="#{_doctor.cellphone}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">E-mail</f:facet>
+                <h:outputText value="#{_doctor.email}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Habilitado</f:facet>
+                <h:outputText value="#{_doctor.enable}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Ações</f:facet>
+                <s:link id="viewdoctor"
+                     value="View"
+                      view="/Doctor.xhtml">
+                    <f:param name="doctorId"
+                           value="#{_doctor.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab rendered="false">
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Prescription remedies</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="prescriptionRemediesChildren">
+
+        <h:outputText value="There are no prescriptionRemedies associated with this prescription."
+                   rendered="#{empty prescriptionHome.prescriptionRemedies}"/>
+
+        <rich:dataTable value="#{prescriptionHome.prescriptionRemedies}"
+                       var="_prescriptionRemedy"
+                  rendered="#{not empty prescriptionHome.prescriptionRemedies}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="prescriptionRemediesTable">
+            <rich:column sortBy="#{_prescriptionRemedy.id.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_prescriptionRemedy.id.prescriptionId}">
+                <f:facet name="header">Prescription id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.prescriptionId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_prescriptionRemedy.id.remedyId}">
+                <f:facet name="header">Remedy id</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.id.remedyId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_prescriptionRemedy.quantityTotal}">
+                <f:facet name="header">Quantity total</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.quantityTotal}"/>
+            </rich:column>
+            <rich:column sortBy="#{_prescriptionRemedy.observation}">
+                <f:facet name="header">Observation</f:facet>
+                <h:outputText value="#{_prescriptionRemedy.observation}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectprescriptionRemedy"
+                     value="Select"
+                      view="/PrescriptionRemedy.xhtml">
+                    <f:param name="prescriptionRemedyId"
+                            value="#{_prescriptionRemedy.id.id}"/>
+                    <f:param name="prescriptionRemedyPrescriptionId"
+                            value="#{_prescriptionRemedy.id.prescriptionId}"/>
+                    <f:param name="prescriptionRemedyRemedyId"
+                            value="#{_prescriptionRemedy.id.remedyId}"/>
+                    <f:param name="prescriptionRemedyFrom" value="Prescription"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add prescriptionRemedy"
+                view="/PrescriptionRemedyEdit.xhtml">
+            <f:param name="prescriptionId"
+                    value="#{prescriptionHome.instance.id}"/>
+            <f:param name="prescriptionRemedyFrom" value="Prescription"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

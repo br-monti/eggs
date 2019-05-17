@@ -1,0 +1,240 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="doctorSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="Filtro de Pesquisa de Médicos" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="name" value="#{doctorList.doctor.name}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">CRM</ui:define>
+                <h:inputText id="crm" value="#{doctorList.doctor.crm}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Especialidade</ui:define>
+                <h:inputText id="speciality" value="#{doctorList.doctor.speciality}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">CPF</ui:define>
+                <h:inputText id="cpf" value="#{doctorList.doctor.cpf}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Telefone</ui:define>
+                <h:inputText id="phone" value="#{doctorList.doctor.phone}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Celular</ui:define>
+                <h:inputText id="cellphone" value="#{doctorList.doctor.cellphone}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">E-mail</ui:define>
+                <h:inputText id="email" value="#{doctorList.doctor.email}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{doctorList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Search" action="/DoctorList.xhtml"/>
+            <s:button id="reset" value="Reset" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">Resultado da Pesquisa de Médico (#{empty doctorList.resultList ? 0 : (doctorList.paginated ? doctorList.resultCount : doctorList.resultList.size)})</f:facet>
+    <div class="results" id="doctorList">
+
+    <h:outputText value="The doctor search returned no results."
+               rendered="#{empty doctorList.resultList}"/>
+
+    <rich:dataTable id="doctorList"
+                var="_doctor"
+              value="#{doctorList.resultList}"
+           rendered="#{not empty doctorList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{doctorList}"/>
+                    <ui:param name="propertyLabel" value="Id"/>
+                    <ui:param name="propertyPath" value="doctor.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_doctor.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{doctorList}"/>
+                    <ui:param name="propertyLabel" value="Nome"/>
+                    <ui:param name="propertyPath" value="doctor.name"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_doctor.name}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{doctorList}"/>
+                    <ui:param name="propertyLabel" value="CRM"/>
+                    <ui:param name="propertyPath" value="doctor.crm"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_doctor.crm}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{doctorList}"/>
+                    <ui:param name="propertyLabel" value="Especialidade"/>
+                    <ui:param name="propertyPath" value="doctor.speciality"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_doctor.speciality}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{doctorList}"/>
+                    <ui:param name="propertyLabel" value="CPF"/>
+                    <ui:param name="propertyPath" value="doctor.cpf"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_doctor.cpf}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{doctorList}"/>
+                    <ui:param name="propertyLabel" value="Telefone"/>
+                    <ui:param name="propertyPath" value="doctor.phone"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_doctor.phone}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{doctorList}"/>
+                    <ui:param name="propertyLabel" value="Celular"/>
+                    <ui:param name="propertyPath" value="doctor.cellphone"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_doctor.cellphone}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{doctorList}"/>
+                    <ui:param name="propertyLabel" value="E-mail"/>
+                    <ui:param name="propertyPath" value="doctor.email"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_doctor.email}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{doctorList}"/>
+                    <ui:param name="propertyLabel" value="Habilitado"/>
+                    <ui:param name="propertyPath" value="doctor.enable"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_doctor.enable}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Ações</f:facet>
+            <s:link view="/#{empty from ? 'Doctor' : from}.xhtml"
+                   value="#{empty from ? 'Ver' : 'Selecionar'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="doctorViewId">
+                <f:param name="doctorId"
+                        value="#{_doctor.id}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/DoctorEdit.xhtml"
+                   value="Editar"
+             propagation="none"
+                      id="doctorEdit"
+                rendered="#{empty from}">
+                <f:param name="doctorId"
+                        value="#{_doctor.id}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/DoctorList.xhtml"
+            rendered="#{doctorList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/DoctorList.xhtml"
+            rendered="#{doctorList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{doctorList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/DoctorList.xhtml"
+            rendered="#{doctorList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{doctorList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/DoctorList.xhtml"
+            rendered="#{doctorList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{doctorList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/DoctorEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Criar Médico">
+            <f:param name="doctorId"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>

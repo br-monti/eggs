@@ -1,0 +1,120 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Detalhes do Tipo de Receita</f:facet>
+
+
+        <s:decorate id="notificationType" template="layout/display.xhtml">
+            <ui:define name="label">Tipo de Notificação</ui:define>
+            <h:outputText value="#{prescriptionTypeHome.instance.notificationType}"/>
+        </s:decorate>
+
+        <s:decorate id="lists" template="layout/display.xhtml">
+            <ui:define name="label">Listas</ui:define>
+            <h:outputText value="#{prescriptionTypeHome.instance.lists}"/>
+        </s:decorate>
+
+        <s:decorate id="remedyType" template="layout/display.xhtml">
+            <ui:define name="label">Tipo de Remédio</ui:define>
+            <h:outputText value="#{prescriptionTypeHome.instance.remedyType}"/>
+        </s:decorate>
+
+        <s:decorate id="color" template="layout/display.xhtml">
+            <ui:define name="label">Cor</ui:define>
+            <h:outputText value="#{prescriptionTypeHome.instance.color}"/>
+        </s:decorate>
+
+        <s:decorate id="maximumAmount" template="layout/display.xhtml">
+            <ui:define name="label">Quantidade máxima</ui:define>
+            <h:outputText value="#{prescriptionTypeHome.instance.maximumAmount}"/>
+        </s:decorate>
+
+        <s:decorate id="validity" template="layout/display.xhtml">
+            <ui:define name="label">Validade</ui:define>
+            <h:outputText value="#{prescriptionTypeHome.instance.validity}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/PrescriptionTypeEdit.xhtml"
+                    id="edit"
+                 value="Editar"/>
+
+        <s:button view="/#{empty prescriptionTypeFrom ? 'PrescriptionTypeList' : prescriptionTypeFrom}.xhtml"
+                    id="done"
+                 value="Finalizar"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Receitas</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="prescriptionsChildren">
+
+        <h:outputText value="Não existem receitas associadas com esse Tipo de Receita."
+                   rendered="#{empty prescriptionTypeHome.prescriptions}"/>
+
+        <rich:dataTable value="#{prescriptionTypeHome.prescriptions}"
+                       var="_prescription"
+                  rendered="#{not empty prescriptionTypeHome.prescriptions}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="prescriptionsTable">
+            <rich:column sortBy="#{_prescription.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_prescription.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_prescription.date}">
+                <f:facet name="header">Data</f:facet>
+                <h:outputText value="#{_prescription.date}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_prescription.accessCode}">
+                <f:facet name="header">Código de Acesso</f:facet>
+                <h:outputText value="#{_prescription.accessCode}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Ações</f:facet>
+                <s:link id="selectprescription"
+                     value="Select"
+                      view="/Prescription.xhtml">
+                    <f:param name="prescriptionId"
+                            value="#{_prescription.id}"/>
+                    <f:param name="prescriptionFrom" value="PrescriptionType"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Adicionar Receitas"
+                view="/PrescriptionEdit.xhtml">
+            <f:param name="prescriptionTypeId"
+                    value="#{prescriptionTypeHome.instance.id}"/>
+            <f:param name="prescriptionFrom" value="PrescriptionType"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

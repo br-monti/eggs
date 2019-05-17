@@ -1,0 +1,17 @@
+action.package=br.inatel.fetin.fetindoctor.session
+action.sources=/FetinDoctor-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=br.inatel.fetin.fetindoctor.entity
+model.sources=/FetinDoctor-ejb/ejbModule
+seam.ear.project=FetinDoctor-ear
+seam.ejb.project=FetinDoctor-ejb
+seam.project.connection.profile=New MySQL
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/FetinDoctor/WebContent
+seam.runtime.name=jboss-seam-2.2.0.GA
+seam.settings.changed.by.user=true
+seam.test.creating=false
+seam.test.project=FetinDoctor-test
+test.package=org.domain.fetindoctor.test
+test.sources=/FetinDoctor-test/test-src

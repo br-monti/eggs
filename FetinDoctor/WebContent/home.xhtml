@@ -1,0 +1,32 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+    <ui:define name="body">
+
+        <h1 style="font-family:arial">Bem vindo ao SAASS - Módulo Médico</h1>
+        <rich:panel>
+            <h:panelGrid columns="2">
+                <h:graphicImage value="/img/logo.png" alt="Seam logo" style=" width : 310px;"/>
+                <s:div styleClass="info">
+                    <p><strong>O SAASS é capaz de:</strong></p>
+                    <ul class="bullets">
+                        <li>Cadastrar remédios, pacientes, médicos, clínicas, etc.</li>
+                        <li>Gerar receitas eletronicamente</li>
+                        <li>Ver as receitas geradas na clínica e na farmácia</li>
+                        <li>Enviar mensagens de alerta para os pacientes</li>
+                        <li>Cadastrar alarmes para alertar o horário para tomar remédios</li>
+                        <li>Entre outras características</li>
+                    </ul>
+                </s:div>
+            </h:panelGrid>
+        </rich:panel>
+
+    </ui:define>
+</ui:composition>

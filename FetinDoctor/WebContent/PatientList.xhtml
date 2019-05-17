@@ -1,0 +1,260 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="patientSearch" styleClass="edit">
+
+        <rich:simpleTogglePanel label="Filtro de Pesquisa de Paciente" switchType="ajax">
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Nome</ui:define>
+                <h:inputText id="name" value="#{patientList.patient.name}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Endereço</ui:define>
+                <h:inputText id="address" value="#{patientList.patient.address}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Sexo</ui:define>
+                <h:inputText id="sex" value="#{patientList.patient.sex}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Bairro</ui:define>
+                <h:inputText id="district" value="#{patientList.patient.district}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Cidade</ui:define>
+                <h:inputText id="city" value="#{patientList.patient.city}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Estado</ui:define>
+                <h:inputText id="state" value="#{patientList.patient.state}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Telefone</ui:define>
+                <h:inputText id="phone" value="#{patientList.patient.phone}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Celular</ui:define>
+                <h:inputText id="cellphone" value="#{patientList.patient.cellphone}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">E-mail</ui:define>
+                <h:inputText id="email" value="#{patientList.patient.email}"/>
+            </s:decorate>
+
+            <s:decorate template="layout/display.xhtml" rendered="false">
+                <ui:define name="label">Match</ui:define>
+                <h:selectOneRadio id="logic" value="#{patientList.restrictionLogicOperator}" styleClass="radio">
+                    <f:selectItem itemLabel="All" itemValue="and"/>
+                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                </h:selectOneRadio>
+            </s:decorate>
+
+        </rich:simpleTogglePanel>
+
+        <div class="actionButtons">
+            <h:commandButton id="search" value="Pesquisar" action="/PatientList.xhtml"/>
+            <s:button id="reset" value="Limpar" includePageParams="false"/>
+        </div>
+
+    </h:form>
+
+    <rich:panel>
+        <f:facet name="header">Resultados da Pesquisa de Paciente (#{empty patientList.resultList ? 0 : (patientList.paginated ? patientList.resultCount : patientList.resultList.size)})</f:facet>
+    <div class="results" id="patientList">
+
+    <h:outputText value="A pesquisa de paciente não retornou resultados."
+               rendered="#{empty patientList.resultList}"/>
+
+    <rich:dataTable id="patientList"
+                var="_patient"
+              value="#{patientList.resultList}"
+           rendered="#{not empty patientList.resultList}">
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{patientList}"/>
+                    <ui:param name="propertyLabel" value="Id"/>
+                    <ui:param name="propertyPath" value="patient.id"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_patient.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{patientList}"/>
+                    <ui:param name="propertyLabel" value="Nome"/>
+                    <ui:param name="propertyPath" value="patient.name"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_patient.name}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{patientList}"/>
+                    <ui:param name="propertyLabel" value="Endereço"/>
+                    <ui:param name="propertyPath" value="patient.address"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_patient.address}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{patientList}"/>
+                    <ui:param name="propertyLabel" value="Sexo"/>
+                    <ui:param name="propertyPath" value="patient.sex"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_patient.sex}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{patientList}"/>
+                    <ui:param name="propertyLabel" value="Bairro"/>
+                    <ui:param name="propertyPath" value="patient.district"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_patient.district}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{patientList}"/>
+                    <ui:param name="propertyLabel" value="Cidade"/>
+                    <ui:param name="propertyPath" value="patient.city"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_patient.city}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{patientList}"/>
+                    <ui:param name="propertyLabel" value="Estado"/>
+                    <ui:param name="propertyPath" value="patient.state"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_patient.state}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{patientList}"/>
+                    <ui:param name="propertyLabel" value="Telefone"/>
+                    <ui:param name="propertyPath" value="patient.phone"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_patient.phone}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{patientList}"/>
+                    <ui:param name="propertyLabel" value="Celular"/>
+                    <ui:param name="propertyPath" value="patient.cellphone"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_patient.cellphone}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{patientList}"/>
+                    <ui:param name="propertyLabel" value="E-mail"/>
+                    <ui:param name="propertyPath" value="patient.email"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_patient.email}"/>
+        </h:column>
+        <rich:column styleClass="action">
+            <f:facet name="header">Ações</f:facet>
+            <s:link view="/#{empty from ? 'Patient' : from}.xhtml"
+                   value="#{empty from ? 'Ver' : 'Selecionar'}"
+             propagation="#{empty from ? 'none' : 'default'}"
+                      id="patientViewId">
+                <f:param name="patientId"
+                        value="#{_patient.id}"/>
+            </s:link>
+            #{' '}
+            <s:link view="/PatientEdit.xhtml"
+                   value="Editar"
+             propagation="none"
+                      id="patientEdit"
+                rendered="#{empty from}">
+                <f:param name="patientId"
+                        value="#{_patient.id}"/>
+            </s:link>
+        </rich:column>
+    </rich:dataTable>
+
+    </div>
+    </rich:panel>
+
+    <div class="tableControl">
+
+        <s:link view="/PatientList.xhtml"
+            rendered="#{patientList.previousExists}"
+               value="#{messages.left}#{messages.left} First Page"
+                  id="firstPage">
+          <f:param name="firstResult" value="0"/>
+        </s:link>
+
+        <s:link view="/PatientList.xhtml"
+            rendered="#{patientList.previousExists}"
+               value="#{messages.left} Previous Page"
+                  id="previousPage">
+            <f:param name="firstResult"
+                    value="#{patientList.previousFirstResult}"/>
+        </s:link>
+
+        <s:link view="/PatientList.xhtml"
+            rendered="#{patientList.nextExists}"
+               value="Next Page #{messages.right}"
+                  id="nextPage">
+            <f:param name="firstResult"
+                    value="#{patientList.nextFirstResult}"/>
+        </s:link>
+
+        <s:link view="/PatientList.xhtml"
+            rendered="#{patientList.nextExists}"
+               value="Last Page #{messages.right}#{messages.right}"
+                  id="lastPage">
+            <f:param name="firstResult"
+                    value="#{patientList.lastFirstResult}"/>
+        </s:link>
+
+    </div>
+
+    <s:div styleClass="actionButtons" rendered="#{empty from}">
+        <s:button view="/PatientEdit.xhtml"
+                    id="create"
+           propagation="none"
+                 value="Criar Paciente">
+            <f:param name="patientId"/>
+        </s:button>
+    </s:div>
+
+</ui:define>
+
+</ui:composition>
