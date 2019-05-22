@@ -211,14 +211,14 @@
 							<h:outputText value="#{_productionProduct.product.product}" />
 						</rich:column>
 
-						<rich:column id="productionProductQuantityProduction" sortBy="#{_productionProduct.quantityProduction}">
+						<rich:column id="productionProductQuantityProduction" sortBy="#{_productionProduct.quantityBalance}">
 							<f:facet name="header">Quantidade Produzida</f:facet>
 							<h:inputText value="#{_productionProduct.quantityProduction}" >
 								<a:support event="onblur" ajaxSingle="true" bypassUpdates="false" />
 							</h:inputText>
 						</rich:column>
 						
-						<rich:column id="productionProductQuantityProduction" sortBy="#{_productionProduct.quantityProduction}">
+						<rich:column id="productionProductQuantityBalance" sortBy="#{_productionProduct.quantityBalance}">
 							<f:facet name="header">Saldo</f:facet>
 							<h:inputText value="#{_productionProduct.quantityBalance}" >
 								<a:support event="onblur" ajaxSingle="true" bypassUpdates="false" />
