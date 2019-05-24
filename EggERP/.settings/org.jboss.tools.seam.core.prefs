@@ -1,0 +1,16 @@
+action.package=br.com.eggerp.session
+action.sources=/EggERP-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=br.com.eggerp.entity
+model.sources=/EggERP-ejb/ejbModule
+seam.ear.project=EggERP-ear
+seam.ejb.project=EggERP-ejb
+seam.project.connection.profile=db_egg
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/EggERP/WebContent
+seam.runtime.name=jboss-seam-2.2.2.Final
+seam.test.creating=false
+seam.test.project=EggERP-test
+test.package=org.domain.eggerp.test
+test.sources=/EggERP-test/test-src
