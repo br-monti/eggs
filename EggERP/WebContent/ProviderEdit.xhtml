@@ -1,0 +1,205 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="provider" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{providerHome.managed ? 'Edit' : 'Add'} Provider</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{providerHome.managed}"
+                          value="#{providerHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="providerField" template="layout/edit.xhtml">
+                <ui:define name="label">Provider</ui:define>
+                <h:inputText id="provider"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{providerHome.instance.provider}">
+                    <a:support event="onblur" reRender="providerField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="cnpjCpfField" template="layout/edit.xhtml">
+                <ui:define name="label">Cnpj cpf</ui:define>
+                <h:inputText id="cnpjCpf"
+                       required="true"
+                           size="20"
+                      maxlength="20"
+                          value="#{providerHome.instance.cnpjCpf}">
+                    <a:support event="onblur" reRender="cnpjCpfField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="sifImaField" template="layout/edit.xhtml">
+                <ui:define name="label">Sif ima</ui:define>
+                <h:inputText id="sifIma"
+                       required="true"
+                           size="20"
+                      maxlength="20"
+                          value="#{providerHome.instance.sifIma}">
+                    <a:support event="onblur" reRender="sifImaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="cityField" template="layout/edit.xhtml">
+                <ui:define name="label">City</ui:define>
+                <h:inputText id="city"
+                       required="true"
+                           size="20"
+                      maxlength="20"
+                          value="#{providerHome.instance.city}">
+                    <a:support event="onblur" reRender="cityField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="stateField" template="layout/edit.xhtml">
+                <ui:define name="label">State</ui:define>
+                <h:inputText id="state"
+                       required="true"
+                           size="2"
+                      maxlength="2"
+                          value="#{providerHome.instance.state}">
+                    <a:support event="onblur" reRender="stateField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="neighborhoodField" template="layout/edit.xhtml">
+                <ui:define name="label">Neighborhood</ui:define>
+                <h:inputText id="neighborhood"
+                       required="true"
+                           size="20"
+                      maxlength="20"
+                          value="#{providerHome.instance.neighborhood}">
+                    <a:support event="onblur" reRender="neighborhoodField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{providerHome.persist}"
+                       disabled="#{!providerHome.wired}"
+                       rendered="#{!providerHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{providerHome.update}"
+                       rendered="#{providerHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{providerHome.remove}"
+                      immediate="true"
+                       rendered="#{providerHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Provider.xhtml"
+                rendered="#{providerHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty providerFrom ? 'ProviderList' : providerFrom}.xhtml"
+                rendered="#{!providerHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Base eggs">
+        <h:form styleClass="association" id="baseEggsChildren">
+
+            <h:outputText value="There are no baseEggs associated with this provider."
+                       rendered="#{empty providerHome.baseEggs}"/>
+
+            <rich:dataTable value="#{providerHome.baseEggs}"
+                           var="_baseEgg"
+                      rendered="#{not empty providerHome.baseEggs}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="baseEggsTable">
+                <rich:column sortBy="#{_baseEgg.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_baseEgg.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_baseEgg.productionDate}">
+                    <f:facet name="header">Production date</f:facet>
+                    <h:outputText value="#{_baseEgg.productionDate}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_baseEgg.validityDate}">
+                    <f:facet name="header">Validity date</f:facet>
+                    <h:outputText value="#{_baseEgg.validityDate}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_baseEgg.lot}">
+                    <f:facet name="header">Lot</f:facet>
+                    <h:outputText value="#{_baseEgg.lot}"/>
+                </rich:column>
+                <rich:column sortBy="#{_baseEgg.quantity}">
+                    <f:facet name="header">Quantity</f:facet>
+                    <h:outputText value="#{_baseEgg.quantity}"/>
+                </rich:column>
+                <rich:column sortBy="#{_baseEgg.balance}">
+                    <f:facet name="header">Balance</f:facet>
+                    <h:outputText value="#{_baseEgg.balance}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{providerHome.managed}" id="baseEggs">
+        <div class="actionButtons">
+            <s:button id="addbaseEgg"
+                   value="Add baseEgg"
+                    view="/BaseEggEdit.xhtml"
+             propagation="none">
+                 <f:param name="providerId"
+                         value="#{providerHome.instance.id}"/>
+                 <f:param name="baseEggFrom" value="Provider"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

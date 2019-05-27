@@ -1,0 +1,138 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Provider Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{providerHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="provider" template="layout/display.xhtml">
+            <ui:define name="label">Provider</ui:define>
+            <h:outputText value="#{providerHome.instance.provider}"/>
+        </s:decorate>
+
+        <s:decorate id="cnpjCpf" template="layout/display.xhtml">
+            <ui:define name="label">Cnpj cpf</ui:define>
+            <h:outputText value="#{providerHome.instance.cnpjCpf}"/>
+        </s:decorate>
+
+        <s:decorate id="sifIma" template="layout/display.xhtml">
+            <ui:define name="label">Sif ima</ui:define>
+            <h:outputText value="#{providerHome.instance.sifIma}"/>
+        </s:decorate>
+
+        <s:decorate id="city" template="layout/display.xhtml">
+            <ui:define name="label">City</ui:define>
+            <h:outputText value="#{providerHome.instance.city}"/>
+        </s:decorate>
+
+        <s:decorate id="state" template="layout/display.xhtml">
+            <ui:define name="label">State</ui:define>
+            <h:outputText value="#{providerHome.instance.state}"/>
+        </s:decorate>
+
+        <s:decorate id="neighborhood" template="layout/display.xhtml">
+            <ui:define name="label">Neighborhood</ui:define>
+            <h:outputText value="#{providerHome.instance.neighborhood}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ProviderEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty providerFrom ? 'ProviderList' : providerFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Base eggs</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="baseEggsChildren">
+
+        <h:outputText value="There are no baseEggs associated with this provider."
+                   rendered="#{empty providerHome.baseEggs}"/>
+
+        <rich:dataTable value="#{providerHome.baseEggs}"
+                       var="_baseEgg"
+                  rendered="#{not empty providerHome.baseEggs}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="baseEggsTable">
+            <rich:column sortBy="#{_baseEgg.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_baseEgg.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_baseEgg.productionDate}">
+                <f:facet name="header">Production date</f:facet>
+                <h:outputText value="#{_baseEgg.productionDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_baseEgg.validityDate}">
+                <f:facet name="header">Validity date</f:facet>
+                <h:outputText value="#{_baseEgg.validityDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </rich:column>
+            <rich:column sortBy="#{_baseEgg.lot}">
+                <f:facet name="header">Lot</f:facet>
+                <h:outputText value="#{_baseEgg.lot}"/>
+            </rich:column>
+            <rich:column sortBy="#{_baseEgg.quantity}">
+                <f:facet name="header">Quantity</f:facet>
+                <h:outputText value="#{_baseEgg.quantity}"/>
+            </rich:column>
+            <rich:column sortBy="#{_baseEgg.balance}">
+                <f:facet name="header">Balance</f:facet>
+                <h:outputText value="#{_baseEgg.balance}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectbaseEgg"
+                     value="Select"
+                      view="/BaseEgg.xhtml">
+                    <f:param name="baseEggId"
+                            value="#{_baseEgg.id}"/>
+                    <f:param name="baseEggFrom" value="Provider"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add baseEgg"
+                view="/BaseEggEdit.xhtml">
+            <f:param name="providerId"
+                    value="#{providerHome.instance.id}"/>
+            <f:param name="baseEggFrom" value="Provider"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

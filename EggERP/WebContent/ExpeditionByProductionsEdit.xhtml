@@ -1,0 +1,235 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="expeditionByProductions" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{expeditionByProductionsHome.managed ? 'Edit' : 'Add'} Expedition by productions</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{expeditionByProductionsHome.managed}"
+                          value="#{expeditionByProductionsHome.instance.id.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="expeditionIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Expedition id</ui:define>
+                <h:inputText id="expeditionId"
+                       required="true"
+                       disabled="#{expeditionByProductionsHome.managed}"
+                          value="#{expeditionByProductionsHome.instance.id.expeditionId}">
+                    <a:support event="onblur" reRender="expeditionIdField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="productionsIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Productions id</ui:define>
+                <h:inputText id="productionsId"
+                       required="true"
+                       disabled="#{expeditionByProductionsHome.managed}"
+                          value="#{expeditionByProductionsHome.instance.id.productionsId}">
+                    <a:support event="onblur" reRender="productionsIdField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="productionsProductIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Productions product id</ui:define>
+                <h:inputText id="productionsProductId"
+                       required="true"
+                       disabled="#{expeditionByProductionsHome.managed}"
+                          value="#{expeditionByProductionsHome.instance.id.productionsProductId}">
+                    <a:support event="onblur" reRender="productionsProductIdField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <s:decorate id="productionsProductionIdField" template="layout/edit.xhtml">
+                <ui:define name="label">Productions production id</ui:define>
+                <h:inputText id="productionsProductionId"
+                       required="true"
+                       disabled="#{expeditionByProductionsHome.managed}"
+                          value="#{expeditionByProductionsHome.instance.id.productionsProductionId}">
+                    <a:support event="onblur" reRender="productionsProductionIdField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+            <s:decorate id="expeditionQuantityField" template="layout/edit.xhtml">
+                <ui:define name="label">Expedition quantity</ui:define>
+                <h:inputText id="expeditionQuantity"
+                       required="true"
+                          value="#{expeditionByProductionsHome.instance.expeditionQuantity}">
+                    <a:support event="onblur" reRender="expeditionQuantityField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="expeditionReturnField" template="layout/edit.xhtml">
+                <ui:define name="label">Expedition return</ui:define>
+                <h:inputText id="expeditionReturn"
+                       required="true"
+                          value="#{expeditionByProductionsHome.instance.expeditionReturn}">
+                    <a:support event="onblur" reRender="expeditionReturnField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="expeditionChangesField" template="layout/edit.xhtml">
+                <ui:define name="label">Expedition changes</ui:define>
+                <h:inputText id="expeditionChanges"
+                       required="true"
+                          value="#{expeditionByProductionsHome.instance.expeditionChanges}">
+                    <a:support event="onblur" reRender="expeditionChangesField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{expeditionByProductionsHome.persist}"
+                       disabled="#{!expeditionByProductionsHome.wired}"
+                       rendered="#{!expeditionByProductionsHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{expeditionByProductionsHome.update}"
+                       rendered="#{expeditionByProductionsHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{expeditionByProductionsHome.remove}"
+                      immediate="true"
+                       rendered="#{expeditionByProductionsHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/ExpeditionByProductions.xhtml"
+                rendered="#{expeditionByProductionsHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty expeditionByProductionsFrom ? 'ExpeditionByProductionsList' : expeditionByProductionsFrom}.xhtml"
+                rendered="#{!expeditionByProductionsHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Productions *" labelClass="required">
+    <div class="association" id="productionsParent">
+
+        <h:outputText value="There is no productions associated with this expeditionByProductions."
+                   rendered="#{expeditionByProductionsHome.instance.productions == null}"/>
+
+        <rich:dataTable var="_productions"
+                   value="#{expeditionByProductionsHome.instance.productions}"
+                rendered="#{expeditionByProductionsHome.instance.productions != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="productionsTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_productions.id.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Product id</f:facet>
+                <h:outputText value="#{_productions.id.productId}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Production id</f:facet>
+                <h:outputText value="#{_productions.id.productionId}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Product id</f:facet>
+                <h:outputText value="#{_productions.product.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Production id</f:facet>
+                <h:outputText value="#{_productions.production.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Balance</f:facet>
+                <h:outputText value="#{_productions.balance}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Production quantity</f:facet>
+                <h:outputText value="#{_productions.productionQuantity}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{expeditionByProductionsHome.instance.productions != null ? 'changeParent' : 'selectParent'}" value="#{expeditionByProductionsHome.instance.productions != null ? 'Change' : 'Select'} productions"
+                       view="/ProductionsList.xhtml">
+                <f:param name="from" value="ExpeditionByProductionsEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Expedition *" labelClass="required">
+    <div class="association" id="expeditionParent">
+
+        <h:outputText value="There is no expedition associated with this expeditionByProductions."
+                   rendered="#{expeditionByProductionsHome.instance.expedition == null}"/>
+
+        <rich:dataTable var="_expedition"
+                   value="#{expeditionByProductionsHome.instance.expedition}"
+                rendered="#{expeditionByProductionsHome.instance.expedition != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="expeditionTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_expedition.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Line id</f:facet>
+                <h:outputText value="#{_expedition.line.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Date</f:facet>
+                <h:outputText value="#{_expedition.date}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{expeditionByProductionsHome.instance.expedition != null ? 'changeParent' : 'selectParent'}" value="#{expeditionByProductionsHome.instance.expedition != null ? 'Change' : 'Select'} expedition"
+                       view="/ExpeditionList.xhtml">
+                <f:param name="from" value="ExpeditionByProductionsEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

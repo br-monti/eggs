@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+      no-conversation-view-id="/ProductionList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{productionHome.wire}"/>
+
+   <param name="productionFrom"/>
+   <param name="productionId" value="#{productionHome.productionId}"/>
+   <param name="baseEggFrom"/>
+   <param name="baseEggId" value="#{baseEggHome.baseEggId}"/>
+   <param name="providerFrom"/>
+   <param name="providerId" value="#{providerHome.providerId}"/>
+
+   <param name="colorFrom"/>
+   <param name="colorId" value="#{colorHome.colorId}"/>
+
+
+
+
+   <navigation from-action="#{productionHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/Production.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{productionHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/Production.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{productionHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/ProductionList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

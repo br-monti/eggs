@@ -1,0 +1,187 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="color" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{colorHome.managed ? 'Edit' : 'Add'} Color</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{colorHome.managed}"
+                          value="#{colorHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="colorField" template="layout/edit.xhtml">
+                <ui:define name="label">Color</ui:define>
+                <h:inputText id="color"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{colorHome.instance.color}">
+                    <a:support event="onblur" reRender="colorField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{colorHome.persist}"
+                       disabled="#{!colorHome.wired}"
+                       rendered="#{!colorHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{colorHome.update}"
+                       rendered="#{colorHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{colorHome.remove}"
+                      immediate="true"
+                       rendered="#{colorHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Color.xhtml"
+                rendered="#{colorHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty colorFrom ? 'ColorList' : colorFrom}.xhtml"
+                rendered="#{!colorHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Products">
+        <h:form styleClass="association" id="productsChildren">
+
+            <h:outputText value="There are no products associated with this color."
+                       rendered="#{empty colorHome.products}"/>
+
+            <rich:dataTable value="#{colorHome.products}"
+                           var="_product"
+                      rendered="#{not empty colorHome.products}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="productsTable">
+                <rich:column sortBy="#{_product.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_product.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_product.product}">
+                    <f:facet name="header">Product</f:facet>
+                    <h:outputText value="#{_product.product}"/>
+                </rich:column>
+                <rich:column sortBy="#{_product.barcode}">
+                    <f:facet name="header">Barcode</f:facet>
+                    <h:outputText value="#{_product.barcode}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{colorHome.managed}" id="products">
+        <div class="actionButtons">
+            <s:button id="addproduct"
+                   value="Add product"
+                    view="/ProductEdit.xhtml"
+             propagation="none">
+                 <f:param name="colorId"
+                         value="#{colorHome.instance.id}"/>
+                 <f:param name="productFrom" value="Color"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Base eggs">
+        <h:form styleClass="association" id="baseEggsChildren">
+
+            <h:outputText value="There are no baseEggs associated with this color."
+                       rendered="#{empty colorHome.baseEggs}"/>
+
+            <rich:dataTable value="#{colorHome.baseEggs}"
+                           var="_baseEgg"
+                      rendered="#{not empty colorHome.baseEggs}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="baseEggsTable">
+                <rich:column sortBy="#{_baseEgg.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_baseEgg.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_baseEgg.productionDate}">
+                    <f:facet name="header">Production date</f:facet>
+                    <h:outputText value="#{_baseEgg.productionDate}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_baseEgg.validityDate}">
+                    <f:facet name="header">Validity date</f:facet>
+                    <h:outputText value="#{_baseEgg.validityDate}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+                <rich:column sortBy="#{_baseEgg.lot}">
+                    <f:facet name="header">Lot</f:facet>
+                    <h:outputText value="#{_baseEgg.lot}"/>
+                </rich:column>
+                <rich:column sortBy="#{_baseEgg.quantity}">
+                    <f:facet name="header">Quantity</f:facet>
+                    <h:outputText value="#{_baseEgg.quantity}"/>
+                </rich:column>
+                <rich:column sortBy="#{_baseEgg.balance}">
+                    <f:facet name="header">Balance</f:facet>
+                    <h:outputText value="#{_baseEgg.balance}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{colorHome.managed}" id="baseEggs">
+        <div class="actionButtons">
+            <s:button id="addbaseEgg"
+                   value="Add baseEgg"
+                    view="/BaseEggEdit.xhtml"
+             propagation="none">
+                 <f:param name="colorId"
+                         value="#{colorHome.instance.id}"/>
+                 <f:param name="baseEggFrom" value="Color"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

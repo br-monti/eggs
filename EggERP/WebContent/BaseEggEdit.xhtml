@@ -1,0 +1,249 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="baseEgg" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{baseEggHome.managed ? 'Edit' : 'Add'} Base egg</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{baseEggHome.managed}"
+                          value="#{baseEggHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+            <s:decorate id="productionDateField" template="layout/edit.xhtml">
+                <ui:define name="label">Production date</ui:define>
+                <rich:calendar id="productionDate"
+                       required="true"
+                          value="#{baseEggHome.instance.productionDate}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="validityDateField" template="layout/edit.xhtml">
+                <ui:define name="label">Validity date</ui:define>
+                <rich:calendar id="validityDate"
+                       required="true"
+                          value="#{baseEggHome.instance.validityDate}" datePattern="MM/dd/yyyy" />
+            </s:decorate>
+
+
+            <s:decorate id="lotField" template="layout/edit.xhtml">
+                <ui:define name="label">Lot</ui:define>
+                <h:inputText id="lot"
+                       required="true"
+                          value="#{baseEggHome.instance.lot}">
+                    <a:support event="onblur" reRender="lotField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="quantityField" template="layout/edit.xhtml">
+                <ui:define name="label">Quantity</ui:define>
+                <h:inputText id="quantity"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{baseEggHome.instance.quantity}">
+                    <a:support event="onblur" reRender="quantityField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="balanceField" template="layout/edit.xhtml">
+                <ui:define name="label">Balance</ui:define>
+                <h:inputText id="balance"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{baseEggHome.instance.balance}">
+                    <a:support event="onblur" reRender="balanceField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{baseEggHome.persist}"
+                       disabled="#{!baseEggHome.wired}"
+                       rendered="#{!baseEggHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{baseEggHome.update}"
+                       rendered="#{baseEggHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{baseEggHome.remove}"
+                      immediate="true"
+                       rendered="#{baseEggHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/BaseEgg.xhtml"
+                rendered="#{baseEggHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty baseEggFrom ? 'BaseEggList' : baseEggFrom}.xhtml"
+                rendered="#{!baseEggHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Provider *" labelClass="required">
+    <div class="association" id="providerParent">
+
+        <h:outputText value="There is no provider associated with this baseEgg."
+                   rendered="#{baseEggHome.instance.provider == null}"/>
+
+        <rich:dataTable var="_provider"
+                   value="#{baseEggHome.instance.provider}"
+                rendered="#{baseEggHome.instance.provider != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="providerTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_provider.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Provider</f:facet>
+                <h:outputText value="#{_provider.provider}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Cnpj cpf</f:facet>
+                <h:outputText value="#{_provider.cnpjCpf}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Sif ima</f:facet>
+                <h:outputText value="#{_provider.sifIma}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">City</f:facet>
+                <h:outputText value="#{_provider.city}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">State</f:facet>
+                <h:outputText value="#{_provider.state}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Neighborhood</f:facet>
+                <h:outputText value="#{_provider.neighborhood}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{baseEggHome.instance.provider != null ? 'changeParent' : 'selectParent'}" value="#{baseEggHome.instance.provider != null ? 'Change' : 'Select'} provider"
+                       view="/ProviderList.xhtml">
+                <f:param name="from" value="BaseEggEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Color *" labelClass="required">
+    <div class="association" id="colorParent">
+
+        <h:outputText value="There is no color associated with this baseEgg."
+                   rendered="#{baseEggHome.instance.color == null}"/>
+
+        <rich:dataTable var="_color"
+                   value="#{baseEggHome.instance.color}"
+                rendered="#{baseEggHome.instance.color != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="colorTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_color.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Color</f:facet>
+                <h:outputText value="#{_color.color}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{baseEggHome.instance.color != null ? 'changeParent' : 'selectParent'}" value="#{baseEggHome.instance.color != null ? 'Change' : 'Select'} color"
+                       view="/ColorList.xhtml">
+                <f:param name="from" value="BaseEggEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Productions">
+        <h:form styleClass="association" id="productionsChildren">
+
+            <h:outputText value="There are no productions associated with this baseEgg."
+                       rendered="#{empty baseEggHome.productions}"/>
+
+            <rich:dataTable value="#{baseEggHome.productions}"
+                           var="_production"
+                      rendered="#{not empty baseEggHome.productions}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="productionsTable">
+                <rich:column sortBy="#{_production.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_production.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_production.date}">
+                    <f:facet name="header">Date</f:facet>
+                    <h:outputText value="#{_production.date}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{baseEggHome.managed}" id="productions">
+        <div class="actionButtons">
+            <s:button id="addproduction"
+                   value="Add production"
+                    view="/ProductionEdit.xhtml"
+             propagation="none">
+                 <f:param name="baseEggId"
+                         value="#{baseEggHome.instance.id}"/>
+                 <f:param name="productionFrom" value="BaseEgg"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

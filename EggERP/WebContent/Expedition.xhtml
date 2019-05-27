@@ -1,0 +1,167 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Expedition Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{expeditionHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="date" template="layout/display.xhtml">
+            <ui:define name="label">Date</ui:define>
+            <h:outputText value="#{expeditionHome.instance.date}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ExpeditionEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty expeditionFrom ? 'ExpeditionList' : expeditionFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Line</h:panelGroup>
+        </f:facet>
+    <div class="association" id="lineParent">
+
+        <h:outputText value="There is no line associated with this expedition."
+                   rendered="#{expeditionHome.instance.line == null}"/>
+
+        <rich:dataTable var="_line"
+                   value="#{expeditionHome.instance.line}"
+                rendered="#{expeditionHome.instance.line != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="lineTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_line.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Line</f:facet>
+                <h:outputText value="#{_line.line}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Cities</f:facet>
+                <h:outputText value="#{_line.cities}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewline"
+                     value="View"
+                      view="/Line.xhtml">
+                    <f:param name="lineId"
+                           value="#{_line.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Expedition by productionses</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="expeditionByProductionsesChildren">
+
+        <h:outputText value="There are no expeditionByProductionses associated with this expedition."
+                   rendered="#{empty expeditionHome.expeditionByProductionses}"/>
+
+        <rich:dataTable value="#{expeditionHome.expeditionByProductionses}"
+                       var="_expeditionByProductions"
+                  rendered="#{not empty expeditionHome.expeditionByProductionses}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="expeditionByProductionsesTable">
+            <rich:column sortBy="#{_expeditionByProductions.id.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_expeditionByProductions.id.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.id.expeditionId}">
+                <f:facet name="header">Expedition id</f:facet>
+                <h:outputText value="#{_expeditionByProductions.id.expeditionId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.id.productionsId}">
+                <f:facet name="header">Productions id</f:facet>
+                <h:outputText value="#{_expeditionByProductions.id.productionsId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.id.productionsProductId}">
+                <f:facet name="header">Productions product id</f:facet>
+                <h:outputText value="#{_expeditionByProductions.id.productionsProductId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.id.productionsProductionId}">
+                <f:facet name="header">Productions production id</f:facet>
+                <h:outputText value="#{_expeditionByProductions.id.productionsProductionId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.expeditionQuantity}">
+                <f:facet name="header">Expedition quantity</f:facet>
+                <h:outputText value="#{_expeditionByProductions.expeditionQuantity}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.expeditionReturn}">
+                <f:facet name="header">Expedition return</f:facet>
+                <h:outputText value="#{_expeditionByProductions.expeditionReturn}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.expeditionChanges}">
+                <f:facet name="header">Expedition changes</f:facet>
+                <h:outputText value="#{_expeditionByProductions.expeditionChanges}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectexpeditionByProductions"
+                     value="Select"
+                      view="/ExpeditionByProductions.xhtml">
+                    <f:param name="expeditionByProductionsId"
+                            value="#{_expeditionByProductions.id.id}"/>
+                    <f:param name="expeditionByProductionsExpeditionId"
+                            value="#{_expeditionByProductions.id.expeditionId}"/>
+                    <f:param name="expeditionByProductionsProductionsId"
+                            value="#{_expeditionByProductions.id.productionsId}"/>
+                    <f:param name="expeditionByProductionsProductionsProductId"
+                            value="#{_expeditionByProductions.id.productionsProductId}"/>
+                    <f:param name="expeditionByProductionsProductionsProductionId"
+                            value="#{_expeditionByProductions.id.productionsProductionId}"/>
+                    <f:param name="expeditionByProductionsFrom" value="Expedition"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add expeditionByProductions"
+                view="/ExpeditionByProductionsEdit.xhtml">
+            <f:param name="expeditionId"
+                    value="#{expeditionHome.instance.id}"/>
+            <f:param name="expeditionByProductionsFrom" value="Expedition"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,232 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Productions Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{productionsHome.instance.id.id}"/>
+        </s:decorate>
+        <s:decorate id="productId" template="layout/display.xhtml">
+            <ui:define name="label">Product id</ui:define>
+            <h:outputText value="#{productionsHome.instance.id.productId}"/>
+        </s:decorate>
+        <s:decorate id="productionId" template="layout/display.xhtml">
+            <ui:define name="label">Production id</ui:define>
+            <h:outputText value="#{productionsHome.instance.id.productionId}"/>
+        </s:decorate>
+
+        <s:decorate id="balance" template="layout/display.xhtml">
+            <ui:define name="label">Balance</ui:define>
+            <h:outputText value="#{productionsHome.instance.balance}"/>
+        </s:decorate>
+
+        <s:decorate id="productionQuantity" template="layout/display.xhtml">
+            <ui:define name="label">Production quantity</ui:define>
+            <h:outputText value="#{productionsHome.instance.productionQuantity}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ProductionsEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty productionsFrom ? 'ProductionsList' : productionsFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Product</h:panelGroup>
+        </f:facet>
+    <div class="association" id="productParent">
+
+        <h:outputText value="There is no product associated with this productions."
+                   rendered="#{productionsHome.instance.product == null}"/>
+
+        <rich:dataTable var="_product"
+                   value="#{productionsHome.instance.product}"
+                rendered="#{productionsHome.instance.product != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="productTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_product.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Packing id</f:facet>
+                <h:outputText value="#{_product.packing.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Color id</f:facet>
+                <h:outputText value="#{_product.color.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Type id</f:facet>
+                <h:outputText value="#{_product.type.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Product</f:facet>
+                <h:outputText value="#{_product.product}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Barcode</f:facet>
+                <h:outputText value="#{_product.barcode}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewproduct"
+                     value="View"
+                      view="/Product.xhtml">
+                    <f:param name="productId"
+                           value="#{_product.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Production</h:panelGroup>
+        </f:facet>
+    <div class="association" id="productionParent">
+
+        <h:outputText value="There is no production associated with this productions."
+                   rendered="#{productionsHome.instance.production == null}"/>
+
+        <rich:dataTable var="_production"
+                   value="#{productionsHome.instance.production}"
+                rendered="#{productionsHome.instance.production != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="productionTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_production.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Base egg id</f:facet>
+                <h:outputText value="#{_production.baseEgg.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Date</f:facet>
+                <h:outputText value="#{_production.date}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewproduction"
+                     value="View"
+                      view="/Production.xhtml">
+                    <f:param name="productionId"
+                           value="#{_production.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Expedition by productionses</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="expeditionByProductionsesChildren">
+
+        <h:outputText value="There are no expeditionByProductionses associated with this productions."
+                   rendered="#{empty productionsHome.expeditionByProductionses}"/>
+
+        <rich:dataTable value="#{productionsHome.expeditionByProductionses}"
+                       var="_expeditionByProductions"
+                  rendered="#{not empty productionsHome.expeditionByProductionses}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="expeditionByProductionsesTable">
+            <rich:column sortBy="#{_expeditionByProductions.id.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_expeditionByProductions.id.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.id.expeditionId}">
+                <f:facet name="header">Expedition id</f:facet>
+                <h:outputText value="#{_expeditionByProductions.id.expeditionId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.id.productionsId}">
+                <f:facet name="header">Productions id</f:facet>
+                <h:outputText value="#{_expeditionByProductions.id.productionsId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.id.productionsProductId}">
+                <f:facet name="header">Productions product id</f:facet>
+                <h:outputText value="#{_expeditionByProductions.id.productionsProductId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.id.productionsProductionId}">
+                <f:facet name="header">Productions production id</f:facet>
+                <h:outputText value="#{_expeditionByProductions.id.productionsProductionId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.expeditionQuantity}">
+                <f:facet name="header">Expedition quantity</f:facet>
+                <h:outputText value="#{_expeditionByProductions.expeditionQuantity}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.expeditionReturn}">
+                <f:facet name="header">Expedition return</f:facet>
+                <h:outputText value="#{_expeditionByProductions.expeditionReturn}"/>
+            </rich:column>
+            <rich:column sortBy="#{_expeditionByProductions.expeditionChanges}">
+                <f:facet name="header">Expedition changes</f:facet>
+                <h:outputText value="#{_expeditionByProductions.expeditionChanges}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectexpeditionByProductions"
+                     value="Select"
+                      view="/ExpeditionByProductions.xhtml">
+                    <f:param name="expeditionByProductionsId"
+                            value="#{_expeditionByProductions.id.id}"/>
+                    <f:param name="expeditionByProductionsExpeditionId"
+                            value="#{_expeditionByProductions.id.expeditionId}"/>
+                    <f:param name="expeditionByProductionsProductionsId"
+                            value="#{_expeditionByProductions.id.productionsId}"/>
+                    <f:param name="expeditionByProductionsProductionsProductId"
+                            value="#{_expeditionByProductions.id.productionsProductId}"/>
+                    <f:param name="expeditionByProductionsProductionsProductionId"
+                            value="#{_expeditionByProductions.id.productionsProductionId}"/>
+                    <f:param name="expeditionByProductionsFrom" value="Productions"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add expeditionByProductions"
+                view="/ExpeditionByProductionsEdit.xhtml">
+            <f:param name="productionsId"
+                    value="#{productionsHome.instance.id}"/>
+            <f:param name="expeditionByProductionsFrom" value="Productions"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

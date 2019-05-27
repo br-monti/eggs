@@ -1,0 +1,175 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Production Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{productionHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="date" template="layout/display.xhtml">
+            <ui:define name="label">Date</ui:define>
+            <h:outputText value="#{productionHome.instance.date}">
+                <s:convertDateTime type="date" dateStyle="short"/>
+            </h:outputText>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/ProductionEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty productionFrom ? 'ProductionList' : productionFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Base egg</h:panelGroup>
+        </f:facet>
+    <div class="association" id="baseEggParent">
+
+        <h:outputText value="There is no baseEgg associated with this production."
+                   rendered="#{productionHome.instance.baseEgg == null}"/>
+
+        <rich:dataTable var="_baseEgg"
+                   value="#{productionHome.instance.baseEgg}"
+                rendered="#{productionHome.instance.baseEgg != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="baseEggTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_baseEgg.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Provider id</f:facet>
+                <h:outputText value="#{_baseEgg.provider.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Color id</f:facet>
+                <h:outputText value="#{_baseEgg.color.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Production date</f:facet>
+                <h:outputText value="#{_baseEgg.productionDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Validity date</f:facet>
+                <h:outputText value="#{_baseEgg.validityDate}">
+                    <s:convertDateTime type="date" dateStyle="short"/>
+                </h:outputText>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Lot</f:facet>
+                <h:outputText value="#{_baseEgg.lot}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Quantity</f:facet>
+                <h:outputText value="#{_baseEgg.quantity}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Balance</f:facet>
+                <h:outputText value="#{_baseEgg.balance}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewbaseEgg"
+                     value="View"
+                      view="/BaseEgg.xhtml">
+                    <f:param name="baseEggId"
+                           value="#{_baseEgg.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Productionses</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="productionsesChildren">
+
+        <h:outputText value="There are no productionses associated with this production."
+                   rendered="#{empty productionHome.productionses}"/>
+
+        <rich:dataTable value="#{productionHome.productionses}"
+                       var="_productions"
+                  rendered="#{not empty productionHome.productionses}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="productionsesTable">
+            <rich:column sortBy="#{_productions.id.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_productions.id.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productions.id.productId}">
+                <f:facet name="header">Product id</f:facet>
+                <h:outputText value="#{_productions.id.productId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productions.id.productionId}">
+                <f:facet name="header">Production id</f:facet>
+                <h:outputText value="#{_productions.id.productionId}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productions.balance}">
+                <f:facet name="header">Balance</f:facet>
+                <h:outputText value="#{_productions.balance}"/>
+            </rich:column>
+            <rich:column sortBy="#{_productions.productionQuantity}">
+                <f:facet name="header">Production quantity</f:facet>
+                <h:outputText value="#{_productions.productionQuantity}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectproductions"
+                     value="Select"
+                      view="/Productions.xhtml">
+                    <f:param name="productionsId"
+                            value="#{_productions.id.id}"/>
+                    <f:param name="productionsProductId"
+                            value="#{_productions.id.productId}"/>
+                    <f:param name="productionsProductionId"
+                            value="#{_productions.id.productionId}"/>
+                    <f:param name="productionsFrom" value="Production"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add productions"
+                view="/ProductionsEdit.xhtml">
+            <f:param name="productionId"
+                    value="#{productionHome.instance.id}"/>
+            <f:param name="productionsFrom" value="Production"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

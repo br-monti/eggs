@@ -1,0 +1,139 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="line" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{lineHome.managed ? 'Edit' : 'Add'} Line</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{lineHome.managed}"
+                          value="#{lineHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="lineField" template="layout/edit.xhtml">
+                <ui:define name="label">Line</ui:define>
+                <h:inputText id="line"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{lineHome.instance.line}">
+                    <a:support event="onblur" reRender="lineField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="citiesField" template="layout/edit.xhtml">
+                <ui:define name="label">Cities</ui:define>
+                <h:inputText id="cities"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{lineHome.instance.cities}">
+                    <a:support event="onblur" reRender="citiesField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{lineHome.persist}"
+                       disabled="#{!lineHome.wired}"
+                       rendered="#{!lineHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{lineHome.update}"
+                       rendered="#{lineHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{lineHome.remove}"
+                      immediate="true"
+                       rendered="#{lineHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Line.xhtml"
+                rendered="#{lineHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty lineFrom ? 'LineList' : lineFrom}.xhtml"
+                rendered="#{!lineHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Expeditions">
+        <h:form styleClass="association" id="expeditionsChildren">
+
+            <h:outputText value="There are no expeditions associated with this line."
+                       rendered="#{empty lineHome.expeditions}"/>
+
+            <rich:dataTable value="#{lineHome.expeditions}"
+                           var="_expedition"
+                      rendered="#{not empty lineHome.expeditions}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="expeditionsTable">
+                <rich:column sortBy="#{_expedition.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_expedition.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_expedition.date}">
+                    <f:facet name="header">Date</f:facet>
+                    <h:outputText value="#{_expedition.date}">
+                        <s:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{lineHome.managed}" id="expeditions">
+        <div class="actionButtons">
+            <s:button id="addexpedition"
+                   value="Add expedition"
+                    view="/ExpeditionEdit.xhtml"
+             propagation="none">
+                 <f:param name="lineId"
+                         value="#{lineHome.instance.id}"/>
+                 <f:param name="expeditionFrom" value="Line"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

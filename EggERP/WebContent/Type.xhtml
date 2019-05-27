@@ -1,0 +1,107 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Type Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{typeHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="type" template="layout/display.xhtml">
+            <ui:define name="label">Type</ui:define>
+            <h:outputText value="#{typeHome.instance.type}"/>
+        </s:decorate>
+
+        <s:decorate id="minimumWeight" template="layout/display.xhtml">
+            <ui:define name="label">Minimum weight</ui:define>
+            <h:outputText value="#{typeHome.instance.minimumWeight}"/>
+        </s:decorate>
+
+        <s:decorate id="maximumWeight" template="layout/display.xhtml">
+            <ui:define name="label">Maximum weight</ui:define>
+            <h:outputText value="#{typeHome.instance.maximumWeight}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/TypeEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty typeFrom ? 'TypeList' : typeFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Products</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="productsChildren">
+
+        <h:outputText value="There are no products associated with this type."
+                   rendered="#{empty typeHome.products}"/>
+
+        <rich:dataTable value="#{typeHome.products}"
+                       var="_product"
+                  rendered="#{not empty typeHome.products}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="productsTable">
+            <rich:column sortBy="#{_product.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_product.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_product.product}">
+                <f:facet name="header">Product</f:facet>
+                <h:outputText value="#{_product.product}"/>
+            </rich:column>
+            <rich:column sortBy="#{_product.barcode}">
+                <f:facet name="header">Barcode</f:facet>
+                <h:outputText value="#{_product.barcode}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectproduct"
+                     value="Select"
+                      view="/Product.xhtml">
+                    <f:param name="productId"
+                            value="#{_product.id}"/>
+                    <f:param name="productFrom" value="Type"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add product"
+                view="/ProductEdit.xhtml">
+            <f:param name="typeId"
+                    value="#{typeHome.instance.id}"/>
+            <f:param name="productFrom" value="Type"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>
