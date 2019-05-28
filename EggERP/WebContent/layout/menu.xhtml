@@ -11,59 +11,129 @@
     </rich:toolBarGroup>
     
     <rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
-        <f:facet name="label">Infraestrutura</f:facet>
-	<rich:menuItem>
-    	<s:link view="/ShedList.xhtml"
-           	value="Galpão"
-           	id="ShedId"
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-	<rich:menuItem>
-    	<s:link view="/ManufacturerList.xhtml"
-           	value="Fabricantes"
-           	id="Fabricante"
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-    </rich:dropDownMenu>
-    
-  <rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
-        <f:facet name="label">Aves</f:facet>  
+        <f:facet name="label">Animais</f:facet>
+    <rich:menuGroup value="Infraestrutura">
+		<rich:menuItem>
+    		<s:link view="/ShedList.xhtml"
+           		value="Galpão"
+           		id="ShedId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>
+		<rich:menuItem>
+    		<s:link view="/ManufacturerList.xhtml"
+           		value="Fabricantes"
+           		id="Fabricante"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>     
+     </rich:menuGroup>
+     
+     <rich:menuGroup value="Aves">   	
     	<rich:menuItem>
-    	<s:link view="/LotList.xhtml"
-           	value="Lote"
-           	id="LotId"
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-	<rich:menuItem>
-    	<s:link view="/LineageList.xhtml"
-           	value="Linhagem"
-           	id="LineageId"
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
+    		<s:link view="/LotList.xhtml"
+           		value="Lote"
+           		id="LotId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>
+		<rich:menuItem>
+    		<s:link view="/LineageList.xhtml"
+           		value="Linhagem"
+           		id="LineageId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>     	
+     </rich:menuGroup>
+     
+     <rich:menuGroup value="Monitoramento">
+    	<rich:menuItem>
+    		<s:link view="/CreationMonitoringList.xhtml"
+           		value="Criação"
+           		id="CreationmonitoringId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>
+		<rich:menuItem>
+    		<s:link view="/ProductionMonitoringList.xhtml"
+           		value="Producão"
+           		id="ProductionmonitoringId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>
+     </rich:menuGroup>
+     
+     </rich:dropDownMenu>   
+  <rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
+        <f:facet name="label">Classificação</f:facet>  
+    <rich:menuGroup value="Matéria Prima">
+		<rich:menuItem>
+    		<s:link view="/BaseEggList.xhtml"
+           		value="Matéria Prima"
+           		id="BaseEggId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>
+		<rich:menuItem>
+    		<s:link view="/ProviderList.xhtml"
+           		value="Fornecedor"
+           		id="ProviderId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>     
+     </rich:menuGroup>
+     
+     <rich:menuGroup value="Produção">   	
+    	<rich:menuItem>
+    		<s:link view="/ProductionList.xhtml"
+           		value="Produção"
+           		id="ProductionId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>
+		<rich:menuItem>
+    		<s:link view="/ProductList.xhtml"
+           		value="Produto"
+           		id="ProductId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>  
+		<rich:menuItem>
+    		<s:link view="/TypeList.xhtml"
+           		value="Tipo"
+           		id="TypeId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>
+		<rich:menuItem>
+    		<s:link view="/PackingList.xhtml"
+           		value="Embalagem"
+           		id="PackingId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>     	     	   	
+     </rich:menuGroup>
+     
+     <rich:menuGroup value="Expedição">
+    	<rich:menuItem>
+    		<s:link view="/ExpeditionList.xhtml"
+           		value="Expedição"
+           		id="ExpeditionId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>
+		<rich:menuItem>
+    		<s:link view="/LineList.xhtml"
+           		value="Linha"
+           		id="LineId"
+				includePageParams="false"
+     			propagation="none"/>
+     	</rich:menuItem>
+     </rich:menuGroup>
+     
 </rich:dropDownMenu>
 
-<rich:dropDownMenu showDelay="250" hideDelay="0" submitMode="none">
-    <f:facet name="label">Monitoramento</f:facet>  
 
-	<rich:menuItem>
-    	<s:link view="/CreationMonitoringList.xhtml"
-           	value="Criação"
-           	id="CreationmonitoringId"
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-	<rich:menuItem>
-    	<s:link view="/ProductionMonitoringList.xhtml"
-           	value="Producão"
-           	id="ProductionmonitoringId"
-			includePageParams="false"
-     		propagation="none"/>
-     </rich:menuItem>
-</rich:dropDownMenu>
      
     <!-- @newMenuItem@ -->
     <rich:toolBarGroup location="right">
