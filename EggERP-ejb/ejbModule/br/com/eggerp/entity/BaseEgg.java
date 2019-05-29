@@ -30,15 +30,15 @@ public class BaseEgg implements java.io.Serializable {
 	private Date productionDate;
 	private Date validityDate;
 	private int lot;
-	private String quantity;
-	private String balance;
+	private int quantity;
+	private int balance;
 	private Set<Production> productions = new HashSet<Production>(0);
 
 	public BaseEgg() {
 	}
 
 	public BaseEgg(int id, Provider provider, Color color, Date productionDate, Date validityDate, int lot,
-			String quantity, String balance) {
+			int quantity, int balance) {
 		this.id = id;
 		this.provider = provider;
 		this.color = color;
@@ -50,7 +50,7 @@ public class BaseEgg implements java.io.Serializable {
 	}
 
 	public BaseEgg(int id, Provider provider, Color color, Date productionDate, Date validityDate, int lot,
-			String quantity, String balance, Set<Production> productions) {
+			int quantity, int balance, Set<Production> productions) {
 		this.id = id;
 		this.provider = provider;
 		this.color = color;
@@ -129,22 +129,22 @@ public class BaseEgg implements java.io.Serializable {
 	@Column(name = "quantity", nullable = false, length = 45)
 	@NotNull
 	@Length(max = 45)
-	public String getQuantity() {
+	public int getQuantity() {
 		return this.quantity;
 	}
 
-	public void setQuantity(String quantity) {
+	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
 	@Column(name = "balance", nullable = false, length = 45)
 	@NotNull
 	@Length(max = 45)
-	public String getBalance() {
+	public int getBalance() {
 		return this.balance;
 	}
 
-	public void setBalance(String balance) {
+	public void setBalance(int balance) {
 		this.balance = balance;
 	}
 
