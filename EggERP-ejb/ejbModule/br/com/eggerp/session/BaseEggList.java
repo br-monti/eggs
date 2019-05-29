@@ -10,9 +10,7 @@ public class BaseEggList extends EntityQuery<BaseEgg> {
 
 	private static final String EJBQL = "select baseEgg from BaseEgg baseEgg";
 
-	private static final String[] RESTRICTIONS = {
-			"lower(baseEgg.quantity) like lower(concat(#{baseEggList.baseEgg.quantity},'%'))",
-			"lower(baseEgg.balance) like lower(concat(#{baseEggList.baseEgg.balance},'%'))", };
+	private static final String[] RESTRICTIONS = {};
 
 	private BaseEgg baseEgg = new BaseEgg();
 
