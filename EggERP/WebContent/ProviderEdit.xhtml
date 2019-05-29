@@ -86,6 +86,17 @@
                     <a:support event="onblur" reRender="stateField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
             </s:decorate>
+            
+            <s:decorate id="addressField" template="layout/edit.xhtml">
+                <ui:define name="label">Address</ui:define>
+                <h:inputText id="address"
+                       required="true"
+                           size="45"
+                      maxlength="45"
+                          value="#{providerHome.instance.address}">
+                    <a:support event="onblur" reRender="addressField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
 
 
             <s:decorate id="neighborhoodField" template="layout/edit.xhtml">

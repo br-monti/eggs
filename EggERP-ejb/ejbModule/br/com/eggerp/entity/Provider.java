@@ -26,28 +26,31 @@ public class Provider implements java.io.Serializable {
 	private String city;
 	private String state;
 	private String neighborhood;
+	private String address;
 	private Set<BaseEgg> baseEggs = new HashSet<BaseEgg>(0);
 
 	public Provider() {
 	}
 
-	public Provider(int id, String provider, String cnpjCpf, String sifIma, String city, String state,
+	public Provider(int id, String provider, String cnpjCpf, String sifIma, String address, String city, String state,
 			String neighborhood) {
 		this.id = id;
 		this.provider = provider;
 		this.cnpjCpf = cnpjCpf;
 		this.sifIma = sifIma;
+		this.address = address;
 		this.city = city;
 		this.state = state;
 		this.neighborhood = neighborhood;
 	}
 
-	public Provider(int id, String provider, String cnpjCpf, String sifIma, String city, String state,
+	public Provider(int id, String provider, String cnpjCpf, String sifIma, String address, String city, String state,
 			String neighborhood, Set<BaseEgg> baseEggs) {
 		this.id = id;
 		this.provider = provider;
 		this.cnpjCpf = cnpjCpf;
 		this.sifIma = sifIma;
+		this.address = address;
 		this.city = city;
 		this.state = state;
 		this.neighborhood = neighborhood;
@@ -97,6 +100,17 @@ public class Provider implements java.io.Serializable {
 	public void setSifIma(String sifIma) {
 		this.sifIma = sifIma;
 	}
+	
+	@Column(name = "address", nullable = false, length = 45)
+	@NotNull
+	@Length(max = 45)
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	@Column(name = "city", nullable = false, length = 20)
 	@NotNull
@@ -119,7 +133,7 @@ public class Provider implements java.io.Serializable {
 	public void setState(String state) {
 		this.state = state;
 	}
-
+	
 	@Column(name = "neighborhood", nullable = false, length = 20)
 	@NotNull
 	@Length(max = 20)

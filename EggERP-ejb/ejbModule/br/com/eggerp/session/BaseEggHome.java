@@ -14,6 +14,8 @@ public class BaseEggHome extends EntityHome<BaseEgg> {
 	ProviderHome providerHome;
 	@In(create = true)
 	ColorHome colorHome;
+	
+	public String selectedTab = "provider";
 
 	public void setBaseEggId(Integer id) {
 		setId(id);
@@ -61,6 +63,14 @@ public class BaseEggHome extends EntityHome<BaseEgg> {
 
 	public List<Production> getProductions() {
 		return getInstance() == null ? null : new ArrayList<Production>(getInstance().getProductions());
+	}
+	
+	public String getSelectedTab() {
+		return selectedTab;
+	}
+	
+	public void setSelectedTab(String selectedTab) {
+		this.selectedTab = selectedTab;
 	}
 
 }
