@@ -11,7 +11,7 @@
 <ui:define name="body">
 
     <rich:panel>
-        <f:facet name="header">Base egg Details</f:facet>
+        <f:facet name="header">Detalhes dos Ovos de Matéria Prima</f:facet>
 
         <s:decorate id="id" template="layout/display.xhtml">
             <ui:define name="label">Id</ui:define>
@@ -19,31 +19,31 @@
         </s:decorate>
 
         <s:decorate id="productionDate" template="layout/display.xhtml">
-            <ui:define name="label">Production date</ui:define>
+            <ui:define name="label">Data de Produção</ui:define>
             <h:outputText value="#{baseEggHome.instance.productionDate}">
-                <s:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
             </h:outputText>
         </s:decorate>
 
         <s:decorate id="validityDate" template="layout/display.xhtml">
-            <ui:define name="label">Validity date</ui:define>
+            <ui:define name="label">Data de Validade</ui:define>
             <h:outputText value="#{baseEggHome.instance.validityDate}">
-                <s:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
             </h:outputText>
         </s:decorate>
 
         <s:decorate id="lot" template="layout/display.xhtml">
-            <ui:define name="label">Lot</ui:define>
+            <ui:define name="label">Lote</ui:define>
             <h:outputText value="#{baseEggHome.instance.lot}"/>
         </s:decorate>
 
         <s:decorate id="quantity" template="layout/display.xhtml">
-            <ui:define name="label">Quantity</ui:define>
+            <ui:define name="label">Quantidade</ui:define>
             <h:outputText value="#{baseEggHome.instance.quantity}"/>
         </s:decorate>
 
         <s:decorate id="balance" template="layout/display.xhtml">
-            <ui:define name="label">Balance</ui:define>
+            <ui:define name="label">Saldo</ui:define>
             <h:outputText value="#{baseEggHome.instance.balance}"/>
         </s:decorate>
 
@@ -55,11 +55,11 @@
 
         <s:button view="/BaseEggEdit.xhtml"
                     id="edit"
-                 value="Edit"/>
+                 value="Editar"/>
 
         <s:button view="/#{empty baseEggFrom ? 'BaseEggList' : baseEggFrom}.xhtml"
                     id="done"
-                 value="Done"/>
+                 value="Finalizar"/>
 
     </div>
 
@@ -67,11 +67,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Provider</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Fornecedor</h:panelGroup>
         </f:facet>
     <div class="association" id="providerParent">
 
-        <h:outputText value="There is no provider associated with this baseEgg."
+        <h:outputText value="Não existe Fornecedor associado a esses Ovos de Matéria Prima."
                    rendered="#{baseEggHome.instance.provider == null}"/>
 
         <rich:dataTable var="_provider"
@@ -84,30 +84,34 @@
                 <h:outputText value="#{_provider.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Provider</f:facet>
+                <f:facet name="header">Fornecedor</f:facet>
                 <h:outputText value="#{_provider.provider}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Cnpj cpf</f:facet>
+                <f:facet name="header">CNPJ/CPF</f:facet>
                 <h:outputText value="#{_provider.cnpjCpf}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Sif ima</f:facet>
+                <f:facet name="header">SIF/IMA</f:facet>
                 <h:outputText value="#{_provider.sifIma}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">City</f:facet>
+                <f:facet name="header">Endereço</f:facet>
+                <h:outputText value="#{_provider.address}"/>
+            </h:column>  
+            <h:column>
+                <f:facet name="header">Bairro</f:facet>
+                <h:outputText value="#{_provider.neighborhood}"/>
+            </h:column>          
+            <h:column>
+                <f:facet name="header">Cidade</f:facet>
                 <h:outputText value="#{_provider.city}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">State</f:facet>
+                <f:facet name="header">Estado</f:facet>
                 <h:outputText value="#{_provider.state}"/>
             </h:column>
-            <h:column>
-                <f:facet name="header">Neighborhood</f:facet>
-                <h:outputText value="#{_provider.neighborhood}"/>
-            </h:column>
-            <h:column styleClass="action">
+<!--             <h:column styleClass="action">
                 <f:facet name="header">Action</f:facet>
                 <s:link id="viewprovider"
                      value="View"
@@ -115,7 +119,7 @@
                     <f:param name="providerId"
                            value="#{_provider.id}"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </div>
@@ -123,11 +127,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Color</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Cor</h:panelGroup>
         </f:facet>
     <div class="association" id="colorParent">
 
-        <h:outputText value="There is no color associated with this baseEgg."
+        <h:outputText value="Não existe cor associada a esses Ovos de Matéria Prima."
                    rendered="#{baseEggHome.instance.color == null}"/>
 
         <rich:dataTable var="_color"
@@ -140,10 +144,10 @@
                 <h:outputText value="#{_color.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Color</f:facet>
+                <f:facet name="header">Cor</f:facet>
                 <h:outputText value="#{_color.color}"/>
             </h:column>
-            <h:column styleClass="action">
+<!--             <h:column styleClass="action">
                 <f:facet name="header">Action</f:facet>
                 <s:link id="viewcolor"
                      value="View"
@@ -151,7 +155,7 @@
                     <f:param name="colorId"
                            value="#{_color.id}"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </div>
@@ -159,11 +163,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Productions</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Produções</h:panelGroup>
         </f:facet>
     <h:form styleClass="association" id="productionsChildren">
 
-        <h:outputText value="There are no productions associated with this baseEgg."
+        <h:outputText value="Não existem produções associadas a esses Ovos de Matéria Prima."
                    rendered="#{empty baseEggHome.productions}"/>
 
         <rich:dataTable value="#{baseEggHome.productions}"
@@ -176,12 +180,12 @@
                 <h:outputText value="#{_production.id}"/>
             </rich:column>
             <rich:column sortBy="#{_production.date}">
-                <f:facet name="header">Date</f:facet>
+                <f:facet name="header">Data</f:facet>
                 <h:outputText value="#{_production.date}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </rich:column>
-            <h:column>
+<!--             <h:column>
                 <f:facet name="header">Action</f:facet>
                 <s:link id="selectproduction"
                      value="Select"
@@ -190,12 +194,12 @@
                             value="#{_production.id}"/>
                     <f:param name="productionFrom" value="BaseEgg"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </h:form>
 
-    <div class="actionButtons">
+<!--     <div class="actionButtons">
         <s:button
                value="Add production"
                 view="/ProductionEdit.xhtml">
@@ -203,7 +207,7 @@
                     value="#{baseEggHome.instance.id}"/>
             <f:param name="productionFrom" value="BaseEgg"/>
         </s:button>
-    </div>
+    </div> -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>
