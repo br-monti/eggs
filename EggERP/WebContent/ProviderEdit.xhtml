@@ -139,7 +139,7 @@
             <s:button id="cancelEdit"
                    value="Cancelar"
              propagation="end"
-                    view="/Provider.xhtml"
+                    view="/ProviderList.xhtml"
                 rendered="#{providerHome.managed}"/>
 
             <s:button id="cancelAdd"
@@ -153,7 +153,7 @@
 
 <rich:tabPanel switchType="ajax">
 
-    <rich:tab label="Base eggs">
+    <rich:tab label="Matérias Primas">
         <h:form styleClass="association" id="baseEggsChildren">
 
             <h:outputText value="Não existem Ovos de Matéria Prima associados a esse Fornecedor."
@@ -196,7 +196,7 @@
 
         </h:form>
 
-        <f:subview rendered="#{providerHome.managed}" id="baseEggs">
+ <!--      <f:subview rendered="#{providerHome.managed}" id="baseEggs">
         <div class="actionButtons">
             <s:button id="addbaseEgg"
                    value="Add baseEgg"
@@ -207,7 +207,7 @@
                  <f:param name="baseEggFrom" value="Provider"/>
             </s:button>
         </div>
-        </f:subview>
+        </f:subview>  -->  
     </rich:tab>
 </rich:tabPanel>
 </ui:define>

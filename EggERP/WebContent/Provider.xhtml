@@ -11,7 +11,7 @@
 <ui:define name="body">
 
     <rich:panel>
-        <f:facet name="header">Provider Details</f:facet>
+        <f:facet name="header">Detalhes do Fornecedor de Ovos de Matéria Prima</f:facet>
 
         <s:decorate id="id" template="layout/display.xhtml">
             <ui:define name="label">Id</ui:define>
@@ -19,33 +19,38 @@
         </s:decorate>
 
         <s:decorate id="provider" template="layout/display.xhtml">
-            <ui:define name="label">Provider</ui:define>
+            <ui:define name="label">Fornecedor</ui:define>
             <h:outputText value="#{providerHome.instance.provider}"/>
         </s:decorate>
 
         <s:decorate id="cnpjCpf" template="layout/display.xhtml">
-            <ui:define name="label">Cnpj cpf</ui:define>
+            <ui:define name="label">CNPJ/CPF</ui:define>
             <h:outputText value="#{providerHome.instance.cnpjCpf}"/>
         </s:decorate>
 
         <s:decorate id="sifIma" template="layout/display.xhtml">
-            <ui:define name="label">Sif ima</ui:define>
+            <ui:define name="label">SIF/IMA</ui:define>
             <h:outputText value="#{providerHome.instance.sifIma}"/>
+        </s:decorate>
+        
+        <s:decorate id="address" template="layout/display.xhtml">
+            <ui:define name="label">Endereço</ui:define>
+            <h:outputText value="#{providerHome.instance.address}"/>
+        </s:decorate>
+        
+        <s:decorate id="neighborhood" template="layout/display.xhtml">
+            <ui:define name="label">Bairro</ui:define>
+            <h:outputText value="#{providerHome.instance.neighborhood}"/>
         </s:decorate>
 
         <s:decorate id="city" template="layout/display.xhtml">
-            <ui:define name="label">City</ui:define>
+            <ui:define name="label">Cidade</ui:define>
             <h:outputText value="#{providerHome.instance.city}"/>
         </s:decorate>
 
         <s:decorate id="state" template="layout/display.xhtml">
-            <ui:define name="label">State</ui:define>
+            <ui:define name="label">Estado</ui:define>
             <h:outputText value="#{providerHome.instance.state}"/>
-        </s:decorate>
-
-        <s:decorate id="neighborhood" template="layout/display.xhtml">
-            <ui:define name="label">Neighborhood</ui:define>
-            <h:outputText value="#{providerHome.instance.neighborhood}"/>
         </s:decorate>
 
         <div style="clear:both"/>
@@ -56,11 +61,11 @@
 
         <s:button view="/ProviderEdit.xhtml"
                     id="edit"
-                 value="Edit"/>
+                 value="Editar"/>
 
         <s:button view="/#{empty providerFrom ? 'ProviderList' : providerFrom}.xhtml"
                     id="done"
-                 value="Done"/>
+                 value="Finalizar"/>
 
     </div>
 
@@ -68,7 +73,7 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Base eggs</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Matérias Primas</h:panelGroup>
         </f:facet>
     <h:form styleClass="association" id="baseEggsChildren">
 
@@ -85,30 +90,30 @@
                 <h:outputText value="#{_baseEgg.id}"/>
             </rich:column>
             <rich:column sortBy="#{_baseEgg.productionDate}">
-                <f:facet name="header">Production date</f:facet>
+                <f:facet name="header">Data de Produção</f:facet>
                 <h:outputText value="#{_baseEgg.productionDate}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </rich:column>
             <rich:column sortBy="#{_baseEgg.validityDate}">
-                <f:facet name="header">Validity date</f:facet>
+                <f:facet name="header">Data de Validade</f:facet>
                 <h:outputText value="#{_baseEgg.validityDate}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </rich:column>
             <rich:column sortBy="#{_baseEgg.lot}">
-                <f:facet name="header">Lot</f:facet>
+                <f:facet name="header">Lote</f:facet>
                 <h:outputText value="#{_baseEgg.lot}"/>
             </rich:column>
             <rich:column sortBy="#{_baseEgg.quantity}">
-                <f:facet name="header">Quantity</f:facet>
+                <f:facet name="header">Quantidade</f:facet>
                 <h:outputText value="#{_baseEgg.quantity}"/>
             </rich:column>
             <rich:column sortBy="#{_baseEgg.balance}">
-                <f:facet name="header">Balance</f:facet>
+                <f:facet name="header">Saldo</f:facet>
                 <h:outputText value="#{_baseEgg.balance}"/>
             </rich:column>
-            <h:column>
+<!--             <h:column>
                 <f:facet name="header">Action</f:facet>
                 <s:link id="selectbaseEgg"
                      value="Select"
@@ -117,12 +122,12 @@
                             value="#{_baseEgg.id}"/>
                     <f:param name="baseEggFrom" value="Provider"/>
                 </s:link>
-            </h:column>
+            </h:column>--> 
         </rich:dataTable>
 
     </h:form>
 
-    <div class="actionButtons">
+ <!--    <div class="actionButtons">
         <s:button
                value="Add baseEgg"
                 view="/BaseEggEdit.xhtml">
@@ -130,7 +135,7 @@
                     value="#{providerHome.instance.id}"/>
             <f:param name="baseEggFrom" value="Provider"/>
         </s:button>
-    </div>
+    </div>--> 
     </rich:tab>
 </rich:tabPanel>
 </ui:define>
