@@ -164,35 +164,35 @@
 
     <div class="tableControl">
 
-        <s:link view="/LineageList.xhtml"
-            rendered="#{lineageList.previousExists}"
+        <s:link view="/BaseEggList.xhtml"
+            rendered="#{baseEggList.previousExists}"
                value="#{messages.left}#{messages.left} Primeira"
                   id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
 
-        <s:link view="/LineageList.xhtml"
-            rendered="#{lineageList.previousExists}"
+        <s:link view="/BaseEggList.xhtml"
+            rendered="#{baseEggList.previousExists}"
                value="#{messages.left} Próxima"
                   id="previousPage">
             <f:param name="firstResult"
-                    value="#{lineageList.previousFirstResult}"/>
+                    value="#{baseEggList.previousFirstResult}"/>
         </s:link>
 
-        <s:link view="/LineageList.xhtml"
-            rendered="#{lineageList.nextExists}"
+        <s:link view="/BaseEggList.xhtml"
+            rendered="#{baseEggList.nextExists}"
                value="Anterior #{messages.right}"
                   id="nextPage">
             <f:param name="firstResult"
-                    value="#{lineageList.nextFirstResult}"/>
+                    value="#{baseEggList.nextFirstResult}"/>
         </s:link>
 
-        <s:link view="/LineageList.xhtml"
-            rendered="#{lineageList.nextExists}"
+        <s:link view="/BaseEggList.xhtml"
+            rendered="#{baseEggList.nextExists}"
                value="Última #{messages.right}#{messages.right}"
                   id="lastPage">
             <f:param name="firstResult"
-                    value="#{lineageList.lastFirstResult}"/>
+                    value="#{baseEggList.lastFirstResult}"/>
         </s:link>
 
     </div>
