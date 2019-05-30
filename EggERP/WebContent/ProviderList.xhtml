@@ -15,40 +15,42 @@
         <rich:simpleTogglePanel label="Provider Search Filter" switchType="ajax">
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Provider</ui:define>
+                <ui:define name="label">Fornecedor</ui:define>
                 <h:inputText id="provider" value="#{providerList.provider.provider}"/>
             </s:decorate>
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Cnpj cpf</ui:define>
+                <ui:define name="label">CNPJ/CPF</ui:define>
                 <h:inputText id="cnpjCpf" value="#{providerList.provider.cnpjCpf}"/>
             </s:decorate>
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Sif ima</ui:define>
+                <ui:define name="label">SIF/IMA</ui:define>
                 <h:inputText id="sifIma" value="#{providerList.provider.sifIma}"/>
             </s:decorate>
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">City</ui:define>
+                <ui:define name="label">Cidade</ui:define>
                 <h:inputText id="city" value="#{providerList.provider.city}"/>
             </s:decorate>
+            
+<!--             <s:decorate template="layout/display.xhtml">
+                <ui:define name="label">Bairro</ui:define>
+                <h:inputText id="neighborhood" value="#{providerList.provider.neighborhood}"/>
+            </s:decorate> -->
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">State</ui:define>
+                <ui:define name="label">Estado</ui:define>
                 <h:inputText id="state" value="#{providerList.provider.state}"/>
             </s:decorate>
 
-            <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Neighborhood</ui:define>
-                <h:inputText id="neighborhood" value="#{providerList.provider.neighborhood}"/>
-            </s:decorate>
+
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Match</ui:define>
+                <ui:define name="label">Marcar</ui:define>
                 <h:selectOneRadio id="logic" value="#{providerList.restrictionLogicOperator}" styleClass="radio">
-                    <f:selectItem itemLabel="All" itemValue="and"/>
-                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                    <f:selectItem itemLabel="Todos" itemValue="and"/>
+                    <f:selectItem itemLabel="Qualquer" itemValue="or"/>
                 </h:selectOneRadio>
             </s:decorate>
 
@@ -62,10 +64,10 @@
     </h:form>
 
     <rich:panel>
-        <f:facet name="header">Provider Search Results (#{empty providerList.resultList ? 0 : (providerList.paginated ? providerList.resultCount : providerList.resultList.size)})</f:facet>
+        <f:facet name="header">Resultados da busca de Fornecedores de Ovos de Matéria Prima (#{empty providerList.resultList ? 0 : (providerList.paginated ? providerList.resultCount : providerList.resultList.size)})</f:facet>
     <div class="results" id="providerList">
 
-    <h:outputText value="The provider search returned no results."
+    <h:outputText value="A busca de Fornecedores de Ovos de Matéria Prima não retornou resultados."
                rendered="#{empty providerList.resultList}"/>
 
     <rich:dataTable id="providerList"
@@ -86,7 +88,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{providerList}"/>
-                    <ui:param name="propertyLabel" value="Provider"/>
+                    <ui:param name="propertyLabel" value="Fornecedor"/>
                     <ui:param name="propertyPath" value="provider.provider"/>
                 </ui:include>
             </f:facet>
@@ -96,7 +98,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{providerList}"/>
-                    <ui:param name="propertyLabel" value="Cnpj cpf"/>
+                    <ui:param name="propertyLabel" value="CNPJ/CPF"/>
                     <ui:param name="propertyPath" value="provider.cnpjCpf"/>
                 </ui:include>
             </f:facet>
@@ -106,7 +108,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{providerList}"/>
-                    <ui:param name="propertyLabel" value="Sif ima"/>
+                    <ui:param name="propertyLabel" value="SIF/IMA"/>
                     <ui:param name="propertyPath" value="provider.sifIma"/>
                 </ui:include>
             </f:facet>
@@ -116,7 +118,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{providerList}"/>
-                    <ui:param name="propertyLabel" value="City"/>
+                    <ui:param name="propertyLabel" value="Cidade"/>
                     <ui:param name="propertyPath" value="provider.city"/>
                 </ui:include>
             </f:facet>
@@ -126,13 +128,13 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{providerList}"/>
-                    <ui:param name="propertyLabel" value="State"/>
+                    <ui:param name="propertyLabel" value="Estado"/>
                     <ui:param name="propertyPath" value="provider.state"/>
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_provider.state}"/>
         </h:column>
-        <h:column>
+<!--         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{providerList}"/>
@@ -141,22 +143,24 @@
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_provider.neighborhood}"/>
-        </h:column>
+        </h:column> -->
         <rich:column styleClass="action">
             <f:facet name="header">Action</f:facet>
             <s:link view="/#{empty from ? 'Provider' : from}.xhtml"
-                   value="#{empty from ? 'View' : 'Select'}"
              propagation="#{empty from ? 'none' : 'default'}"
                       id="providerViewId">
+                    <h:graphicImage value="/img/view.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="providerViewId" value="#{empty from ? 'Ver' : 'Selecionar'}" />                      
                 <f:param name="providerId"
                         value="#{_provider.id}"/>
             </s:link>
-            #{' '}
+            <rich:spacer width="5"/>
             <s:link view="/ProviderEdit.xhtml"
-                   value="Edit"
              propagation="none"
                       id="providerEdit"
                 rendered="#{empty from}">
+                    <h:graphicImage value="/img/edit_property.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="providerEdit" value="Editar" />                    
                 <f:param name="providerId"
                         value="#{_provider.id}"/>
             </s:link>
