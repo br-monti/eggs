@@ -11,7 +11,7 @@
 <ui:define name="body">
 
     <rich:panel>
-        <f:facet name="header">Color Details</f:facet>
+        <f:facet name="header">Detalhes da Cor de Ovos</f:facet>
 
         <s:decorate id="id" template="layout/display.xhtml">
             <ui:define name="label">Id</ui:define>
@@ -19,7 +19,7 @@
         </s:decorate>
 
         <s:decorate id="color" template="layout/display.xhtml">
-            <ui:define name="label">Color</ui:define>
+            <ui:define name="label">Cor</ui:define>
             <h:outputText value="#{colorHome.instance.color}"/>
         </s:decorate>
 
@@ -31,11 +31,11 @@
 
         <s:button view="/ColorEdit.xhtml"
                     id="edit"
-                 value="Edit"/>
+                 value="Editar"/>
 
         <s:button view="/#{empty colorFrom ? 'ColorList' : colorFrom}.xhtml"
                     id="done"
-                 value="Done"/>
+                 value="Finalizar"/>
 
     </div>
 
@@ -43,11 +43,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Products</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Produtos</h:panelGroup>
         </f:facet>
     <h:form styleClass="association" id="productsChildren">
 
-        <h:outputText value="There are no products associated with this color."
+        <h:outputText value="Não existem produtos associados a essa Cor de Ovos ."
                    rendered="#{empty colorHome.products}"/>
 
         <rich:dataTable value="#{colorHome.products}"
@@ -60,14 +60,14 @@
                 <h:outputText value="#{_product.id}"/>
             </rich:column>
             <rich:column sortBy="#{_product.product}">
-                <f:facet name="header">Product</f:facet>
+                <f:facet name="header">Produto</f:facet>
                 <h:outputText value="#{_product.product}"/>
             </rich:column>
             <rich:column sortBy="#{_product.barcode}">
-                <f:facet name="header">Barcode</f:facet>
+                <f:facet name="header">Código de Barras</f:facet>
                 <h:outputText value="#{_product.barcode}"/>
             </rich:column>
-            <h:column>
+<!--            <h:column>
                 <f:facet name="header">Action</f:facet>
                 <s:link id="selectproduct"
                      value="Select"
@@ -76,12 +76,12 @@
                             value="#{_product.id}"/>
                     <f:param name="productFrom" value="Color"/>
                 </s:link>
-            </h:column>
+            </h:column> --> 
         </rich:dataTable>
 
     </h:form>
 
-    <div class="actionButtons">
+ <!--    <div class="actionButtons">
         <s:button
                value="Add product"
                 view="/ProductEdit.xhtml">
@@ -89,16 +89,16 @@
                     value="#{colorHome.instance.id}"/>
             <f:param name="productFrom" value="Color"/>
         </s:button>
-    </div>
+    </div> --> 
     </rich:tab>
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Base eggs</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Ovos de Matéria Prima</h:panelGroup>
         </f:facet>
     <h:form styleClass="association" id="baseEggsChildren">
 
-        <h:outputText value="There are no baseEggs associated with this color."
+        <h:outputText value="Não existem Matérias Primas associadas a essa Cor de Ovos."
                    rendered="#{empty colorHome.baseEggs}"/>
 
         <rich:dataTable value="#{colorHome.baseEggs}"
@@ -111,30 +111,30 @@
                 <h:outputText value="#{_baseEgg.id}"/>
             </rich:column>
             <rich:column sortBy="#{_baseEgg.productionDate}">
-                <f:facet name="header">Production date</f:facet>
+                <f:facet name="header">Data de Produção</f:facet>
                 <h:outputText value="#{_baseEgg.productionDate}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </rich:column>
             <rich:column sortBy="#{_baseEgg.validityDate}">
-                <f:facet name="header">Validity date</f:facet>
+                <f:facet name="header">Validade</f:facet>
                 <h:outputText value="#{_baseEgg.validityDate}">
-                    <s:convertDateTime type="date" dateStyle="short"/>
+                    <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                 </h:outputText>
             </rich:column>
             <rich:column sortBy="#{_baseEgg.lot}">
-                <f:facet name="header">Lot</f:facet>
+                <f:facet name="header">Lote</f:facet>
                 <h:outputText value="#{_baseEgg.lot}"/>
             </rich:column>
             <rich:column sortBy="#{_baseEgg.quantity}">
-                <f:facet name="header">Quantity</f:facet>
+                <f:facet name="header">Quantidade</f:facet>
                 <h:outputText value="#{_baseEgg.quantity}"/>
             </rich:column>
             <rich:column sortBy="#{_baseEgg.balance}">
-                <f:facet name="header">Balance</f:facet>
+                <f:facet name="header">Saldo</f:facet>
                 <h:outputText value="#{_baseEgg.balance}"/>
             </rich:column>
-            <h:column>
+<!--             <h:column>
                 <f:facet name="header">Action</f:facet>
                 <s:link id="selectbaseEgg"
                      value="Select"
@@ -143,20 +143,20 @@
                             value="#{_baseEgg.id}"/>
                     <f:param name="baseEggFrom" value="Color"/>
                 </s:link>
-            </h:column>
+            </h:column>  -->
         </rich:dataTable>
 
     </h:form>
 
-    <div class="actionButtons">
+ <!--   <div class="actionButtons">
         <s:button
                value="Add baseEgg"
                 view="/BaseEggEdit.xhtml">
             <f:param name="colorId"
                     value="#{colorHome.instance.id}"/>
             <f:param name="baseEggFrom" value="Color"/>
-        </s:button>
-    </div>
+        </s:button> 
+    </div> -->  
     </rich:tab>
 </rich:tabPanel>
 </ui:define>

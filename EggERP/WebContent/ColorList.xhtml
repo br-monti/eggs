@@ -12,35 +12,35 @@
 
     <h:form id="colorSearch" styleClass="edit">
 
-        <rich:simpleTogglePanel label="Color Search Filter" switchType="ajax">
+        <rich:simpleTogglePanel label="Filtro de busca de Cor de Ovos" switchType="ajax">
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Color</ui:define>
+                <ui:define name="label">Cor</ui:define>
                 <h:inputText id="color" value="#{colorList.color.color}"/>
             </s:decorate>
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Match</ui:define>
+                <ui:define name="label">Marcar</ui:define>
                 <h:selectOneRadio id="logic" value="#{colorList.restrictionLogicOperator}" styleClass="radio">
-                    <f:selectItem itemLabel="All" itemValue="and"/>
-                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                    <f:selectItem itemLabel="Todos" itemValue="and"/>
+                    <f:selectItem itemLabel="Qualquer" itemValue="or"/>
                 </h:selectOneRadio>
             </s:decorate>
 
         </rich:simpleTogglePanel>
 
         <div class="actionButtons">
-            <h:commandButton id="search" value="Search" action="/ColorList.xhtml"/>
-            <s:button id="reset" value="Reset" includePageParams="false"/>
+            <h:commandButton id="search" value="Buscar" action="/ColorList.xhtml"/>
+            <s:button id="reset" value="Cancelar" includePageParams="false"/>
         </div>
 
     </h:form>
 
     <rich:panel>
-        <f:facet name="header">Color Search Results (#{empty colorList.resultList ? 0 : (colorList.paginated ? colorList.resultCount : colorList.resultList.size)})</f:facet>
+        <f:facet name="header">Resultados da busca de Cor de Ovos (#{empty colorList.resultList ? 0 : (colorList.paginated ? colorList.resultCount : colorList.resultList.size)})</f:facet>
     <div class="results" id="colorList">
 
-    <h:outputText value="The color search returned no results."
+    <h:outputText value="A busca de Cor de Ovos não retornou resultados."
                rendered="#{empty colorList.resultList}"/>
 
     <rich:dataTable id="colorList"
@@ -61,7 +61,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{colorList}"/>
-                    <ui:param name="propertyLabel" value="Color"/>
+                    <ui:param name="propertyLabel" value="Cor"/>
                     <ui:param name="propertyPath" value="color.color"/>
                 </ui:include>
             </f:facet>
@@ -70,18 +70,20 @@
         <rich:column styleClass="action">
             <f:facet name="header">Action</f:facet>
             <s:link view="/#{empty from ? 'Color' : from}.xhtml"
-                   value="#{empty from ? 'View' : 'Select'}"
              propagation="#{empty from ? 'none' : 'default'}"
                       id="colorViewId">
+                    <h:graphicImage value="/img/view.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="colorViewId" value="#{empty from ? 'Ver' : 'Selecionar'}" /> 
                 <f:param name="colorId"
                         value="#{_color.id}"/>
             </s:link>
-            #{' '}
+            <rich:spacer width="5"/>
             <s:link view="/ColorEdit.xhtml"
-                   value="Edit"
              propagation="none"
                       id="colorEdit"
                 rendered="#{empty from}">
+                    <h:graphicImage value="/img/edit_property.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="colorEdit" value="Editar" />                 
                 <f:param name="colorId"
                         value="#{_color.id}"/>
             </s:link>
@@ -95,14 +97,14 @@
 
         <s:link view="/ColorList.xhtml"
             rendered="#{colorList.previousExists}"
-               value="#{messages.left}#{messages.left} First Page"
+               value="#{messages.left}#{messages.left} Primeira página"
                   id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
 
         <s:link view="/ColorList.xhtml"
             rendered="#{colorList.previousExists}"
-               value="#{messages.left} Previous Page"
+               value="#{messages.left} Página anterior"
                   id="previousPage">
             <f:param name="firstResult"
                     value="#{colorList.previousFirstResult}"/>
@@ -110,7 +112,7 @@
 
         <s:link view="/ColorList.xhtml"
             rendered="#{colorList.nextExists}"
-               value="Next Page #{messages.right}"
+               value="Próxima página #{messages.right}"
                   id="nextPage">
             <f:param name="firstResult"
                     value="#{colorList.nextFirstResult}"/>
@@ -118,7 +120,7 @@
 
         <s:link view="/ColorList.xhtml"
             rendered="#{colorList.nextExists}"
-               value="Last Page #{messages.right}#{messages.right}"
+               value="Última página #{messages.right}#{messages.right}"
                   id="lastPage">
             <f:param name="firstResult"
                     value="#{colorList.lastFirstResult}"/>
@@ -130,7 +132,7 @@
         <s:button view="/ColorEdit.xhtml"
                     id="create"
            propagation="none"
-                 value="Create color">
+                 value="Criar Cor de Ovos">
             <f:param name="colorId"/>
         </s:button>
     </s:div>

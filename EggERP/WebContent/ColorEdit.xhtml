@@ -14,10 +14,10 @@
     <h:form id="color" styleClass="edit">
 
         <rich:panel>
-            <f:facet name="header">#{colorHome.managed ? 'Edit' : 'Add'} Color</f:facet>
+            <f:facet name="header">#{colorHome.managed ? 'Editar' : 'Adicionar'} Cor de Ovos</f:facet>
 
 
-            <s:decorate id="idField" template="layout/edit.xhtml">
+ <!--            <s:decorate id="idField" template="layout/edit.xhtml">
                 <ui:define name="label">Id</ui:define>
                 <h:inputText id="id"
                        required="true"
@@ -25,11 +25,11 @@
                           value="#{colorHome.instance.id}">
                     <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
-            </s:decorate>
+            </s:decorate>--> 
 
 
             <s:decorate id="colorField" template="layout/edit.xhtml">
-                <ui:define name="label">Color</ui:define>
+                <ui:define name="label">Cor</ui:define>
                 <h:inputText id="color"
                        required="true"
                            size="15"
@@ -43,7 +43,7 @@
 
             <div style="clear:both">
                 <span class="required">*</span>
-                required fields
+                campos exigidos
             </div>
 
         </rich:panel>
@@ -51,30 +51,30 @@
         <div class="actionButtons">
 
             <h:commandButton id="save"
-                          value="Save"
+                          value="Salvar"
                          action="#{colorHome.persist}"
                        disabled="#{!colorHome.wired}"
                        rendered="#{!colorHome.managed}"/>
 
             <h:commandButton id="update"
-                          value="Save"
+                          value="Salvar"
                          action="#{colorHome.update}"
                        rendered="#{colorHome.managed}"/>
 
             <h:commandButton id="delete"
-                          value="Delete"
+                          value="Deletar"
                          action="#{colorHome.remove}"
                       immediate="true"
                        rendered="#{colorHome.managed}"/>
 
             <s:button id="cancelEdit"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
-                    view="/Color.xhtml"
+                    view="/ColorList.xhtml"
                 rendered="#{colorHome.managed}"/>
 
             <s:button id="cancelAdd"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
                     view="/#{empty colorFrom ? 'ColorList' : colorFrom}.xhtml"
                 rendered="#{!colorHome.managed}"/>
@@ -84,10 +84,10 @@
 
 <rich:tabPanel switchType="ajax">
 
-    <rich:tab label="Products">
+    <rich:tab label="Produtos">
         <h:form styleClass="association" id="productsChildren">
 
-            <h:outputText value="There are no products associated with this color."
+            <h:outputText value="Não existem produtos associados a essa Cor de Ovos."
                        rendered="#{empty colorHome.products}"/>
 
             <rich:dataTable value="#{colorHome.products}"
@@ -100,18 +100,18 @@
                     <h:outputText value="#{_product.id}"/>
                 </rich:column>
                 <rich:column sortBy="#{_product.product}">
-                    <f:facet name="header">Product</f:facet>
+                    <f:facet name="header">Produto</f:facet>
                     <h:outputText value="#{_product.product}"/>
                 </rich:column>
                 <rich:column sortBy="#{_product.barcode}">
-                    <f:facet name="header">Barcode</f:facet>
+                    <f:facet name="header">Código de Barras</f:facet>
                     <h:outputText value="#{_product.barcode}"/>
                 </rich:column>
             </rich:dataTable>
 
         </h:form>
 
-        <f:subview rendered="#{colorHome.managed}" id="products">
+ <!--        <f:subview rendered="#{colorHome.managed}" id="products">
         <div class="actionButtons">
             <s:button id="addproduct"
                    value="Add product"
@@ -122,13 +122,13 @@
                  <f:param name="productFrom" value="Color"/>
             </s:button>
         </div>
-        </f:subview>
+        </f:subview>--> 
     </rich:tab>
 
-    <rich:tab label="Base eggs">
+    <rich:tab label="Matérias Primas">
         <h:form styleClass="association" id="baseEggsChildren">
 
-            <h:outputText value="There are no baseEggs associated with this color."
+            <h:outputText value="Não existem Matérias Primas associadas a essa Cor de Ovos"
                        rendered="#{empty colorHome.baseEggs}"/>
 
             <rich:dataTable value="#{colorHome.baseEggs}"
@@ -141,34 +141,34 @@
                     <h:outputText value="#{_baseEgg.id}"/>
                 </rich:column>
                 <rich:column sortBy="#{_baseEgg.productionDate}">
-                    <f:facet name="header">Production date</f:facet>
+                    <f:facet name="header">Data de Produção</f:facet>
                     <h:outputText value="#{_baseEgg.productionDate}">
-                        <s:convertDateTime type="date" dateStyle="short"/>
+                        <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </rich:column>
                 <rich:column sortBy="#{_baseEgg.validityDate}">
-                    <f:facet name="header">Validity date</f:facet>
+                    <f:facet name="header">Validade</f:facet>
                     <h:outputText value="#{_baseEgg.validityDate}">
-                        <s:convertDateTime type="date" dateStyle="short"/>
+                        <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </rich:column>
                 <rich:column sortBy="#{_baseEgg.lot}">
-                    <f:facet name="header">Lot</f:facet>
+                    <f:facet name="header">Lote</f:facet>
                     <h:outputText value="#{_baseEgg.lot}"/>
                 </rich:column>
                 <rich:column sortBy="#{_baseEgg.quantity}">
-                    <f:facet name="header">Quantity</f:facet>
+                    <f:facet name="header">Quantidade</f:facet>
                     <h:outputText value="#{_baseEgg.quantity}"/>
                 </rich:column>
                 <rich:column sortBy="#{_baseEgg.balance}">
-                    <f:facet name="header">Balance</f:facet>
+                    <f:facet name="header">Saldo</f:facet>
                     <h:outputText value="#{_baseEgg.balance}"/>
                 </rich:column>
             </rich:dataTable>
 
         </h:form>
 
-        <f:subview rendered="#{colorHome.managed}" id="baseEggs">
+<!--         <f:subview rendered="#{colorHome.managed}" id="baseEggs">
         <div class="actionButtons">
             <s:button id="addbaseEgg"
                    value="Add baseEgg"
@@ -179,7 +179,7 @@
                  <f:param name="baseEggFrom" value="Color"/>
             </s:button>
         </div>
-        </f:subview>
+        </f:subview> --> 
     </rich:tab>
 </rich:tabPanel>
 </ui:define>

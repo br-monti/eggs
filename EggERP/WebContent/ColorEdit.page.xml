@@ -16,14 +16,14 @@
    <navigation from-action="#{colorHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/Color.xhtml"/>
+         <redirect view-id="/ColorList.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{colorHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/Color.xhtml"/>
+         <redirect view-id="/ColorList.xhtml"/>
       </rule>
    </navigation>
 
