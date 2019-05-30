@@ -126,9 +126,8 @@ public class BaseEgg implements java.io.Serializable {
 		this.lot = lot;
 	}
 
-	@Column(name = "quantity", nullable = false, length = 45)
+	@Column(name = "quantity", nullable = false)
 	@NotNull
-	@Length(max = 45)
 	public int getQuantity() {
 		return this.quantity;
 	}
@@ -137,9 +136,8 @@ public class BaseEgg implements java.io.Serializable {
 		this.quantity = quantity;
 	}
 
-	@Column(name = "balance", nullable = false, length = 45)
+	@Column(name = "balance", nullable = false)
 	@NotNull
-	@Length(max = 45)
 	public int getBalance() {
 		return this.balance;
 	}

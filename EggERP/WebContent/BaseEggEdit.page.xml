@@ -22,14 +22,14 @@
    <navigation from-action="#{baseEggHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/BaseEgg.xhtml"/>
+         <redirect view-id="/BaseEggList.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{baseEggHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/BaseEgg.xhtml"/>
+         <redirect view-id="/BaseEggList.xhtml"/>
       </rule>
    </navigation>
 
