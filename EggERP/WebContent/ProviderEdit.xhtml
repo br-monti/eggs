@@ -14,10 +14,10 @@
     <h:form id="provider" styleClass="edit">
 
         <rich:panel>
-            <f:facet name="header">#{providerHome.managed ? 'Edit' : 'Add'} Provider</f:facet>
+            <f:facet name="header">#{providerHome.managed ? 'Editar' : 'Adicionar'} Fornecedor de Ovos de Matéria Prima</f:facet>
 
 
-            <s:decorate id="idField" template="layout/edit.xhtml">
+<!--             <s:decorate id="idField" template="layout/edit.xhtml">
                 <ui:define name="label">Id</ui:define>
                 <h:inputText id="id"
                        required="true"
@@ -25,11 +25,11 @@
                           value="#{providerHome.instance.id}">
                     <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
-            </s:decorate>
+            </s:decorate> -->
 
 
             <s:decorate id="providerField" template="layout/edit.xhtml">
-                <ui:define name="label">Provider</ui:define>
+                <ui:define name="label">Fornecedor</ui:define>
                 <h:inputText id="provider"
                        required="true"
                            size="45"
@@ -41,7 +41,7 @@
 
 
             <s:decorate id="cnpjCpfField" template="layout/edit.xhtml">
-                <ui:define name="label">Cnpj cpf</ui:define>
+                <ui:define name="label">CNPJ/CPF</ui:define>
                 <h:inputText id="cnpjCpf"
                        required="true"
                            size="20"
@@ -53,7 +53,7 @@
 
 
             <s:decorate id="sifImaField" template="layout/edit.xhtml">
-                <ui:define name="label">Sif ima</ui:define>
+                <ui:define name="label">SIF/IMA</ui:define>
                 <h:inputText id="sifIma"
                        required="true"
                            size="20"
@@ -62,33 +62,9 @@
                     <a:support event="onblur" reRender="sifImaField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
             </s:decorate>
-
-
-            <s:decorate id="cityField" template="layout/edit.xhtml">
-                <ui:define name="label">City</ui:define>
-                <h:inputText id="city"
-                       required="true"
-                           size="20"
-                      maxlength="20"
-                          value="#{providerHome.instance.city}">
-                    <a:support event="onblur" reRender="cityField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
-            </s:decorate>
-
-
-            <s:decorate id="stateField" template="layout/edit.xhtml">
-                <ui:define name="label">State</ui:define>
-                <h:inputText id="state"
-                       required="true"
-                           size="2"
-                      maxlength="2"
-                          value="#{providerHome.instance.state}">
-                    <a:support event="onblur" reRender="stateField" bypassUpdates="true" ajaxSingle="true"/>
-                </h:inputText>
-            </s:decorate>
-            
+         
             <s:decorate id="addressField" template="layout/edit.xhtml">
-                <ui:define name="label">Address</ui:define>
+                <ui:define name="label">Endereço</ui:define>
                 <h:inputText id="address"
                        required="true"
                            size="45"
@@ -100,7 +76,7 @@
 
 
             <s:decorate id="neighborhoodField" template="layout/edit.xhtml">
-                <ui:define name="label">Neighborhood</ui:define>
+                <ui:define name="label">Bairro</ui:define>
                 <h:inputText id="neighborhood"
                        required="true"
                            size="20"
@@ -109,11 +85,34 @@
                     <a:support event="onblur" reRender="neighborhoodField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
             </s:decorate>
+            
+            <s:decorate id="cityField" template="layout/edit.xhtml">
+                <ui:define name="label">Cidade</ui:define>
+                <h:inputText id="city"
+                       required="true"
+                           size="20"
+                      maxlength="20"
+                          value="#{providerHome.instance.city}">
+                    <a:support event="onblur" reRender="cityField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <s:decorate id="stateField" template="layout/edit.xhtml">
+                <ui:define name="label">Estado</ui:define>
+                <h:inputText id="state"
+                       required="true"
+                           size="2"
+                      maxlength="2"
+                          value="#{providerHome.instance.state}">
+                    <a:support event="onblur" reRender="stateField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
 
 
             <div style="clear:both">
                 <span class="required">*</span>
-                required fields
+                campos exigidos
             </div>
 
         </rich:panel>
@@ -121,30 +120,30 @@
         <div class="actionButtons">
 
             <h:commandButton id="save"
-                          value="Save"
+                          value="Salvar"
                          action="#{providerHome.persist}"
                        disabled="#{!providerHome.wired}"
                        rendered="#{!providerHome.managed}"/>
 
             <h:commandButton id="update"
-                          value="Save"
+                          value="Salvar"
                          action="#{providerHome.update}"
                        rendered="#{providerHome.managed}"/>
 
             <h:commandButton id="delete"
-                          value="Delete"
+                          value="Deletar"
                          action="#{providerHome.remove}"
                       immediate="true"
                        rendered="#{providerHome.managed}"/>
 
             <s:button id="cancelEdit"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
                     view="/Provider.xhtml"
                 rendered="#{providerHome.managed}"/>
 
             <s:button id="cancelAdd"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
                     view="/#{empty providerFrom ? 'ProviderList' : providerFrom}.xhtml"
                 rendered="#{!providerHome.managed}"/>
@@ -157,7 +156,7 @@
     <rich:tab label="Base eggs">
         <h:form styleClass="association" id="baseEggsChildren">
 
-            <h:outputText value="There are no baseEggs associated with this provider."
+            <h:outputText value="Não existem Ovos de Matéria Prima associados a esse Fornecedor."
                        rendered="#{empty providerHome.baseEggs}"/>
 
             <rich:dataTable value="#{providerHome.baseEggs}"
@@ -170,27 +169,27 @@
                     <h:outputText value="#{_baseEgg.id}"/>
                 </rich:column>
                 <rich:column sortBy="#{_baseEgg.productionDate}">
-                    <f:facet name="header">Production date</f:facet>
+                    <f:facet name="header">Data de Produção</f:facet>
                     <h:outputText value="#{_baseEgg.productionDate}">
-                        <s:convertDateTime type="date" dateStyle="short"/>
+                        <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </rich:column>
                 <rich:column sortBy="#{_baseEgg.validityDate}">
-                    <f:facet name="header">Validity date</f:facet>
+                    <f:facet name="header">Validade</f:facet>
                     <h:outputText value="#{_baseEgg.validityDate}">
-                        <s:convertDateTime type="date" dateStyle="short"/>
+                        <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </rich:column>
                 <rich:column sortBy="#{_baseEgg.lot}">
-                    <f:facet name="header">Lot</f:facet>
+                    <f:facet name="header">Lote</f:facet>
                     <h:outputText value="#{_baseEgg.lot}"/>
                 </rich:column>
                 <rich:column sortBy="#{_baseEgg.quantity}">
-                    <f:facet name="header">Quantity</f:facet>
+                    <f:facet name="header">Quantidade</f:facet>
                     <h:outputText value="#{_baseEgg.quantity}"/>
                 </rich:column>
                 <rich:column sortBy="#{_baseEgg.balance}">
-                    <f:facet name="header">Balance</f:facet>
+                    <f:facet name="header">Saldo</f:facet>
                     <h:outputText value="#{_baseEgg.balance}"/>
                 </rich:column>
             </rich:dataTable>
