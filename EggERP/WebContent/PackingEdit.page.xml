@@ -16,14 +16,14 @@
    <navigation from-action="#{packingHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/Packing.xhtml"/>
+         <redirect view-id="/PackingList.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{packingHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/Packing.xhtml"/>
+         <redirect view-id="/PackingList.xhtml"/>
       </rule>
    </navigation>
 

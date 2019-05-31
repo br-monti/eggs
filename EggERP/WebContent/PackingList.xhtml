@@ -12,23 +12,23 @@
 
     <h:form id="packingSearch" styleClass="edit">
 
-        <rich:simpleTogglePanel label="Packing Search Filter" switchType="ajax">
+        <rich:simpleTogglePanel label="Filtro de Busca de Embalagem" switchType="ajax">
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Packing</ui:define>
+                <ui:define name="label">Embalagem</ui:define>
                 <h:inputText id="packing" value="#{packingList.packing.packing}"/>
             </s:decorate>
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Type</ui:define>
+                <ui:define name="label">Tipo</ui:define>
                 <h:inputText id="type" value="#{packingList.packing.type}"/>
             </s:decorate>
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Match</ui:define>
+                <ui:define name="label">Marcar</ui:define>
                 <h:selectOneRadio id="logic" value="#{packingList.restrictionLogicOperator}" styleClass="radio">
-                    <f:selectItem itemLabel="All" itemValue="and"/>
-                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                    <f:selectItem itemLabel="Todos" itemValue="and"/>
+                    <f:selectItem itemLabel="Qualquer" itemValue="or"/>
                 </h:selectOneRadio>
             </s:decorate>
 
@@ -42,10 +42,10 @@
     </h:form>
 
     <rich:panel>
-        <f:facet name="header">Packing Search Results (#{empty packingList.resultList ? 0 : (packingList.paginated ? packingList.resultCount : packingList.resultList.size)})</f:facet>
+        <f:facet name="header">Resultados da busca de Embalagem (#{empty packingList.resultList ? 0 : (packingList.paginated ? packingList.resultCount : packingList.resultList.size)})</f:facet>
     <div class="results" id="packingList">
 
-    <h:outputText value="The packing search returned no results."
+    <h:outputText value="A busca de Embalagem não retornou resultados."
                rendered="#{empty packingList.resultList}"/>
 
     <rich:dataTable id="packingList"
@@ -66,7 +66,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{packingList}"/>
-                    <ui:param name="propertyLabel" value="Packing"/>
+                    <ui:param name="propertyLabel" value="Embalagem"/>
                     <ui:param name="propertyPath" value="packing.packing"/>
                 </ui:include>
             </f:facet>
@@ -76,7 +76,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{packingList}"/>
-                    <ui:param name="propertyLabel" value="Type"/>
+                    <ui:param name="propertyLabel" value="Tipo"/>
                     <ui:param name="propertyPath" value="packing.type"/>
                 </ui:include>
             </f:facet>
@@ -86,27 +86,29 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{packingList}"/>
-                    <ui:param name="propertyLabel" value="Egg quantity"/>
+                    <ui:param name="propertyLabel" value="Quantidade por Embalagem"/>
                     <ui:param name="propertyPath" value="packing.eggQuantity"/>
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_packing.eggQuantity}"/>
         </h:column>
         <rich:column styleClass="action">
-            <f:facet name="header">Action</f:facet>
+            <f:facet name="header">Ações</f:facet>
             <s:link view="/#{empty from ? 'Packing' : from}.xhtml"
-                   value="#{empty from ? 'View' : 'Select'}"
              propagation="#{empty from ? 'none' : 'default'}"
                       id="packingViewId">
+                    <h:graphicImage value="/img/view.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="packingViewId" value="#{empty from ? 'Ver' : 'Selecionar'}" />                        
                 <f:param name="packingId"
                         value="#{_packing.id}"/>
             </s:link>
-            #{' '}
+            <rich:spacer width="5"/>
             <s:link view="/PackingEdit.xhtml"
-                   value="Edit"
              propagation="none"
                       id="packingEdit"
                 rendered="#{empty from}">
+                    <h:graphicImage value="/img/edit_property.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="packingEdit" value="Editar" />                   
                 <f:param name="packingId"
                         value="#{_packing.id}"/>
             </s:link>
@@ -120,14 +122,14 @@
 
         <s:link view="/PackingList.xhtml"
             rendered="#{packingList.previousExists}"
-               value="#{messages.left}#{messages.left} First Page"
+               value="#{messages.left}#{messages.left} Primeira Página"
                   id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
 
         <s:link view="/PackingList.xhtml"
             rendered="#{packingList.previousExists}"
-               value="#{messages.left} Previous Page"
+               value="#{messages.left} Página Anterior"
                   id="previousPage">
             <f:param name="firstResult"
                     value="#{packingList.previousFirstResult}"/>
@@ -135,7 +137,7 @@
 
         <s:link view="/PackingList.xhtml"
             rendered="#{packingList.nextExists}"
-               value="Next Page #{messages.right}"
+               value="Próxima Página #{messages.right}"
                   id="nextPage">
             <f:param name="firstResult"
                     value="#{packingList.nextFirstResult}"/>
@@ -143,7 +145,7 @@
 
         <s:link view="/PackingList.xhtml"
             rendered="#{packingList.nextExists}"
-               value="Last Page #{messages.right}#{messages.right}"
+               value="Última Página #{messages.right}#{messages.right}"
                   id="lastPage">
             <f:param name="firstResult"
                     value="#{packingList.lastFirstResult}"/>
@@ -155,7 +157,7 @@
         <s:button view="/PackingEdit.xhtml"
                     id="create"
            propagation="none"
-                 value="Create packing">
+                 value="Criar Embalagem">
             <f:param name="packingId"/>
         </s:button>
     </s:div>
