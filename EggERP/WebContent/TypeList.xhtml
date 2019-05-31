@@ -12,35 +12,35 @@
 
     <h:form id="typeSearch" styleClass="edit">
 
-        <rich:simpleTogglePanel label="Type Search Filter" switchType="ajax">
+        <rich:simpleTogglePanel label="Filtro de Busca de Tipo de Ovos" switchType="ajax">
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Type</ui:define>
+                <ui:define name="label">Tipo</ui:define>
                 <h:inputText id="type" value="#{typeList.type.type}"/>
             </s:decorate>
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Match</ui:define>
+                <ui:define name="label">Marcar</ui:define>
                 <h:selectOneRadio id="logic" value="#{typeList.restrictionLogicOperator}" styleClass="radio">
-                    <f:selectItem itemLabel="All" itemValue="and"/>
-                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                    <f:selectItem itemLabel="Todos" itemValue="and"/>
+                    <f:selectItem itemLabel="Qualquer" itemValue="or"/>
                 </h:selectOneRadio>
             </s:decorate>
 
         </rich:simpleTogglePanel>
 
         <div class="actionButtons">
-            <h:commandButton id="search" value="Search" action="/TypeList.xhtml"/>
-            <s:button id="reset" value="Reset" includePageParams="false"/>
+            <h:commandButton id="search" value="Pesquisar" action="/TypeList.xhtml"/>
+            <s:button id="reset" value="Cancelar" includePageParams="false"/>
         </div>
 
     </h:form>
 
     <rich:panel>
-        <f:facet name="header">Type Search Results (#{empty typeList.resultList ? 0 : (typeList.paginated ? typeList.resultCount : typeList.resultList.size)})</f:facet>
+        <f:facet name="header">Resultados da Busca de Tipo de Ovos (#{empty typeList.resultList ? 0 : (typeList.paginated ? typeList.resultCount : typeList.resultList.size)})</f:facet>
     <div class="results" id="typeList">
 
-    <h:outputText value="The type search returned no results."
+    <h:outputText value="A busca de Tipo de Ovos não retornou resultados."
                rendered="#{empty typeList.resultList}"/>
 
     <rich:dataTable id="typeList"
@@ -61,7 +61,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{typeList}"/>
-                    <ui:param name="propertyLabel" value="Type"/>
+                    <ui:param name="propertyLabel" value="Tipo"/>
                     <ui:param name="propertyPath" value="type.type"/>
                 </ui:include>
             </f:facet>
@@ -71,7 +71,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{typeList}"/>
-                    <ui:param name="propertyLabel" value="Minimum weight"/>
+                    <ui:param name="propertyLabel" value="Peso mínimo"/>
                     <ui:param name="propertyPath" value="type.minimumWeight"/>
                 </ui:include>
             </f:facet>
@@ -81,27 +81,29 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{typeList}"/>
-                    <ui:param name="propertyLabel" value="Maximum weight"/>
+                    <ui:param name="propertyLabel" value="Peso Máximo"/>
                     <ui:param name="propertyPath" value="type.maximumWeight"/>
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_type.maximumWeight}"/>
         </h:column>
         <rich:column styleClass="action">
-            <f:facet name="header">Action</f:facet>
+            <f:facet name="header">Ações</f:facet>
             <s:link view="/#{empty from ? 'Type' : from}.xhtml"
-                   value="#{empty from ? 'View' : 'Select'}"
              propagation="#{empty from ? 'none' : 'default'}"
                       id="typeViewId">
+                    <h:graphicImage value="/img/view.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="typeViewId" value="#{empty from ? 'Ver' : 'Selecionar'}" />                        
                 <f:param name="typeId"
                         value="#{_type.id}"/>
             </s:link>
-            #{' '}
+            <rich:spacer width="5"/>
             <s:link view="/TypeEdit.xhtml"
-                   value="Edit"
              propagation="none"
                       id="typeEdit"
                 rendered="#{empty from}">
+                    <h:graphicImage value="/img/edit_property.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="typeEdit" value="Editar" />                
                 <f:param name="typeId"
                         value="#{_type.id}"/>
             </s:link>
@@ -115,14 +117,14 @@
 
         <s:link view="/TypeList.xhtml"
             rendered="#{typeList.previousExists}"
-               value="#{messages.left}#{messages.left} First Page"
+               value="#{messages.left}#{messages.left} Primeira página"
                   id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
 
         <s:link view="/TypeList.xhtml"
             rendered="#{typeList.previousExists}"
-               value="#{messages.left} Previous Page"
+               value="#{messages.left} Página anterior"
                   id="previousPage">
             <f:param name="firstResult"
                     value="#{typeList.previousFirstResult}"/>
@@ -130,7 +132,7 @@
 
         <s:link view="/TypeList.xhtml"
             rendered="#{typeList.nextExists}"
-               value="Next Page #{messages.right}"
+               value="Próxima página #{messages.right}"
                   id="nextPage">
             <f:param name="firstResult"
                     value="#{typeList.nextFirstResult}"/>
@@ -138,7 +140,7 @@
 
         <s:link view="/TypeList.xhtml"
             rendered="#{typeList.nextExists}"
-               value="Last Page #{messages.right}#{messages.right}"
+               value="Última página #{messages.right}#{messages.right}"
                   id="lastPage">
             <f:param name="firstResult"
                     value="#{typeList.lastFirstResult}"/>
@@ -150,7 +152,7 @@
         <s:button view="/TypeEdit.xhtml"
                     id="create"
            propagation="none"
-                 value="Create type">
+                 value="Criar Tipo de Ovos">
             <f:param name="typeId"/>
         </s:button>
     </s:div>

@@ -14,10 +14,10 @@
     <h:form id="type" styleClass="edit">
 
         <rich:panel>
-            <f:facet name="header">#{typeHome.managed ? 'Edit' : 'Add'} Type</f:facet>
+            <f:facet name="header">#{typeHome.managed ? 'Editar' : 'Adicionar'} Tipo de Ovos</f:facet>
 
 
-            <s:decorate id="idField" template="layout/edit.xhtml">
+<!--             <s:decorate id="idField" template="layout/edit.xhtml">
                 <ui:define name="label">Id</ui:define>
                 <h:inputText id="id"
                        required="true"
@@ -25,11 +25,11 @@
                           value="#{typeHome.instance.id}">
                     <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
                 </h:inputText>
-            </s:decorate>
+            </s:decorate> -->
 
 
             <s:decorate id="typeField" template="layout/edit.xhtml">
-                <ui:define name="label">Type</ui:define>
+                <ui:define name="label">Tipo</ui:define>
                 <h:inputText id="type"
                        required="true"
                            size="45"
@@ -41,7 +41,7 @@
 
 
             <s:decorate id="minimumWeightField" template="layout/edit.xhtml">
-                <ui:define name="label">Minimum weight</ui:define>
+                <ui:define name="label">Peso Mínimo</ui:define>
                 <h:inputText id="minimumWeight"
                        required="true"
                           value="#{typeHome.instance.minimumWeight}">
@@ -51,7 +51,7 @@
 
 
             <s:decorate id="maximumWeightField" template="layout/edit.xhtml">
-                <ui:define name="label">Maximum weight</ui:define>
+                <ui:define name="label">Peso Máximo</ui:define>
                 <h:inputText id="maximumWeight"
                        required="true"
                           value="#{typeHome.instance.maximumWeight}">
@@ -62,7 +62,7 @@
 
             <div style="clear:both">
                 <span class="required">*</span>
-                required fields
+                campos exigidos
             </div>
 
         </rich:panel>
@@ -70,30 +70,30 @@
         <div class="actionButtons">
 
             <h:commandButton id="save"
-                          value="Save"
+                          value="Salvar"
                          action="#{typeHome.persist}"
                        disabled="#{!typeHome.wired}"
                        rendered="#{!typeHome.managed}"/>
 
             <h:commandButton id="update"
-                          value="Save"
+                          value="Salvar"
                          action="#{typeHome.update}"
                        rendered="#{typeHome.managed}"/>
 
             <h:commandButton id="delete"
-                          value="Delete"
+                          value="Deletar"
                          action="#{typeHome.remove}"
                       immediate="true"
                        rendered="#{typeHome.managed}"/>
 
             <s:button id="cancelEdit"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
-                    view="/Type.xhtml"
+                    view="/TypeList.xhtml"
                 rendered="#{typeHome.managed}"/>
 
             <s:button id="cancelAdd"
-                   value="Cancel"
+                   value="Cancelar"
              propagation="end"
                     view="/#{empty typeFrom ? 'TypeList' : typeFrom}.xhtml"
                 rendered="#{!typeHome.managed}"/>
@@ -103,10 +103,10 @@
 
 <rich:tabPanel switchType="ajax">
 
-    <rich:tab label="Products">
+    <rich:tab label="Produtos">
         <h:form styleClass="association" id="productsChildren">
 
-            <h:outputText value="There are no products associated with this type."
+            <h:outputText value="Não existem Produtos associados a esse Tipo de Ovos."
                        rendered="#{empty typeHome.products}"/>
 
             <rich:dataTable value="#{typeHome.products}"
@@ -119,18 +119,18 @@
                     <h:outputText value="#{_product.id}"/>
                 </rich:column>
                 <rich:column sortBy="#{_product.product}">
-                    <f:facet name="header">Product</f:facet>
+                    <f:facet name="header">Produto</f:facet>
                     <h:outputText value="#{_product.product}"/>
                 </rich:column>
                 <rich:column sortBy="#{_product.barcode}">
-                    <f:facet name="header">Barcode</f:facet>
+                    <f:facet name="header">Código de Barras</f:facet>
                     <h:outputText value="#{_product.barcode}"/>
                 </rich:column>
             </rich:dataTable>
 
         </h:form>
 
-        <f:subview rendered="#{typeHome.managed}" id="products">
+ <!--        <f:subview rendered="#{typeHome.managed}" id="products">
         <div class="actionButtons">
             <s:button id="addproduct"
                    value="Add product"
@@ -141,7 +141,7 @@
                  <f:param name="productFrom" value="Type"/>
             </s:button>
         </div>
-        </f:subview>
+        </f:subview> -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>

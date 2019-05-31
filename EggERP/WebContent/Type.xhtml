@@ -11,7 +11,7 @@
 <ui:define name="body">
 
     <rich:panel>
-        <f:facet name="header">Type Details</f:facet>
+        <f:facet name="header">Detalhes do Tipo de Ovos</f:facet>
 
         <s:decorate id="id" template="layout/display.xhtml">
             <ui:define name="label">Id</ui:define>
@@ -19,17 +19,17 @@
         </s:decorate>
 
         <s:decorate id="type" template="layout/display.xhtml">
-            <ui:define name="label">Type</ui:define>
+            <ui:define name="label">Tipo</ui:define>
             <h:outputText value="#{typeHome.instance.type}"/>
         </s:decorate>
 
         <s:decorate id="minimumWeight" template="layout/display.xhtml">
-            <ui:define name="label">Minimum weight</ui:define>
+            <ui:define name="label">Peso Mínimo</ui:define>
             <h:outputText value="#{typeHome.instance.minimumWeight}"/>
         </s:decorate>
 
         <s:decorate id="maximumWeight" template="layout/display.xhtml">
-            <ui:define name="label">Maximum weight</ui:define>
+            <ui:define name="label">Peso Máximo</ui:define>
             <h:outputText value="#{typeHome.instance.maximumWeight}"/>
         </s:decorate>
 
@@ -41,11 +41,11 @@
 
         <s:button view="/TypeEdit.xhtml"
                     id="edit"
-                 value="Edit"/>
+                 value="Editar"/>
 
         <s:button view="/#{empty typeFrom ? 'TypeList' : typeFrom}.xhtml"
                     id="done"
-                 value="Done"/>
+                 value="Finalizar"/>
 
     </div>
 
@@ -53,11 +53,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Products</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Produtos</h:panelGroup>
         </f:facet>
     <h:form styleClass="association" id="productsChildren">
 
-        <h:outputText value="There are no products associated with this type."
+        <h:outputText value="Não existem Produtos associados a esse Tipo de Ovos."
                    rendered="#{empty typeHome.products}"/>
 
         <rich:dataTable value="#{typeHome.products}"
@@ -70,14 +70,14 @@
                 <h:outputText value="#{_product.id}"/>
             </rich:column>
             <rich:column sortBy="#{_product.product}">
-                <f:facet name="header">Product</f:facet>
+                <f:facet name="header">Produto</f:facet>
                 <h:outputText value="#{_product.product}"/>
             </rich:column>
             <rich:column sortBy="#{_product.barcode}">
-                <f:facet name="header">Barcode</f:facet>
+                <f:facet name="header">Código de Barras</f:facet>
                 <h:outputText value="#{_product.barcode}"/>
             </rich:column>
-            <h:column>
+<!--             <h:column>
                 <f:facet name="header">Action</f:facet>
                 <s:link id="selectproduct"
                      value="Select"
@@ -86,12 +86,12 @@
                             value="#{_product.id}"/>
                     <f:param name="productFrom" value="Type"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </h:form>
 
-    <div class="actionButtons">
+<!--     <div class="actionButtons">
         <s:button
                value="Add product"
                 view="/ProductEdit.xhtml">
@@ -99,7 +99,7 @@
                     value="#{typeHome.instance.id}"/>
             <f:param name="productFrom" value="Type"/>
         </s:button>
-    </div>
+    </div> -->
     </rich:tab>
 </rich:tabPanel>
 </ui:define>

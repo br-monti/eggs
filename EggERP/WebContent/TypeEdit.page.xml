@@ -16,14 +16,14 @@
    <navigation from-action="#{typeHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/Type.xhtml"/>
+         <redirect view-id="/TypeList.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{typeHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/Type.xhtml"/>
+         <redirect view-id="/TypeList.xhtml"/>
       </rule>
    </navigation>
 
