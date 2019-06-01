@@ -35,8 +35,8 @@
         </rich:simpleTogglePanel>
 
         <div class="actionButtons">
-            <h:commandButton id="search" value="Search" action="/PackingList.xhtml"/>
-            <s:button id="reset" value="Reset" includePageParams="false"/>
+            <h:commandButton id="search" value="Buscar" action="/PackingList.xhtml"/>
+            <s:button id="reset" value="Cancelar" includePageParams="false"/>
         </div>
 
     </h:form>
@@ -86,7 +86,7 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{packingList}"/>
-                    <ui:param name="propertyLabel" value="Quantidade por Embalagem"/>
+                    <ui:param name="propertyLabel" value="Ovos por Embalagem"/>
                     <ui:param name="propertyPath" value="packing.eggQuantity"/>
                 </ui:include>
             </f:facet>
