@@ -25,14 +25,14 @@
    <navigation from-action="#{productHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/Product.xhtml"/>
+         <redirect view-id="/ProductList.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{productHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/Product.xhtml"/>
+         <redirect view-id="/ProductList.xhtml"/>
       </rule>
    </navigation>
 

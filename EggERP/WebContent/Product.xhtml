@@ -11,7 +11,7 @@
 <ui:define name="body">
 
     <rich:panel>
-        <f:facet name="header">Product Details</f:facet>
+        <f:facet name="header">Detalhes do Produto</f:facet>
 
         <s:decorate id="id" template="layout/display.xhtml">
             <ui:define name="label">Id</ui:define>
@@ -19,12 +19,12 @@
         </s:decorate>
 
         <s:decorate id="product" template="layout/display.xhtml">
-            <ui:define name="label">Product</ui:define>
+            <ui:define name="label">Produto</ui:define>
             <h:outputText value="#{productHome.instance.product}"/>
         </s:decorate>
 
         <s:decorate id="barcode" template="layout/display.xhtml">
-            <ui:define name="label">Barcode</ui:define>
+            <ui:define name="label">Código de Barras</ui:define>
             <h:outputText value="#{productHome.instance.barcode}"/>
         </s:decorate>
 
@@ -36,11 +36,11 @@
 
         <s:button view="/ProductEdit.xhtml"
                     id="edit"
-                 value="Edit"/>
+                 value="Editar"/>
 
         <s:button view="/#{empty productFrom ? 'ProductList' : productFrom}.xhtml"
                     id="done"
-                 value="Done"/>
+                 value="Finalizar"/>
 
     </div>
 
@@ -48,11 +48,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Packing</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Embalagem</h:panelGroup>
         </f:facet>
     <div class="association" id="packingParent">
 
-        <h:outputText value="There is no packing associated with this product."
+        <h:outputText value="Não existe Embalagem associada e esse Produto."
                    rendered="#{productHome.instance.packing == null}"/>
 
         <rich:dataTable var="_packing"
@@ -65,18 +65,18 @@
                 <h:outputText value="#{_packing.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Packing</f:facet>
+                <f:facet name="header">Embalagem</f:facet>
                 <h:outputText value="#{_packing.packing}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Type</f:facet>
+                <f:facet name="header">Tipo</f:facet>
                 <h:outputText value="#{_packing.type}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Egg quantity</f:facet>
+                <f:facet name="header">Ovos por Embalagem</f:facet>
                 <h:outputText value="#{_packing.eggQuantity}"/>
             </h:column>
-            <h:column styleClass="action">
+<!--           <h:column styleClass="action">
                 <f:facet name="header">Action</f:facet>
                 <s:link id="viewpacking"
                      value="View"
@@ -84,7 +84,7 @@
                     <f:param name="packingId"
                            value="#{_packing.id}"/>
                 </s:link>
-            </h:column>
+            </h:column> --> 
         </rich:dataTable>
 
     </div>
@@ -92,11 +92,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Color</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Cor</h:panelGroup>
         </f:facet>
     <div class="association" id="colorParent">
 
-        <h:outputText value="There is no color associated with this product."
+        <h:outputText value="Não existe Cor associada a esse Produto."
                    rendered="#{productHome.instance.color == null}"/>
 
         <rich:dataTable var="_color"
@@ -109,10 +109,10 @@
                 <h:outputText value="#{_color.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Color</f:facet>
+                <f:facet name="header">Cor</f:facet>
                 <h:outputText value="#{_color.color}"/>
             </h:column>
-            <h:column styleClass="action">
+ <!--           <h:column styleClass="action">
                 <f:facet name="header">Action</f:facet>
                 <s:link id="viewcolor"
                      value="View"
@@ -120,7 +120,7 @@
                     <f:param name="colorId"
                            value="#{_color.id}"/>
                 </s:link>
-            </h:column>
+            </h:column>  --> 
         </rich:dataTable>
 
     </div>
@@ -128,7 +128,7 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Type</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Tipo</h:panelGroup>
         </f:facet>
     <div class="association" id="typeParent">
 
@@ -145,18 +145,18 @@
                 <h:outputText value="#{_type.id}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Type</f:facet>
+                <f:facet name="header">Tipo</f:facet>
                 <h:outputText value="#{_type.type}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Minimum weight</f:facet>
+                <f:facet name="header">Peso Mínimo</f:facet>
                 <h:outputText value="#{_type.minimumWeight}"/>
             </h:column>
             <h:column>
-                <f:facet name="header">Maximum weight</f:facet>
+                <f:facet name="header">Peso Máximo</f:facet>
                 <h:outputText value="#{_type.maximumWeight}"/>
             </h:column>
-            <h:column styleClass="action">
+<!--              <h:column styleClass="action">
                 <f:facet name="header">Action</f:facet>
                 <s:link id="viewtype"
                      value="View"
@@ -164,7 +164,7 @@
                     <f:param name="typeId"
                            value="#{_type.id}"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </div>
@@ -172,11 +172,11 @@
 
     <rich:tab>
         <f:facet name="label">
-            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Productionses</h:panelGroup>
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Produções</h:panelGroup>
         </f:facet>
     <h:form styleClass="association" id="productionsesChildren">
 
-        <h:outputText value="There are no productionses associated with this product."
+        <h:outputText value="Não existem Produções associadas a esse Produto."
                    rendered="#{empty productHome.productionses}"/>
 
         <rich:dataTable value="#{productHome.productionses}"
@@ -188,23 +188,24 @@
                 <f:facet name="header">Id</f:facet>
                 <h:outputText value="#{_productions.id.id}"/>
             </rich:column>
-            <rich:column sortBy="#{_productions.id.productId}">
+<!--            <rich:column sortBy="#{_productions.id.productId}">
                 <f:facet name="header">Product id</f:facet>
                 <h:outputText value="#{_productions.id.productId}"/>
-            </rich:column>
-            <rich:column sortBy="#{_productions.id.productionId}">
-                <f:facet name="header">Production id</f:facet>
-                <h:outputText value="#{_productions.id.productionId}"/>
-            </rich:column>
-            <rich:column sortBy="#{_productions.balance}">
-                <f:facet name="header">Balance</f:facet>
-                <h:outputText value="#{_productions.balance}"/>
+            </rich:column>  --> 
+            <rich:column sortBy="#{_productions.production.date}">
+                <f:facet name="header">Produção</f:facet>
+                <h:outputText value="#{_productions.production.date}"/>
             </rich:column>
             <rich:column sortBy="#{_productions.productionQuantity}">
-                <f:facet name="header">Production quantity</f:facet>
+                <f:facet name="header">Quantidade</f:facet>
                 <h:outputText value="#{_productions.productionQuantity}"/>
             </rich:column>
-            <h:column>
+            <rich:column sortBy="#{_productions.balance}">
+                <f:facet name="header">Saldo</f:facet>
+                <h:outputText value="#{_productions.balance}"/>
+            </rich:column>
+
+ <!--            <h:column>
                 <f:facet name="header">Action</f:facet>
                 <s:link id="selectproductions"
                      value="Select"
@@ -217,12 +218,12 @@
                             value="#{_productions.id.productionId}"/>
                     <f:param name="productionsFrom" value="Product"/>
                 </s:link>
-            </h:column>
+            </h:column> -->
         </rich:dataTable>
 
     </h:form>
 
-    <div class="actionButtons">
+<!--   <div class="actionButtons">
         <s:button
                value="Add productions"
                 view="/ProductionsEdit.xhtml">
@@ -230,7 +231,7 @@
                     value="#{productHome.instance.id}"/>
             <f:param name="productionsFrom" value="Product"/>
         </s:button>
-    </div>
+    </div>  -->  
     </rich:tab>
 </rich:tabPanel>
 </ui:define>
