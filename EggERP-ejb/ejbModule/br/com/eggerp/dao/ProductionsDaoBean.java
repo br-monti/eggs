@@ -23,7 +23,7 @@ public class ProductionsDaoBean extends GenericDAOBean<Productions, Integer> imp
 	private static final long serialVersionUID = 2842262534480200167L;
 
 	public static ProductionsDao getInstance() {
-		return (ProductionsDao) Component.getInstance("productionProductDao");
+		return (ProductionsDao) Component.getInstance("productionsDao");
 	}
 	
 	@SuppressWarnings("unchecked")
