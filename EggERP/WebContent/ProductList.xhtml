@@ -66,6 +66,36 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productList}"/>
+                    <ui:param name="propertyLabel" value="Produto"/>
+                    <ui:param name="propertyPath" value="product.product"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_product.product}"/>
+        </h:column>        
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{productList}"/>
+                    <ui:param name="propertyLabel" value="Tipo"/>
+                    <ui:param name="propertyPath" value="product.type.type"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_product.type.type}"/>
+        </h:column>    
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{productList}"/>
+                    <ui:param name="propertyLabel" value="Cor"/>
+                    <ui:param name="propertyPath" value="product.color.color"/>
+                </ui:include>
+            </f:facet>
+            <h:outputText value="#{_product.color.color}"/>
+        </h:column>            
+        <h:column>
+            <f:facet name="header">
+                <ui:include src="layout/sort.xhtml">
+                    <ui:param name="entityList" value="#{productList}"/>
                     <ui:param name="propertyLabel" value="Embalagem"/>
                     <ui:param name="propertyPath" value="product.packing.packing"/>
                 </ui:include>
@@ -76,32 +106,15 @@
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productList}"/>
-                    <ui:param name="propertyLabel" value="Cor"/>
-                    <ui:param name="propertyPath" value="product.color.color"/>
+                    <ui:param name="propertyLabel" value="Ovos por Embalagem"/>
+                    <ui:param name="propertyPath" value="product.packing.eggQuantity"/>
                 </ui:include>
             </f:facet>
-            <h:outputText value="#{_product.color.color}"/>
-        </h:column>
-        <h:column>
-            <f:facet name="header">
-                <ui:include src="layout/sort.xhtml">
-                    <ui:param name="entityList" value="#{productList}"/>
-                    <ui:param name="propertyLabel" value="Tipo"/>
-                    <ui:param name="propertyPath" value="product.type.type"/>
-                </ui:include>
-            </f:facet>
-            <h:outputText value="#{_product.type.type}"/>
-        </h:column>
-        <h:column>
-            <f:facet name="header">
-                <ui:include src="layout/sort.xhtml">
-                    <ui:param name="entityList" value="#{productList}"/>
-                    <ui:param name="propertyLabel" value="Produto"/>
-                    <ui:param name="propertyPath" value="product.product"/>
-                </ui:include>
-            </f:facet>
-            <h:outputText value="#{_product.product}"/>
-        </h:column>
+            <h:outputText value="#{_product.packing.eggQuantity}"/>
+        </h:column>       
+
+
+
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">

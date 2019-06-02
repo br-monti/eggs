@@ -11,6 +11,8 @@
 
    <param name="productionFrom"/>
    <param name="productionId" value="#{productionHome.productionId}"/>
+   <param name="productFrom"/>
+   <param name="productId" value="#{productHome.productId}"/>
    <param name="baseEggFrom"/>
    <param name="baseEggId" value="#{baseEggHome.baseEggId}"/>
    <param name="providerFrom"/>
@@ -25,14 +27,14 @@
    <navigation from-action="#{productionHome.persist}">
       <rule if-outcome="persisted">
          <end-conversation/>
-         <redirect view-id="/Production.xhtml"/>
+         <redirect view-id="/ProductionList.xhtml"/>
       </rule>
    </navigation>
 
    <navigation from-action="#{productionHome.update}">
       <rule if-outcome="updated">
          <end-conversation/>
-         <redirect view-id="/Production.xhtml"/>
+         <redirect view-id="/ProductionList.xhtml"/>
       </rule>
    </navigation>
 

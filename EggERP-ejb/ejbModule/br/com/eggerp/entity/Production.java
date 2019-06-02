@@ -26,7 +26,7 @@ public class Production implements java.io.Serializable {
 	private int id;
 	private BaseEgg baseEgg;
 	private Date date;
-	private Set<Productions> productionses = new HashSet<Productions>(0);
+	private Set<Productions> productions = new HashSet<Productions>(0);
 
 	public Production() {
 	}
@@ -41,7 +41,7 @@ public class Production implements java.io.Serializable {
 		this.id = id;
 		this.baseEgg = baseEgg;
 		this.date = date;
-		this.productionses = productionses;
+		this.productions = productionses;
 	}
 
 	@Id
@@ -78,12 +78,12 @@ public class Production implements java.io.Serializable {
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "production")
-	public Set<Productions> getProductionses() {
-		return this.productionses;
+	public Set<Productions> getProductions() {
+		return this.productions;
 	}
 
-	public void setProductionses(Set<Productions> productionses) {
-		this.productionses = productionses;
+	public void setProductions(Set<Productions> productions) {
+		this.productions = productions;
 	}
 
 }
