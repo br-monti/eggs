@@ -16,7 +16,7 @@ import br.com.eggerp.entity.Product;
 import br.com.eggerp.entity.Productions;
 
 @Stateful
-@Name("productionProductDao")
+@Name("productionsDao")
 public class ProductionsDaoBean extends GenericDAOBean<Productions, Integer> implements ProductionsDao, Serializable {
 	
 
