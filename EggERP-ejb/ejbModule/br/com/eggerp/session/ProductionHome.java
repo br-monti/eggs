@@ -187,7 +187,7 @@ public class ProductionHome extends EntityHome<Production> {
 		return isIdDefined() ? getInstance() : null;
 	}
 
-	public List<Productions> getProductionProducts() {
+	public List<Productions> getProductions() {
 		return getInstance() == null ? null : new ArrayList<Productions>(getInstance().getProductions());
 	}
 	
