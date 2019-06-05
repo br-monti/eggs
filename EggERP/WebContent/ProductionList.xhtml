@@ -12,30 +12,30 @@
 
     <h:form id="productionSearch" styleClass="edit">
 
-        <rich:simpleTogglePanel label="Production Search Filter" switchType="ajax">
+        <rich:simpleTogglePanel label="Filtro de Busca de Produção" switchType="ajax">
 
             <s:decorate template="layout/display.xhtml">
-                <ui:define name="label">Match</ui:define>
+                <ui:define name="label">Marcar</ui:define>
                 <h:selectOneRadio id="logic" value="#{productionList.restrictionLogicOperator}" styleClass="radio">
-                    <f:selectItem itemLabel="All" itemValue="and"/>
-                    <f:selectItem itemLabel="Any" itemValue="or"/>
+                    <f:selectItem itemLabel="Todos" itemValue="and"/>
+                    <f:selectItem itemLabel="Qualquer" itemValue="or"/>
                 </h:selectOneRadio>
             </s:decorate>
 
         </rich:simpleTogglePanel>
 
         <div class="actionButtons">
-            <h:commandButton id="search" value="Search" action="/ProductionList.xhtml"/>
-            <s:button id="reset" value="Reset" includePageParams="false"/>
+            <h:commandButton id="search" value="Pesquisar" action="/ProductionList.xhtml"/>
+            <s:button id="reset" value="Cancelar" includePageParams="false"/>
         </div>
 
     </h:form>
 
     <rich:panel>
-        <f:facet name="header">Production Search Results (#{empty productionList.resultList ? 0 : (productionList.paginated ? productionList.resultCount : productionList.resultList.size)})</f:facet>
+        <f:facet name="header">Resultados da Busca de Produção (#{empty productionList.resultList ? 0 : (productionList.paginated ? productionList.resultCount : productionList.resultList.size)})</f:facet>
     <div class="results" id="productionList">
 
-    <h:outputText value="The production search returned no results."
+    <h:outputText value="A busca de Produção não retornou resultados."
                rendered="#{empty productionList.resultList}"/>
 
     <rich:dataTable id="productionList"
@@ -52,43 +52,45 @@
             </f:facet>
             <h:outputText value="#{_production.id}"/>
         </h:column>
-        <h:column>
+<!--         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionList}"/>
-                    <ui:param name="propertyLabel" value="Base egg id"/>
-                    <ui:param name="propertyPath" value="production.baseEgg.id"/>
+                    <ui:param name="propertyLabel" value="Ovos de Matéria Prima"/>
+                    <ui:param name="propertyPath" value="production.baseEgg.productionDate"/>
                 </ui:include>
             </f:facet>
-            <h:outputText value="#{_production.baseEgg.id}"/>
-        </h:column>
+            <h:outputText value="#{_production.baseEgg.productionDate}"/>
+        </h:column> -->
         <h:column>
             <f:facet name="header">
                 <ui:include src="layout/sort.xhtml">
                     <ui:param name="entityList" value="#{productionList}"/>
-                    <ui:param name="propertyLabel" value="Date"/>
+                    <ui:param name="propertyLabel" value="Data"/>
                     <ui:param name="propertyPath" value="production.date"/>
                 </ui:include>
             </f:facet>
             <h:outputText value="#{_production.date}">
-                <s:convertDateTime type="date" dateStyle="short"/>
+                <s:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy"/>
             </h:outputText>
         </h:column>
         <rich:column styleClass="action">
-            <f:facet name="header">Action</f:facet>
+            <f:facet name="header">Ações</f:facet>
             <s:link view="/#{empty from ? 'Production' : from}.xhtml"
-                   value="#{empty from ? 'View' : 'Select'}"
              propagation="#{empty from ? 'none' : 'default'}"
                       id="productionViewId">
+                    <h:graphicImage value="/img/view.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="productionViewId" value="#{empty from ? 'Ver' : 'Selecionar'}" />                           
                 <f:param name="productionId"
                         value="#{_production.id}"/>
             </s:link>
-            #{' '}
+            <rich:spacer width="5"/>
             <s:link view="/ProductionEdit.xhtml"
-                   value="Edit"
              propagation="none"
                       id="productionEdit"
                 rendered="#{empty from}">
+                    <h:graphicImage value="/img/edit_property.png" style="width : 20px; height : 20px;"/>
+                	<rich:toolTip for="productionEdit" value="Editar" />                  
                 <f:param name="productionId"
                         value="#{_production.id}"/>
             </s:link>
@@ -102,14 +104,14 @@
 
         <s:link view="/ProductionList.xhtml"
             rendered="#{productionList.previousExists}"
-               value="#{messages.left}#{messages.left} First Page"
+               value="#{messages.left}#{messages.left} Primeira Página"
                   id="firstPage">
           <f:param name="firstResult" value="0"/>
         </s:link>
 
         <s:link view="/ProductionList.xhtml"
             rendered="#{productionList.previousExists}"
-               value="#{messages.left} Previous Page"
+               value="#{messages.left} Página Anterior"
                   id="previousPage">
             <f:param name="firstResult"
                     value="#{productionList.previousFirstResult}"/>
@@ -117,7 +119,7 @@
 
         <s:link view="/ProductionList.xhtml"
             rendered="#{productionList.nextExists}"
-               value="Next Page #{messages.right}"
+               value="Próxima Página #{messages.right}"
                   id="nextPage">
             <f:param name="firstResult"
                     value="#{productionList.nextFirstResult}"/>
@@ -125,7 +127,7 @@
 
         <s:link view="/ProductionList.xhtml"
             rendered="#{productionList.nextExists}"
-               value="Last Page #{messages.right}#{messages.right}"
+               value="Última Página #{messages.right}#{messages.right}"
                   id="lastPage">
             <f:param name="firstResult"
                     value="#{productionList.lastFirstResult}"/>
@@ -137,7 +139,7 @@
         <s:button view="/ProductionEdit.xhtml"
                     id="create"
            propagation="none"
-                 value="Create production">
+                 value="Criar Produção">
             <f:param name="productionId"/>
         </s:button>
     </s:div>

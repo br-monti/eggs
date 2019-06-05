@@ -113,6 +113,7 @@ public class ProductionHome extends EntityHome<Production> {
 				ProductionsId id = new ProductionsId();
 				id.setProductionId(production.getId());
 				id.setProductId(productions.getProduct().getId());
+				id.setId(product.getId());
 				
 				productions.setId(id);
 				productions.setProduction(production);
