@@ -78,9 +78,9 @@
         </div>
     </h:form>
 
-<rich:tabPanel switchType="ajax" selectedTab="#{baseEggHome.selectedTab}">
+<rich:tabPanel switchType="ajax" >
 
-    <rich:tab label="Base egg *" labelClass="required" selectedTab="#{prescriptionHome.selectedTab}">
+    <rich:tab label="Base egg *" labelClass="required" >
     <div class="association" id="baseEggParent">
 
         <h:outputText value="There is no baseEgg associated with this production."
@@ -184,7 +184,7 @@
 <!--         </f:subview> -->
 <!--     </rich:tab> -->
 
-			<rich:tab name="products" id="tabRemedies" label="Produtos" action="#{productionHome.setSelectedTab('products')}">
+			<rich:tab name="products" id="tabRemedies" label="Produtos" >
 				<h:form id="productChildren" styleClass="association">
 					<h:outputText value="Não há Produtos relacionados a essa Produção"
 						rendered="#{empty productionHome.productionProductList}" />
