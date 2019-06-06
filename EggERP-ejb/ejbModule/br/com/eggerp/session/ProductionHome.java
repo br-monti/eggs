@@ -41,14 +41,14 @@ public class ProductionHome extends EntityHome<Production> {
 		joinTransaction();
 		try { 
 			// Registrando a entidade atual 
-			Production production = getInstance(); 
+			Production production = getDefinedInstance(); 
 			productionDao.insert(production); 
 			persistProductions(production); 
 			getEntityManager().flush(); 
 			createdMessage(); 
 			raiseAfterTransactionSuccessEvent(); 
 			} catch (Exception e) { 
-				statusMessages.addFromResourceBundle(StatusMessage.Severity.WARN, "Prescription.error"); 
+				statusMessages.addFromResourceBundle(StatusMessage.Severity.WARN, "Production.error"); 
 				return "exception"; 
 				} 
 		return "persisted";
@@ -60,7 +60,7 @@ public class ProductionHome extends EntityHome<Production> {
 		joinTransaction();
 		try { 
 			// Registrando a entidade atual 
-			Production production = getInstance(); 
+			Production production = getDefinedInstance(); 
 			productionDao.insert(production); 
 			updateProduction(production); 
 			getEntityManager().flush(); 
